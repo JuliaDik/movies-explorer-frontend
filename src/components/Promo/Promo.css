@@ -1,0 +1,27 @@
+.promo {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 258px 0 224px;
+  background-color: rgb(70 93 255);
+}
+
+.promo__title {
+  margin: 0;
+  max-width: 730px;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  letter-spacing: -2px;
+  text-align: center;
+  color: rgb(255, 255, 255);
+}
+
+.promo__background-image {
+  position: absolute;
+  top: 156px;
+  width: 320px;
+  height: 320px;
+  background: url("../../images/background-image.svg") no-repeat center/contain;
+}

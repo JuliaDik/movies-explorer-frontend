@@ -1,0 +1,79 @@
+.student {
+  padding: 114px 70px 96px;
+}
+
+.student__title {
+  margin: 0;
+  padding: 0 0 23px;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.88px;
+  border-bottom: 2px solid rgb(0 0 0);
+}
+
+.student__info {
+  display: grid;
+  grid-template-areas:
+    "name      photo"
+    ".         photo"
+    "brief     photo"
+    ".         photo"
+    "paragraph photo"
+    ".         photo"
+    "github    photo";
+  grid-template-columns: minmax(min-content, 600px) minmax(min-content, 270px);
+  grid-template-rows: auto 18px auto 26px auto 99px auto;
+  gap: 0 270px;
+  padding: 66px 0 0;
+}
+
+.student__name {
+  grid-area: name;
+  margin: 0;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  letter-spacing: -2px;
+}
+
+.student__brief {
+  grid-area: brief;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.student__paragraph {
+  grid-area: paragraph;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+}
+
+.student__github {
+  grid-area: github;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgb(0 0 0);
+  text-decoration: none;
+}
+
+.student__github:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.student__photo-wrapper {
+  grid-area: photo;
+  margin: 0;
+}
+
+.student__photo {
+  width: 270px;
+  height: 327px;
+  object-fit: cover;
+  border-radius: 10px;
+}
