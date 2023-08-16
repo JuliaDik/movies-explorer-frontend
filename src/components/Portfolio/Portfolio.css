@@ -12,20 +12,20 @@
 }
 
 .portfolio__nav {
-  padding: 50px 0 0;
+  padding: 45px 0 0;
 }
 
 .portfolio__list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .portfolio__item {
-  padding: 0 0 20px;
+  padding: 0 0 14px;
   border-bottom: 1px solid rgb(232 232 232);
 }
 

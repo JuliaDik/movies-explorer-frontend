@@ -1,0 +1,46 @@
+.navigation__nav {
+  display: flex;
+  gap: 16px;
+  padding: 0 0 0 60px;
+}
+
+.navigation__user-box {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navigation__link {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  color: rgb(0 0 0);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.navigation__link_type_profile {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  border-radius: 20px;
+  background-color: rgb(249 249 249);
+}
+
+.navigation__link_type_register {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: rgb(255 255 255);
+}
+
+.navigation__link_type_login {
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  color: rgb(0 0 0);
+  border-radius: 3px;
+  background-color: rgb(43 224 128);
+}

@@ -1,0 +1,48 @@
+.footer {
+  padding: 84px 70px 20px;
+  background-color: rgb(250 250 250);
+}
+
+.footer__container {
+  margin: auto;
+  max-width: 1140px;
+}
+
+.footer__upper-text {
+  margin: 0;
+  padding: 0 0 20px;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: center;
+  color: rgb(160 160 160);
+  border-bottom: 1px solid rgb(232 232 232);
+}
+
+.footer__bottom-text {
+  display: flex;
+  margin: 22px 0 0;
+}
+
+.footer__copyright {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.footer__wrapper {
+  display: flex;
+  gap: 20px;
+  margin-left: auto;
+}
+
+.footer__yandex {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.footer__github {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+}

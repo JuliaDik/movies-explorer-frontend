@@ -1,5 +1,5 @@
 .student {
-  padding: 114px 70px 96px;
+  padding: 108px 70px 96px;
 }
 
 .student__title {
@@ -14,16 +14,16 @@
 .student__info {
   display: grid;
   grid-template-areas:
-    "name      photo"
-    ".         photo"
-    "brief     photo"
-    ".         photo"
-    "paragraph photo"
-    ".         photo"
-    "github    photo";
-  grid-template-columns: minmax(min-content, 600px) minmax(min-content, 270px);
-  grid-template-rows: auto 18px auto 26px auto 99px auto;
-  gap: 0 270px;
+    "name      . photo"
+    ".         . photo"
+    "brief     . photo"
+    ".         . photo"
+    "paragraph . photo"
+    ".         . photo"
+    "github    . photo";
+  grid-template-columns: minmax(min-content, 600px) minmax(auto, 270px) minmax(min-content, 270px);
+  grid-template-rows: auto 17px auto 22px auto 99px auto;
+  /* gap: 0 270px; */
   padding: 66px 0 0;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .student__photo {
-  width: 270px;
+  width: 270px; 
   height: 327px;
   object-fit: cover;
   border-radius: 10px;

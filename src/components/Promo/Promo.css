@@ -1,5 +1,4 @@
 .promo {
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,7 +19,6 @@
 
 .promo__background-image {
   position: absolute;
-  top: 156px;
   width: 320px;
   height: 320px;
   background: url("../../images/background-image.svg") no-repeat center/contain;
