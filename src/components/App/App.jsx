@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
-// import SavedMovies from '../SavedMovies/SavedMovies';
+import SavedMovies from '../SavedMovies/SavedMovies';
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 // import Profile from '../Profile/Profile';
@@ -36,7 +36,7 @@ function App() {
             </>
           }
         ></Route>
-        {/* <Route path="/saved-movies" element={
+        <Route path="/saved-movies" element={
           <>
             <Header/>
             <SavedMovies />
@@ -44,7 +44,7 @@ function App() {
           </>
         }>
         </Route>
-        <Route path="/profile" element={
+        {/* <Route path="/profile" element={
           <>
             <Header/>
             <Profile />

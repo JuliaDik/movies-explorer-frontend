@@ -24,3 +24,7 @@
   background-color: rgb(249 249 249);
   cursor: pointer;
 }
+
+.movies__button_hidden {
+  visibility: hidden;
+}
