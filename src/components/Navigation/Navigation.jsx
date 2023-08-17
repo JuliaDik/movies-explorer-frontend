@@ -5,7 +5,7 @@ import "./Navigation.css";
 function Navigation() {
   return (
     <>
-      {/* <nav className="navigation__nav">
+      <nav className="navigation__nav">
         <NavLink className="navigation__link" to="/movies">
           Фильмы
         </NavLink>
@@ -20,8 +20,8 @@ function Navigation() {
         >
           Аккаунт
         </NavLink>
-      </div> */}
-      <div className="navigation__user-box">
+      </div>
+      {/* <div className="navigation__user-box">
         <NavLink
           className="navigation__link navigation__link_type_register"
           to="/signup"
@@ -34,7 +34,7 @@ function Navigation() {
         >
           Войти
         </NavLink>
-      </div>
+      </div> */}
     </>
   );
 }

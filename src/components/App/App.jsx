@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
-// import Movies from '../Movies/Movies';
+import Movies from "../Movies/Movies";
 // import SavedMovies from '../SavedMovies/SavedMovies';
 import Register from "../Register/Register";
 import Login from "../Login/Login";
@@ -26,15 +26,17 @@ function App() {
         ></Route>
         <Route path="/signup" element={<Register />}></Route>
         <Route path="/signin" element={<Login />}></Route>
-        {/* <Route path="/movies" element={
-          <>
-            <Header/>
-            <Movies />
-            <Footer/>
-          </>
-        }>
-        </Route>
-        <Route path="/saved-movies" element={
+        <Route
+          path="/movies"
+          element={
+            <>
+              <Header />
+              <Movies />
+              <Footer />
+            </>
+          }
+        ></Route>
+        {/* <Route path="/saved-movies" element={
           <>
             <Header/>
             <SavedMovies />

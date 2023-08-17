@@ -1,0 +1,32 @@
+.filter {
+  padding: 0 0 69px;
+}
+
+.filter__label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter__invisible-checkbox {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+
+.filter__visible-checkbox {
+  width: 36px;
+  height: 20px;
+  background: url('../../images/toggle-active.svg');
+  cursor: pointer;
+}
+
+.filter__text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  cursor: pointer;
+}

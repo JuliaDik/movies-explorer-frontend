@@ -1,5 +1,22 @@
-// компонент страницы с поиском по фильмам. В нём пригодятся эти компоненты:
-// SearchForm — форма поиска, куда пользователь будет вводить запрос. Обратите внимание на фильтр с чекбоксом «Только короткометражки». Для него можно воспользоваться отдельным управляемым компонентом FilterCheckbox.
-// Preloader — отвечает за работу прелоадера.
-// MoviesCardList — компонент, который управляет отрисовкой карточек фильмов на страницу и их количеством.
-// MoviesCard — компонент одной карточки фильма.
+// СТРАНИЦА С ПОИСКОМ ПО ФИЛЬМАМ
+// SearchForm — форма поиска
+// FilterCheckbox - фильтр с чекбоксом "Короткометражки"
+// Preloader — прелоадер (появляется в момент ожидания ответа от API)
+// MoviesCardList — отрисовка всех карточек с фильмами
+// MoviesCard — одна карточка фильма
+import SearchForm from "../SearchForm/SearchForm";
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+// import Preloader from '../Preloader/Preloader';
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+
+function Movies() {
+  return (
+    <>
+      <SearchForm />
+      <FilterCheckbox />
+      <MoviesCardList />
+    </>
+  );
+}
+
+export default Movies;
