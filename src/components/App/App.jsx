@@ -4,10 +4,10 @@ import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
 import Movies from "../Movies/Movies";
-import SavedMovies from '../SavedMovies/SavedMovies';
+import SavedMovies from "../SavedMovies/SavedMovies";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-// import Profile from '../Profile/Profile';
+import Profile from "../Profile/Profile";
 import "./App.css";
 
 function App() {
@@ -36,22 +36,26 @@ function App() {
             </>
           }
         ></Route>
-        <Route path="/saved-movies" element={
-          <>
-            <Header/>
-            <SavedMovies />
-            <Footer/>
-          </>
-        }>
-        </Route>
-        {/* <Route path="/profile" element={
-          <>
-            <Header/>
-            <Profile />
-          </>
-        }>
-        </Route>
-        <Route path="*" element={
+        <Route
+          path="/saved-movies"
+          element={
+            <>
+              <Header />
+              <SavedMovies />
+              <Footer />
+            </>
+          }
+        ></Route>
+        <Route
+          path="/profile"
+          element={
+            <>
+              <Header />
+              <Profile />
+            </>
+          }
+        ></Route>
+        {/* <Route path="*" element={
           <NotFound/>
         }>
         </Route> */}
