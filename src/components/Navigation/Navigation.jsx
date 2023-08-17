@@ -14,15 +14,24 @@ function Navigation() {
         </NavLink>
       </nav>
       <div className="navigation__user-box">
-        <NavLink className="navigation__link navigation__link_type_profile" to="/profile">
+        <NavLink
+          className="navigation__link navigation__link_type_profile"
+          to="/profile"
+        >
           Аккаунт
         </NavLink>
       </div> */}
       <div className="navigation__user-box">
-        <NavLink className="navigation__link navigation__link_type_register" to="/profile">
+        <NavLink
+          className="navigation__link navigation__link_type_register"
+          to="/signup"
+        >
           Регистрация
         </NavLink>
-        <NavLink className="navigation__link navigation__link_type_login" to="/profile">
+        <NavLink
+          className="navigation__link navigation__link_type_login"
+          to="/signin"
+        >
           Войти
         </NavLink>
       </div>
