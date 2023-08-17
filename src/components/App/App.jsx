@@ -6,7 +6,7 @@ import Footer from "../Footer/Footer";
 // import Movies from '../Movies/Movies';
 // import SavedMovies from '../SavedMovies/SavedMovies';
 import Register from "../Register/Register";
-// import Login from '../Login/Login';
+import Login from "../Login/Login";
 // import Profile from '../Profile/Profile';
 import "./App.css";
 
@@ -25,12 +25,8 @@ function App() {
           }
         ></Route>
         <Route path="/signup" element={<Register />}></Route>
-        {/* </Route>
-        <Route path="/signin" element={
-          <Login/>
-        }>
-        </Route>
-        <Route path="/movies" element={
+        <Route path="/signin" element={<Login />}></Route>
+        {/* <Route path="/movies" element={
           <>
             <Header/>
             <Movies />
