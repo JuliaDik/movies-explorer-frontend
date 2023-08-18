@@ -2,13 +2,19 @@
 import { NavLink } from "react-router-dom";
 import "./Login.css";
 
-function Login() {
+function Login({ onLogin }) {
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onLogin();
+  }
+
   return (
     <section className="login" aria-label="страница регистрации пользователя">
       <div className="login__container">
         <NavLink className="login__logo" to="/" />
         <h2 className="login__title">Рады видеть!</h2>
-        <form className="login__form">
+        <form className="login__form" onSubmit={handleSubmit}>
           <label className="login__label">
             <span className="login__placeholder">E-mail</span>
             <input className="login__input" reguired />

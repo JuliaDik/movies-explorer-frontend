@@ -20,8 +20,12 @@
 .filter__visible-checkbox {
   width: 36px;
   height: 20px;
-  background: url('../../images/toggle-active.svg');
+  background: url('../../images/toggle-inactive.svg');
   cursor: pointer;
+}
+
+.filter__visible-checkbox_checked {
+  background: url('../../images/toggle-active.svg');
 }
 
 .filter__text {

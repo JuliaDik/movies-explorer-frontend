@@ -2,14 +2,25 @@
 import { NavLink } from "react-router-dom";
 import "./Navigation.css";
 
-function Navigation() {
+function Navigation({ loggedIn }) {
   return (
+    loggedIn ?
     <>
       <nav className="navigation__nav">
-        <NavLink className="navigation__link" to="/movies">
+        <NavLink
+          className={({ isActive }) =>
+            `navigation__link ${isActive ? "navigation__link_active" : ""}`
+          }
+          to="/movies"
+        >
           Фильмы
         </NavLink>
-        <NavLink className="navigation__link" to="/saved-movies">
+        <NavLink
+          className={({ isActive }) =>
+            `navigation__link ${isActive ? "navigation__link_active" : ""}`
+          }
+          to="/saved-movies"
+        >
           Сохранённые фильмы
         </NavLink>
       </nav>
@@ -21,21 +32,22 @@ function Navigation() {
           Аккаунт
         </NavLink>
       </div>
-      {/* <div className="navigation__user-box">
-        <NavLink
-          className="navigation__link navigation__link_type_register"
-          to="/signup"
-        >
-          Регистрация
-        </NavLink>
-        <NavLink
-          className="navigation__link navigation__link_type_login"
-          to="/signin"
-        >
-          Войти
-        </NavLink>
-      </div> */}
     </>
+    :
+    <div className="navigation__user-box">
+      <NavLink
+        className="navigation__link navigation__link_type_register"
+        to="/signup"
+      >
+        Регистрация
+      </NavLink>
+      <NavLink
+        className="navigation__link navigation__link_type_login"
+        to="/signin"
+      >
+        Войти
+      </NavLink>
+    </div>
   );
 }
 

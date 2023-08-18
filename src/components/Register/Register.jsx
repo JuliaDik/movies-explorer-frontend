@@ -2,7 +2,13 @@
 import { NavLink } from "react-router-dom";
 import "./Register.css";
 
-function Register() {
+function Register({ onRegister }) {
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onRegister();
+  }
+
   return (
     <section
       className="register"
@@ -11,7 +17,7 @@ function Register() {
       <div className="register__container">
         <NavLink className="register__logo" to="/" />
         <h2 className="register__title">Добро пожаловать!</h2>
-        <form className="register__form">
+        <form className="register__form" onSubmit={handleSubmit}>
           <label className="register__label">
             <span className="register__placeholder">Имя</span>
             <input
@@ -34,7 +40,7 @@ function Register() {
               Что-то пошло не так...
             </span>
           </label>
-          <button className="register__button">Зарегистрироваться</button>
+          <button className="register__button" type="submit">Зарегистрироваться</button>
         </form>
         <p className="register__question">
           Уже зарегистрированы?

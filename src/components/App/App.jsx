@@ -1,5 +1,6 @@
 // КОРНЕВОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ
-import { Route, Routes } from "react-router-dom";
+import { useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -12,6 +13,24 @@ import NotFound from "../NotFound/NotFound";
 import "./App.css";
 
 function App() {
+  // авторизация
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  function handleRegister() {
+    navigate("/signin", { replace: true });
+  }
+
+  function handleLogin() {
+    setIsLoggedIn(true);
+    navigate("/movies", { replace: true });
+  }
+
+  function handleLogout() {
+    setIsLoggedIn(false);
+    navigate("/signin", { replace: true });
+  }
+
   return (
     <div className="page">
       <Routes>
@@ -19,19 +38,25 @@ function App() {
           path="/"
           element={
             <>
-              <Header />
+              <Header loggedIn={isLoggedIn} />
               <Main />
               <Footer />
             </>
           }
         ></Route>
-        <Route path="/signup" element={<Register />}></Route>
-        <Route path="/signin" element={<Login />}></Route>
+        <Route
+          path="/signup"
+          element={<Register onRegister={handleRegister} />}
+        ></Route>
+        <Route
+          path="/signin"
+          element={<Login onLogin={handleLogin} />}
+        ></Route>
         <Route
           path="/movies"
           element={
             <>
-              <Header />
+              <Header loggedIn={isLoggedIn} />
               <Movies />
               <Footer />
             </>
@@ -41,7 +66,7 @@ function App() {
           path="/saved-movies"
           element={
             <>
-              <Header />
+              <Header loggedIn={isLoggedIn} />
               <SavedMovies />
               <Footer />
             </>
@@ -51,8 +76,8 @@ function App() {
           path="/profile"
           element={
             <>
-              <Header />
-              <Profile />
+              <Header loggedIn={isLoggedIn} />
+              <Profile onLogout={handleLogout} />
             </>
           }
         ></Route>

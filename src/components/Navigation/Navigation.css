@@ -19,6 +19,15 @@
   cursor: pointer;
 }
 
+.navigation__link:hover {
+  opacity: 0.7;
+}
+
+.navigation__link_active {
+  font-weight: 500;
+  border-bottom: 2px solid rgb(0 0 0);
+}
+
 .navigation__link_type_profile {
   padding: 8px 20px;
   font-size: 14px;
@@ -26,6 +35,10 @@
   line-height: 16px;
   border-radius: 20px;
   background-color: rgb(249 249 249);
+}
+
+.navigation__link_type_profile:hover {
+  opacity: 0.8;
 }
 
 .navigation__link_type_register {
