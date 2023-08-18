@@ -2,14 +2,15 @@
 import { NavLink } from "react-router-dom";
 import "./Navigation.css";
 
-function Navigation({ loggedIn }) {
-  return (
-    loggedIn ?
+function Navigation({ loggedIn, isLanding }) {
+  return loggedIn ? (
     <>
       <nav className="navigation__nav">
         <NavLink
           className={({ isActive }) =>
-            `navigation__link ${isActive ? "navigation__link_active" : ""}`
+            `navigation__link ${isActive ? "navigation__link_active" : ""} ${
+              isLanding ? "navigation__link_white" : ""
+            }`
           }
           to="/movies"
         >
@@ -17,7 +18,9 @@ function Navigation({ loggedIn }) {
         </NavLink>
         <NavLink
           className={({ isActive }) =>
-            `navigation__link ${isActive ? "navigation__link_active" : ""}`
+            `navigation__link ${isActive ? "navigation__link_active" : ""} ${
+              isLanding ? "navigation__link_white" : ""
+            }`
           }
           to="/saved-movies"
         >
@@ -33,7 +36,7 @@ function Navigation({ loggedIn }) {
         </NavLink>
       </div>
     </>
-    :
+  ) : (
     <div className="navigation__user-box">
       <NavLink
         className="navigation__link navigation__link_type_register"

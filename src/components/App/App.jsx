@@ -38,7 +38,7 @@ function App() {
           path="/"
           element={
             <>
-              <Header loggedIn={isLoggedIn} />
+              <Header loggedIn={isLoggedIn} isLanding={true} />
               <Main />
               <Footer />
             </>
@@ -56,7 +56,7 @@ function App() {
           path="/movies"
           element={
             <>
-              <Header loggedIn={isLoggedIn} />
+              <Header loggedIn={isLoggedIn} isLanding={false}/>
               <Movies />
               <Footer />
             </>
@@ -66,7 +66,7 @@ function App() {
           path="/saved-movies"
           element={
             <>
-              <Header loggedIn={isLoggedIn} />
+              <Header loggedIn={isLoggedIn} isLanding={false}/>
               <SavedMovies />
               <Footer />
             </>
@@ -76,7 +76,7 @@ function App() {
           path="/profile"
           element={
             <>
-              <Header loggedIn={isLoggedIn} />
+              <Header loggedIn={isLoggedIn} isLanding={false}/>
               <Profile onLogout={handleLogout} />
             </>
           }
