@@ -1,5 +1,5 @@
 .techs {
-  padding: 103px 70px;
+  padding: 103px 0;
   background-color: rgb(245 245 245);
 }
 
@@ -8,6 +8,7 @@
   padding: 0 0 23px;
   font-size: 22px;
   font-weight: 400;
+  line-height: 27px;
   letter-spacing: -0.88px;
   border-bottom: 2px solid rgb(0 0 0);
 }
@@ -45,6 +46,7 @@
   padding: 22px 0;
   font-size: 14px;
   font-weight: 400;
+  line-height: 17px;
   letter-spacing: -0.56px;
   text-align: center;
   background-color: rgb(232 232 232);

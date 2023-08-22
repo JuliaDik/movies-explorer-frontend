@@ -1,49 +1,37 @@
 .not-found {
   display: grid;
-  grid-template-rows: 35% auto 65%;
-  grid-template-areas:
-    "."
-    "error"
-    "link";
-  justify-content: center;
+  grid-template-rows: 1fr auto;
+  justify-items: center;
   align-items: center;
+  padding: 4.6% 0;
   min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .not-found__error {
-  grid-area: error;
-  justify-self: center;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 .not-found__title {
   margin: 0;
   font-size: 140px;
   font-weight: 400;
-  line-height: 174px;
+  line-height: 169px;
 }
 
 .not-found__subtitle {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
-  line-height: 19.36px;
-  text-align: center;
-  vertical-align: top;
+  line-height: 19px;
 }
 
 .not-found__link {
-  grid-area: link;
-  justify-self: center;
-  align-self: center;
-  margin: 0 0 25%;
-  padding: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: 16.94px;
+  line-height: 17px;
   color: rgb(255 104 56);
-  text-decoration: none;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
 }

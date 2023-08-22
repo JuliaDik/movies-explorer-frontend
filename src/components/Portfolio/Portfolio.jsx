@@ -1,4 +1,4 @@
-// ПОРТФОЛИО (секция)
+// ПОРТФОЛИО
 import Container from "../Container/Container";
 import "./Portfolio.css";
 
@@ -11,9 +11,10 @@ function Portfolio() {
           <ul className="portfolio__list">
             <li className="portfolio__item">
               <a
-                className="portfolio__link"
+                className="portfolio__link link"
                 href="https://github.com/JuliaDik/how-to-learn.git"
-                target="_blunk"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Статичный сайт
                 <span className="portfolio__arrow">↗</span>
@@ -21,9 +22,10 @@ function Portfolio() {
             </li>
             <li className="portfolio__item">
               <a
-                className="portfolio__link"
+                className="portfolio__link link"
                 href="https://github.com/JuliaDik/russian-travel.git"
-                target="_blunk"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Адаптивный сайт
                 <span className="portfolio__arrow">↗</span>
@@ -31,9 +33,10 @@ function Portfolio() {
             </li>
             <li className="portfolio__item">
               <a
-                className="portfolio__link"
+                className="portfolio__link link"
                 href="https://github.com/JuliaDik/react-mesto-api-full-gha.git"
-                target="_blunk"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Одностраничное приложение
                 <span className="portfolio__arrow">↗</span>

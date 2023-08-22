@@ -1,9 +1,8 @@
-// СТРАНИЦА С ПОИСКОМ ПО ФИЛЬМАМ
+// СТРАНИЦА С ПОИСКОМ ФИЛЬМОВ
 // SearchForm — форма поиска
 // FilterCheckbox - фильтр с чекбоксом "Короткометражки"
 // Preloader — прелоадер (появляется в момент ожидания ответа от API)
-// MoviesCardList — отрисовка всех карточек с фильмами
-// MoviesCard — одна карточка фильма
+// MoviesCardList — контейнер для карточек с фильмами
 import SearchForm from "../SearchForm/SearchForm";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 // import Preloader from '../Preloader/Preloader';
@@ -11,11 +10,12 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 function Movies() {
   return (
-    <>
+    <main>
       <SearchForm />
       <FilterCheckbox />
+      {/* <Preloader /> */}
       <MoviesCardList />
-    </>
+    </main>
   );
 }
 

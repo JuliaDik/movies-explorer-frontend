@@ -1,19 +1,7 @@
 .header {
-  position: absolute;
-  padding: 18px 70px;
-  left: 0;
-  right: 0;
+  padding: 18px 0;
 }
 
-.header__items {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.header__logo {
-  display: inline-block;
-  width: 38px;
-  height: 38px;
-  background: url("../../images/logo.svg") no-repeat center / contain;
+.header_type_landing {
+  background-color: rgb(70 93 255);
 }

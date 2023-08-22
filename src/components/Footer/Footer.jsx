@@ -1,10 +1,11 @@
 // ПОДВАЛ САЙТА
+import Container from "../Container/Container";
 import "./Footer.css";
 
 function Footer() {
   return (
     <footer className="footer">
-      <div className="footer__container">
+      <Container>
         <p className="footer__upper-text">
           Учебный проект Яндекс.Практикум х BeatFilm.
         </p>
@@ -15,7 +16,7 @@ function Footer() {
             <p className="footer__github">Github</p>
           </div>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

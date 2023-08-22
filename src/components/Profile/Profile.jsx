@@ -1,6 +1,6 @@
-// ПРОФИЛЬ
-import "./Profile.css";
+// РЕДАКТИРОВАНИЕ ПРОФИЛЯ
 import { useState } from "react";
+import "./Profile.css";
 
 function Profile({ onLogout }) {
   const [isEditMode, setEditMode] = useState(false);
@@ -15,55 +15,91 @@ function Profile({ onLogout }) {
   }
 
   return (
-    <>
-      <section className="profile">
-        <div className="profile__container">
-          <h2 className="profile__title">Привет, Виталий!</h2>
-          <form className="profile__form" onSubmit={handleSubmit}>
-            <label className="profile__input-wrapper">
-              <span className="profile__label">Имя</span>
+    <main className="profile">
+      <div className="profile__content">
+        <h2 className="profile__greeting">Привет, Юлия!</h2>
+        <form
+          className="profile__form"
+          name="profile"
+          onSubmit={handleSubmit}
+          noValidate
+        >
+          <div className="profile__inputs">
+            <div className="profile__field">
+              <label className="profile__label" for="name">
+                Имя
+              </label>
               <input
                 className="profile__input"
+                id="name"
+                type="text"
+                name="name"
+                value="Юлия"
                 minlength="2"
                 maxlength="30"
-                value="Виталий"
+                autoComplete="off"
                 reguired
               />
-              <span className="profile__error-message"></span>
-            </label>
-            <label className="profile__input-wrapper">
-              <span className="profile__label">E-mail</span>
+              <span className="profile__error-message">
+                Что-то пошло не так...
+              </span>
+            </div>
+            <div className="profile__field">
+              <label className="profile__label" for="email">
+                E-mail
+              </label>
               <input
                 className="profile__input"
+                id="email"
+                type="email"
+                name="email"
                 value="pochta@yandex.ru"
+                autoComplete="off"
                 reguired
               />
-              <span className="profile__error-message"></span>
-            </label>
-            {isEditMode ?
-            <div className="profile__save-wrapper">
               <span className="profile__error-message">
-                При обновлении профиля произошла ошибка
+                Что-то пошло не так...
               </span>
-              <button className="profile__save-button">Сохранить</button>
             </div>
-            :
-            <div className="profile__actions-wrapper">
-              <button
-                className="profile__edit-button"
-                onClick={handleEditClick}
-              >
-                Редактировать
-              </button>
-              <button className="profile__logout-button" onClick={onLogout}>
-                Выйти из аккаунта
-              </button>
-            </div>
-            }
-          </form>
-        </div>
-      </section>
-    </>
+          </div>
+          <div className="profile__buttons">
+            {!isEditMode ? (
+              <>
+                <button
+                  className="profile__edit-button link"
+                  type="button"
+                  aria-label="редактировать"
+                  onClick={handleEditClick}
+                >
+                  Редактировать
+                </button>
+                <button
+                  className="profile__logout-button link"
+                  type="button"
+                  aria-label="выйти из аккаунта"
+                  onClick={onLogout}
+                >
+                  Выйти из аккаунта
+                </button>
+              </>
+            ) : (
+              <>
+                <span className="profile__error-message">
+                  При обновлении профиля произошла ошибка
+                </span>
+                <button
+                  className="profile__save-button button"
+                  type="submit"
+                  aria-label="сохранить"
+                >
+                  Сохранить
+                </button>
+              </>
+            )}
+          </div>
+        </form>
+      </div>
+    </main>
   );
 }
 

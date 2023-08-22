@@ -1,5 +1,5 @@
 .search {
-  padding: 135px 70px 41px;
+  padding: 60px 0 41px;
 }
 
 .search__form {
@@ -32,5 +32,4 @@
   border-radius: 48px;
   background: rgb(255 104 56) url("../../images/search.svg") no-repeat center /
     22px 22px;
-  cursor: pointer;
 }

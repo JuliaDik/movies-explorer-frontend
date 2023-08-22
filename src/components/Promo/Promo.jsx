@@ -1,4 +1,4 @@
-// БАННЕР (секция)
+// ПРОМО
 import "./Promo.css";
 
 function Promo() {
@@ -7,7 +7,7 @@ function Promo() {
       <h1 className="promo__title">
         Учебный проект студента факультета Веб-разработки.
       </h1>
-      <div className="promo__background-image"></div>
+      <div className="promo__image"></div>
     </section>
   );
 }

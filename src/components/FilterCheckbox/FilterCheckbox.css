@@ -21,7 +21,6 @@
   width: 36px;
   height: 20px;
   background: url('../../images/toggle-inactive.svg');
-  cursor: pointer;
 }
 
 .filter__visible-checkbox_checked {

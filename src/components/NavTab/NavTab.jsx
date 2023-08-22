@@ -1,4 +1,6 @@
-// НАВИГАЦИЯ (О проекте, Технологии, Студент)
+// НАВИГАЦИОННАЯ ПАНЕЛЬ
+// (О проекте, Технологии, Студент)
+import { HashLink as Link } from 'react-router-hash-link';
 import "./NavTab.css";
 
 function NavTab() {
@@ -7,19 +9,19 @@ function NavTab() {
       <nav className="navtab_nav">
         <ul className="navtab_list">
           <li className="navtab_item">
-            <a className="navtab_link" href="#about">
+            <Link className="navtab_link link" to="#about">
               О проекте
-            </a>
+            </Link>
           </li>
           <li className="navtab_item">
-            <a className="navtab_link" href="#techs">
+            <Link className="navtab_link link" to="#techs">
               Технологии
-            </a>
+            </Link>
           </li>
           <li className="navtab_item">
-            <a className="navtab_link" href="#student">
+            <Link className="navtab_link link" to="#student">
               Студент
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

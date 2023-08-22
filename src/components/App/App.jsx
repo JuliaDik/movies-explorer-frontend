@@ -13,8 +13,9 @@ import NotFound from "../NotFound/NotFound";
 import "./App.css";
 
 function App() {
-  // авторизация
+  // статус авторизации
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // навигация по роутам
   const navigate = useNavigate();
 
   function handleRegister() {
@@ -38,7 +39,10 @@ function App() {
           path="/"
           element={
             <>
-              <Header loggedIn={isLoggedIn} isLanding={true} />
+              <Header
+                isLoggedIn={isLoggedIn}
+                isLanding={true} 
+              />
               <Main />
               <Footer />
             </>
@@ -56,7 +60,10 @@ function App() {
           path="/movies"
           element={
             <>
-              <Header loggedIn={isLoggedIn} isLanding={false}/>
+              <Header
+                isLoggedIn={isLoggedIn}
+                isLanding={false}
+              />
               <Movies />
               <Footer />
             </>
@@ -66,7 +73,10 @@ function App() {
           path="/saved-movies"
           element={
             <>
-              <Header loggedIn={isLoggedIn} isLanding={false}/>
+              <Header
+                isLoggedIn={isLoggedIn}
+                isLanding={false}
+              />
               <SavedMovies />
               <Footer />
             </>
@@ -76,12 +86,18 @@ function App() {
           path="/profile"
           element={
             <>
-              <Header loggedIn={isLoggedIn} isLanding={false}/>
+              <Header
+                isLoggedIn={isLoggedIn}
+                isLanding={false}
+              />
               <Profile onLogout={handleLogout} />
             </>
           }
         ></Route>
-        <Route path="*" element={<NotFound />}></Route>
+        <Route
+          path="*"
+          element={<NotFound />}
+        ></Route>
       </Routes>
     </div>
   );

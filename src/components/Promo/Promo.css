@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 258px 0 224px;
+  padding: 184px 0 224px;
   background-color: rgb(70 93 255);
 }
 
@@ -17,7 +17,7 @@
   color: rgb(255, 255, 255);
 }
 
-.promo__background-image {
+.promo__image {
   position: absolute;
   width: 320px;
   height: 320px;

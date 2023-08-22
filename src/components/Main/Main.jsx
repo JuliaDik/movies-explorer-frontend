@@ -1,5 +1,5 @@
-// ОСНОВНАЯ СТРАНИЦА
-// Promo — баннер
+// ОСНОВНОЙ КОНТЕНТ ЛЭНДИНГА
+// Promo — промо
 // NavTab — навигация
 // AboutProject — о проекте
 // Techs — технологии
@@ -14,14 +14,14 @@ import Portfolio from "../Portfolio/Portfolio";
 
 function Main() {
   return (
-    <>
+    <main>
       <Promo />
       <NavTab />
       <AboutProject />
       <Techs />
       <AboutMe />
       <Portfolio />
-    </>
+    </main>
   );
 }
 

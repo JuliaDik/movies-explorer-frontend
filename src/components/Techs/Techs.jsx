@@ -1,4 +1,4 @@
-// ТЕХНОЛОГИИ (секция)
+// ТЕХНОЛОГИИ
 import Container from "../Container/Container";
 import "./Techs.css";
 

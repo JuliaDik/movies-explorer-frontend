@@ -18,9 +18,11 @@ function FilterCheckbox() {
           onChange={handleToggleCheckbox}
         />
         <span
-          className={`filter__visible-checkbox ${
-            isChecked ? "filter__visible-checkbox_checked" : ""
-          }`}
+          className={
+            `filter__visible-checkbox
+            ${isChecked ? "filter__visible-checkbox_checked" : ""}
+            button`
+          }
         ></span>
         <span className="filter__text">Короткометражки</span>
       </label>

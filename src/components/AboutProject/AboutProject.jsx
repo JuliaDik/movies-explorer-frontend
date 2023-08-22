@@ -1,4 +1,4 @@
-// О ПРОЕКТЕ (секция)
+// О ПРОЕКТЕ
 import Container from "../Container/Container";
 import "./AboutProject.css";
 

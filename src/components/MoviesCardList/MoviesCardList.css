@@ -1,7 +1,6 @@
 .movies {
-  padding: 80px 70px;
+  padding: 80px 0;
   border-top: 1px solid rgb(232 232 232);
-  background-color: rgb(255 255 255);
 }
 
 .movies__list {
@@ -20,9 +19,9 @@
   width: 100%;
   font-size: 12px;
   font-weight: 500;
+  line-height: 15px;
   border: none;
   background-color: rgb(249 249 249);
-  cursor: pointer;
 }
 
 .movies__button_hidden {
