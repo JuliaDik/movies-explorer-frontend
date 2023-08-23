@@ -1,8 +1,20 @@
 // НАВИГАЦИЯ
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import Menu from "../Menu/Menu";
 import "./Navigation.css";
 
 function Navigation({ isLoggedIn, isLanding }) {
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+
+  function handleMenuOpen() {
+    setIsOpenMenu(true);
+  }
+
+  function handleMenuClose() {
+    setIsOpenMenu(false);
+  }
+
   return (
     <nav className="navigation__nav">
       <NavLink
@@ -41,13 +53,13 @@ function Navigation({ isLoggedIn, isLanding }) {
           <ul className="navigation__list">
             <li className="navigation__item">
               <NavLink
-                className={({ isActive }) =>
-                  `navigation__link
+                className={({ isActive }) => `
+                  navigation__link
                   navigation__link_type_films
                   ${isLanding ? "navigation__link_type_landing" : ""}
                   ${isActive ? "navigation__link_active" : ""}
-                  link`
-                }
+                  link
+                `}
                 to="/movies"
               >
                 Фильмы
@@ -55,13 +67,13 @@ function Navigation({ isLoggedIn, isLanding }) {
             </li>
             <li className="navigation__item">
               <NavLink
-                className={({ isActive }) =>
-                  `navigation__link
+                className={({ isActive }) => `
+                  navigation__link
                   navigation__link_type_films
                   ${isLanding ? "navigation__link_type_landing" : ""}
                   ${isActive ? "navigation__link_active" : ""}
-                  link`
-                }
+                  link
+                `}
                 to="/saved-movies"
               >
                 Сохранённые фильмы
@@ -78,6 +90,17 @@ function Navigation({ isLoggedIn, isLanding }) {
           >
             Аккаунт
           </NavLink>
+          <button
+            className={`
+              navigation__burger
+              ${isLanding ? "navigation__burger_type_landing" : ""}
+              button
+            `}
+            type="button"
+            aria-label="кнопка открытия меню"
+            onClick={handleMenuOpen}
+          />
+          <Menu isOpen={isOpenMenu} onClose={handleMenuClose}/>
         </>
       )}
     </nav>

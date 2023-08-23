@@ -1,0 +1,74 @@
+.menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.3);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.menu_opened {
+  visibility: visible;
+  opacity: 1;
+}
+
+.menu__container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-basis: 520px;
+  padding: 159px 0 90px;
+  background-color: rgb(255 255 255);
+  box-sizing: border-box;
+}
+
+.menu__close-button {
+  position: absolute;
+  top: 23px;
+  right: 23px;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: url("../../images/cross.svg") no-repeat center / contain;
+}
+
+.menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.menu__link {
+  padding: 0 0 3px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  color: rgb(0 0 0);
+  text-decoration: none;
+}
+
+.menu__link_active {
+  border-bottom: 2px solid rgb(0 0 0);
+}
+
+.menu__link_type_profile {
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  border-radius: 20px;
+  background-color: rgb(249 249 249);
+}
