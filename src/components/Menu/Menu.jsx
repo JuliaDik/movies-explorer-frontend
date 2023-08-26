@@ -5,7 +5,7 @@ import "./Menu.css";
 function Menu({ isOpen, onClose }) {
   return (
     <div className={`menu ${isOpen ? "menu_opened" : ""}`}>
-      <div className="menu__container">
+      <div className={`menu__container ${isOpen ? "menu__container_opened" : ""}`}>
         <button
           className="menu__close-button button"
           type="button"
