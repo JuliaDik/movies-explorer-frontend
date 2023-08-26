@@ -2,6 +2,37 @@
   padding: 18px 0;
 }
 
+.header__container {
+  margin: auto;
+  padding: 0 70px;
+  max-width: 1280px;
+  box-sizing: border-box;
+}
+
 .header_type_landing {
   background-color: rgb(70 93 255);
+}
+
+/* 1280px */
+
+@media screen and (max-width: 1280px) {
+  .header__container {
+    padding: 0 calc((100vw - 768px) / (1280 - 768) * (70 - 30) + 30px);
+  }
+}
+
+/* 768px */
+
+@media screen and (max-width: 768px) {
+  .header__container {
+    padding: 0 calc((100vw - 320px) / (768 - 320) * (30 - 14) + 14px);
+  }
+}
+
+/* 320px */
+
+@media screen and (max-width: 320px) {
+  .header__container {
+    padding: 0 14px;
+  }
 }

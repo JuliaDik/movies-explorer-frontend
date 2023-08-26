@@ -1,11 +1,13 @@
 .navigation__nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
 }
 
 .navigation__auth {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 30px;
   font-size: 12px;
@@ -15,6 +17,7 @@
 
 .navigation__list {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 16px;
   margin: 0;
@@ -66,6 +69,7 @@
 }
 
 .navigation__link_active {
+  color: rgb(0 0 0);
   font-weight: 500;
   border-bottom: 2px solid rgb(0 0 0);
 }
@@ -83,9 +87,20 @@
   background: url("../../images/burger-white.svg") no-repeat center / contain;
 }
 
+/* 768px */
+
 @media screen and (max-width: 768px) {
+  .navigation__auth {
+    gap: calc((100vw - 320px) / (768 - 320) * (30 - 14) + 14px);
+    font-size: calc((100vw - 320px) / (768 - 320) * (12 - 10) + 10px);
+  }
+
   .navigation__list {
     display: none;
+  }
+  
+  .navigation__link_type_login {
+    padding: calc((100vw - 320px) / (768 - 320) * (8 - 5) + 5px) calc((100vw - 320px) / (768 - 320) * (20 - 12) + 12px);
   }
 
   .navigation__link_type_profile {
@@ -94,5 +109,18 @@
 
   .navigation__burger {
     display: block;
+  }
+}
+
+/* 320px */
+
+@media screen and (max-width: 320px) {
+  .navigation__auth {
+    gap: 14px;
+    font-size: 10px;
+  }
+
+  .navigation__link_type_login {
+    padding: 5px 12px;
   }
 }

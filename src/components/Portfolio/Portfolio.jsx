@@ -1,11 +1,10 @@
 // ПОРТФОЛИО
-import Container from "../Container/Container";
 import "./Portfolio.css";
 
 function Portfolio() {
   return (
     <section className="portfolio" aria-label="портфолио">
-      <Container>
+      <div className="portfolio__container">
         <h2 className="portfolio__title">Портфолио</h2>
         <nav className="portfolio__nav">
           <ul className="portfolio__list">
@@ -44,7 +43,7 @@ function Portfolio() {
             </li>
           </ul>
         </nav>
-      </Container>
+      </div>
     </section>
   );
 }

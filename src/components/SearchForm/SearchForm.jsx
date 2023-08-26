@@ -1,11 +1,10 @@
 // ФОРМА ПОИСКА
-import Container from "../Container/Container";
 import "./SearchForm.css";
 
 function SearchForm() {
   return (
     <section className="search" aria-label="форма поиска">
-      <Container>
+      <div className="search__container">
         <form className="search__form" name="search" noValidate>
           <input
             className="search__input"
@@ -21,7 +20,7 @@ function SearchForm() {
             aria-label="поиск"
           ></button>
         </form>
-      </Container>
+      </div>
     </section>
   );
 }

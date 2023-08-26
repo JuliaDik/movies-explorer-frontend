@@ -33,11 +33,11 @@
   width: 16px;
   height: 16px;
   border: none;
-  background: url('../../images/save_inactive.svg') no-repeat center / contain;
+  background: url("../../images/save_inactive.svg") no-repeat center / contain;
 }
 
 .card__button_active {
-  background: url('../../images/save-active.svg') no-repeat center / contain;
+  background: url("../../images/save-active.svg") no-repeat center / contain;
 }
 
 .card__time {
@@ -45,4 +45,10 @@
   font-weight: 400;
   line-height: 13px;
   color: rgb(160 160 160);
+}
+
+@media screen and (max-width: 320px) {
+  .card__image {
+    object-fit: cover;
+  }
 }

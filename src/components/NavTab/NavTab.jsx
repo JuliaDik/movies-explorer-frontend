@@ -1,6 +1,6 @@
 // НАВИГАЦИОННАЯ ПАНЕЛЬ
 // (О проекте, Технологии, Студент)
-import { HashLink as Link } from 'react-router-hash-link';
+import { HashLink as Link } from "react-router-hash-link";
 import "./NavTab.css";
 
 function NavTab() {

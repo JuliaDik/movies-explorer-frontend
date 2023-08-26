@@ -1,11 +1,10 @@
 // ТЕХНОЛОГИИ
-import Container from "../Container/Container";
 import "./Techs.css";
 
 function Techs() {
   return (
     <section className="techs" id="techs" aria-label="технологии">
-      <Container>
+      <div className="techs__container">
         <h2 className="techs__title">Технологии</h2>
         <h3 className="techs__heading">7 технологий</h3>
         <p className="techs__text">
@@ -21,7 +20,7 @@ function Techs() {
           <li className="techs__item">Express.js</li>
           <li className="techs__item">mongoDB</li>
         </ul>
-      </Container>
+      </div>
     </section>
   );
 }

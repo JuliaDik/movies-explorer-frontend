@@ -2,7 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 70px 0;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .login__content {
@@ -80,11 +81,11 @@
 }
 
 .login__question {
+  align-self: center;
   margin: 16px 0 0;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
-  text-align: center;
   color: rgb(160 160 160);
 }
 
@@ -95,4 +96,57 @@
   line-height: 17px;
   color: rgb(255 104 56);
   text-decoration: none;
+}
+
+/* 768px */
+
+@media screen and (max-width: 768px) {
+  .login {
+    padding: 0 30px 0;
+  }
+}
+
+/* 320px */
+
+@media screen and (max-width: 320px) {
+  .login {
+    padding: 56px 30px 30px;
+  }
+
+  .login__logo {
+    align-self: center;
+    margin: 0 0 50px;
+  }
+
+  .login__greeting {
+    align-self: center;
+    margin: 0 0 80px;
+  }
+
+  .login__label {
+    margin: 0 0 10px;
+  }
+
+  .login__error-message {
+    margin: 9px 0 0;
+  }
+
+  .login__button {
+    margin: 246px 0 0;
+    padding: 15px 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .login__question {
+    margin: 14px 0 0;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .login__link {
+    padding: 0 0 0 7px;
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

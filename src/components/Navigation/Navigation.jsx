@@ -100,7 +100,7 @@ function Navigation({ isLoggedIn, isLanding }) {
             aria-label="кнопка открытия меню"
             onClick={handleMenuOpen}
           />
-          <Menu isOpen={isOpenMenu} onClose={handleMenuClose}/>
+          <Menu isOpen={isOpenMenu} onClose={handleMenuClose} />
         </>
       )}
     </nav>
