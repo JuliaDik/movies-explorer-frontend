@@ -1,11 +1,22 @@
 // АВТОРИЗАЦИЯ
 import { NavLink } from "react-router-dom";
+import useFormAndValidation from "../../hooks/useFormAndValidation";
+import Form from "../Form/Form";
+import Input from "../Input/Input";
+import SubmitButton from "../SubmitButton/SubmitButton";
 import "./Login.css";
 
 function Login({ onLogin }) {
+  const { values, errors, isValid, handleChange } = useFormAndValidation({
+    email: "",
+    password: "",
+  });
+
   function handleSubmit(evt) {
     evt.preventDefault();
-    onLogin();
+    if (isValid) {
+      onLogin(values.email, values.password);
+    }
   }
 
   return (
@@ -13,56 +24,39 @@ function Login({ onLogin }) {
       <div className="login__content">
         <NavLink className="login__logo button" to="/" />
         <h2 className="login__greeting">Рады видеть!</h2>
-        <form
-          className="login__form"
-          name="login"
+        <Form
+          location="login"
           onSubmit={handleSubmit}
-          noValidate
         >
-          <div className="profile__inputs">
-            <div className="login__field">
-              <label className="login__label" for="email">
-                E-mail
-              </label>
-              <input
-                className="login__input"
-                id="email"
-                type="email"
-                name="email"
-                autoComplete="off"
-                reguired
-              />
-              <span className="login__error-message">
-                Что-то пошло не так...
-              </span>
-            </div>
-            <div className="login__field">
-              <label className="login__label" for="password">
-                Пароль
-              </label>
-              <input
-                className="login__input"
-                id="password"
-                type="password"
-                name="password"
-                autoComplete="off"
-                reguired
-              />
-              <span className="login__error-message">
-                Что-то пошло не так...
-              </span>
-            </div>
+          <div className="login__inputs">
+            <Input
+              location="login"
+              label="Email"
+              name="email"
+              type="email"
+              value={values.email || ""}
+              errorMessage={errors.email}
+              handleChange={handleChange}
+            />
+            <Input
+              location="login"
+              label="Пароль"
+              name="password"
+              type="password"
+              value={values.password || ""}
+              errorMessage={errors.password}
+              handleChange={handleChange}
+            />
           </div>
-          <button
-            className="login__button button"
-            type="submit"
-            aria-label="войти в систему"
-          >
-            Войти
-          </button>
-        </form>
+          <SubmitButton
+            location="login"
+            text="Войти"
+            // errorMessage
+            isValid={isValid}
+          />
+        </Form>
         <p className="login__question">
-          Ещё не зарегистрированы?
+          Ещё не зарегистрированы? {""}
           <NavLink className="login__link link" to="/signup">
             Регистрация
           </NavLink>

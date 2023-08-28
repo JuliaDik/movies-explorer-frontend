@@ -1,11 +1,23 @@
 // РЕГИСТРАЦИЯ
 import { NavLink } from "react-router-dom";
+import useFormAndValidation from "../../hooks/useFormAndValidation";
+import Form from "../Form/Form";
+import Input from "../Input/Input";
+import SubmitButton from "../SubmitButton/SubmitButton";
 import "./Register.css";
 
 function Register({ onRegister }) {
+  const { values, errors, isValid, handleChange } = useFormAndValidation({
+    name: "",
+    email: "",
+    password: "",
+  });
+
   function handleSubmit(evt) {
     evt.preventDefault();
-    onRegister();
+    if (isValid) {
+      onRegister(values.name, values.email, values.password);
+    }
   }
 
   return (
@@ -13,74 +25,50 @@ function Register({ onRegister }) {
       <div className="register__content">
         <NavLink className="register__logo button" to="/" />
         <h2 className="register__greeting">Добро пожаловать!</h2>
-        <form
-          className="register__form"
-          name="register"
+        <Form
+          location="register"
           onSubmit={handleSubmit}
-          noValidate
         >
-          <div className="profile__inputs">
-            <div className="register__field">
-              <label className="register__label" for="name">
-                Имя
-              </label>
-              <input
-                className="register__input"
-                id="name"
-                type="text"
-                name="name"
-                minlength="2"
-                maxlength="30"
-                autoComplete="off"
-                reguired
-              />
-              <span className="register__error-message">
-                Что-то пошло не так...
-              </span>
-            </div>
-            <div className="register__field">
-              <label className="register__label" for="email">
-                E-mail
-              </label>
-              <input
-                className="register__input"
-                id="email"
-                type="email"
-                name="email"
-                autoComplete="off"
-                reguired
-              />
-              <span className="register__error-message">
-                Что-то пошло не так...
-              </span>
-            </div>
-            <div className="register__field">
-              <label className="register__label" for="password">
-                Пароль
-              </label>
-              <input
-                className="register__input"
-                id="password"
-                type="password"
-                name="password"
-                autoComplete="off"
-                reguired
-              />
-              <span className="register__error-message">
-                Что-то пошло не так...
-              </span>
-            </div>
+          <div className="register__inputs">
+            <Input
+              location="register"
+              label="Имя"
+              name="name"
+              type="text"
+              minLength="2"
+              maxLength="30"
+              value={values.name || ""}
+              errorMessage={errors.name}
+              handleChange={handleChange}
+            />
+            <Input
+              location="register"
+              label="Email"
+              name="email"
+              type="email"
+              value={values.email || ""}
+              errorMessage={errors.email}
+              handleChange={handleChange}
+            />
+            <Input
+              location="register"
+              label="Пароль"
+              name="password"
+              type="password"
+              value={values.password || ""}
+              errorMessage={errors.password}
+              handleChange={handleChange}
+            />
           </div>
-          <button
-            className="register__button button"
-            type="submit"
-            aria-label="зарегистрироваться"
-          >
-            Зарегистрироваться
-          </button>
-        </form>
+          <SubmitButton
+            location="register"
+            text="Зарегистрироваться"
+            // errorMessage
+            isValid={isValid}
+          />
+        </Form>
         <p className="register__question">
-          Уже зарегистрированы?
+          Уже зарегистрированы? {""}
           <NavLink className="register__link link" to="/signin">
             Войти
           </NavLink>

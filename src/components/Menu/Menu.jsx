@@ -9,7 +9,6 @@ function Menu({ isOpen, onClose }) {
         <button
           className="menu__close-button button"
           type="button"
-          aria-label="закрыть"
           onClick={onClose}
         />
         <ul className="menu__list">

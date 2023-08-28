@@ -1,6 +1,6 @@
 // КОРНЕВОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ
 import { useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -18,11 +18,11 @@ function App() {
   // навигация по роутам
   const navigate = useNavigate();
 
-  function handleRegister() {
+  function handleRegister(name, email, password) {
     navigate("/signin", { replace: true });
   }
 
-  function handleLogin() {
+  function handleLogin(email, password) {
     setIsLoggedIn(true);
     navigate("/movies", { replace: true });
   }
@@ -35,6 +35,7 @@ function App() {
   return (
     <div className="page">
       <Routes>
+        {/* лэндинг */}
         <Route
           path="/"
           element={
@@ -48,14 +49,25 @@ function App() {
             </>
           }
         ></Route>
+        {/* регистрация */}
         <Route
           path="/signup"
-          element={<Register onRegister={handleRegister} />}
+          element={
+            <Register
+              onRegister={handleRegister}
+            />
+          }
         ></Route>
+        {/* авторизация */}
         <Route
           path="/signin"
-          element={<Login onLogin={handleLogin} />}
+          element={
+            <Login
+              onLogin={handleLogin}
+            />
+          }
         ></Route>
+        {/* фильмы */}
         <Route
           path="/movies"
           element={
@@ -69,6 +81,7 @@ function App() {
             </>
           }
         ></Route>
+        {/* сохраненные фильмы */}
         <Route
           path="/saved-movies"
           element={
@@ -82,6 +95,7 @@ function App() {
             </>
           }
         ></Route>
+        {/* редактирование профиля */}
         <Route
           path="/profile"
           element={
@@ -90,13 +104,18 @@ function App() {
                 isLoggedIn={isLoggedIn}
                 isLanding={false}
               />
-              <Profile onLogout={handleLogout} />
+              <Profile
+                onLogout={handleLogout}
+              />
             </>
           }
         ></Route>
+        {/* ошибка 404 */}
         <Route
           path="*"
-          element={<NotFound />}
+          element={
+            <NotFound />
+          }
         ></Route>
       </Routes>
     </div>

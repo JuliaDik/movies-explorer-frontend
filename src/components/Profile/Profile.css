@@ -1,17 +1,16 @@
 .profile {
   display: flex;
   justify-content: center;
-  align-items: center;
   height: calc(100vh - 74px);
+  padding: 74px 0 70px;
   box-sizing: border-box;
 }
 
 .profile__content {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   flex-basis: 410px;
-  gap: 106px;
+  gap: 123px;
 }
 
 .profile__greeting {
@@ -25,17 +24,19 @@
 .profile__form {
   display: flex;
   flex-direction: column;
-  gap: 204px;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .profile__field {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 17px 0 0;
+  padding: 16px 0 0;
 }
 
 .profile__field:first-of-type {
+  padding: 0;
   border-bottom: 1px solid rgb(232 232 232);
 }
 
@@ -55,6 +56,11 @@
   border: none;
 }
 
+.profile__input:focus {
+  border-radius: 8px;
+  outline: 1px solid rgb(160 160 160);
+}
+
 .profile__input_type_error {
   color: rgb(238 52 101);
 }
@@ -62,16 +68,15 @@
 .profile__error-message {
   font-size: 10px;
   font-weight: 400;
-  line-height: 12px;
-  min-height: 16px;
+  height: 20px;
   color: rgb(238 52 101);
 }
 
-.profile__buttons {
+.profile__buttons-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  text-align: center;
+  gap: 3px;
 }
 
 .profile__edit-button {
@@ -84,6 +89,7 @@
 }
 
 .profile__logout-button {
+  margin: 16px 0 0;
   padding: 0;
   font-size: 13px;
   font-weight: 500;
@@ -93,13 +99,13 @@
   background-color: transparent;
 }
 
-.profile__save-button {
+.profile__submit-button {
   padding: 13px 0 15px;
   font-size: 14px;
   font-weight: 500;
   line-height: 17px;
   color: rgb(255 255 255);
-  background-color: rgb(52 86 243);
+  background-color: rgb(255 104 56);
   border: none;
   border-radius: 3px;
 }
@@ -107,13 +113,12 @@
 /* 1280px */
 
 @media screen and (max-width: 1280px) {
-  .profile__content {
-    padding: 0 30px;
-    gap: calc((100vw - 768px) / (1280 - 768) * (106 - 79) + 79px);
+  .profile {
+    padding: calc((100vw - 768px) / (1280 - 768) * (74 - 236) + 236px) 0 calc((100vw - 768px) / (1280 - 768) * (70 - 269) + 269px);
   }
 
-  .profile__form {
-    gap: calc((100vw - 768px) / (1280 - 768) * (204 - 194) + 194px);
+  .profile__content {
+    gap: calc((100vw - 768px) / (1280 - 768) * (123 - 96) + 96px);
   }
 }
 
@@ -121,15 +126,12 @@
 
 @media screen and (max-width: 768px) {
   .profile {
-    margin: -2% 0 0;
+    padding: calc((100vw - 320px) / (768 - 320) * (236 - 70) + 70px) 0 calc((100vw - 320px) / (768 - 320) * (269 - 40) + 40px);
   }
 
   .profile__content {
-    gap: calc((100vw - 320px) / (768 - 320) * (79 - 63) + 63px);
-  }
-
-  .profile__form {
-    gap: calc((100vw - 320px) / (768 - 320) * (194 - 363) + 363px);
+    gap: calc((100vw - 320px) / (768 - 320) * (96 - 80) + 80px);
+    padding: 0 30px;
   }
 }
 
@@ -137,15 +139,11 @@
 
 @media screen and (max-width: 320px) {
   .profile {
-    margin: 5% 0 0;
+    padding: 70px 0 40px;
   }
 
   .profile__content {
-    gap: 63px;
-  }
-
-  .profile__form {
-    gap: 363px;
+    gap: 80px;
   }
 
   .profile__edit-button {
@@ -154,6 +152,12 @@
   }
 
   .profile__logout-button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .profile__submit-button {
+    padding: 15px 0;
     font-size: 12px;
     line-height: 15px;
   }

@@ -105,4 +105,14 @@ const movies = [
   },
 ];
 
-export default movies;
+const errorMessages = {
+  registrationError: "При регистрации пользователя произошла ошибка.",
+  loginError: "При авторизации пользователя произошла ошибка.",
+  profileUpdateError: "При обновлении профиля произошла ошибка.",
+  incorrectCredentialsError: "Вы ввели неправильный логин или пароль.",
+  nonuniqueEmailError: "Пользователь с таким email уже существует.",
+  serverError: "500 На сервере произошла ошибка.",
+  pageNotFoundError: "404 Страница по указанному маршруту не найдена.",
+};
+
+export { movies, errorMessages };

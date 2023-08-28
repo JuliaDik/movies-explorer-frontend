@@ -1,7 +1,7 @@
 // КОНТЕЙНЕР ДЛЯ КАРТОЧЕК С ФИЛЬМАМИ
 import { useState, useEffect } from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import movies from "../../utils/constants";
+import { movies } from "../../utils/constants";
 import "./MoviesCardList.css";
 
 function MoviesCardList({ savedMoviesPage }) {
@@ -60,7 +60,6 @@ function MoviesCardList({ savedMoviesPage }) {
             }
           `}
           type="button"
-          aria-label="добавить"
         >
           Ещё
         </button>

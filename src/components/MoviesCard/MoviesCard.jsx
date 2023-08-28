@@ -21,7 +21,6 @@ function MoviesCard({ card }) {
             button`
           }
           type="button"
-          aria-label="сохранить"
           onClick={handleSaveClick}
         ></button>
         <span className="card__time">{card.time}</span>

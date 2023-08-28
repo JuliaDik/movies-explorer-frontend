@@ -5,14 +5,10 @@ import Menu from "../Menu/Menu";
 import "./Navigation.css";
 
 function Navigation({ isLoggedIn, isLanding }) {
-  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  function handleMenuOpen() {
-    setIsOpenMenu(true);
-  }
-
-  function handleMenuClose() {
-    setIsOpenMenu(false);
+  function handleMenu() {
+    setIsMenuOpen(!isMenuOpen);
   }
 
   return (
@@ -97,10 +93,9 @@ function Navigation({ isLoggedIn, isLanding }) {
               button
             `}
             type="button"
-            aria-label="кнопка открытия меню"
-            onClick={handleMenuOpen}
+            onClick={handleMenu}
           />
-          <Menu isOpen={isOpenMenu} onClose={handleMenuClose} />
+          <Menu isOpen={isMenuOpen} onClose={handleMenu} />
         </>
       )}
     </nav>

@@ -1,8 +1,8 @@
 .register {
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+  height: 100vh;
+  padding: 70px 0;
   box-sizing: border-box;
 }
 
@@ -16,7 +16,7 @@
   display: block;
   margin: 0 0 40px;
   width: 38px;
-  height: 38px;
+  min-height: 38px;
   background: url("../../images/logo.svg") no-repeat center / contain;
 }
 
@@ -30,6 +30,8 @@
 .register__form {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .register__field {
@@ -38,7 +40,7 @@
 }
 
 .register__label {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-size: 10px;
   font-weight: 400;
   line-height: 12px;
@@ -55,21 +57,29 @@
   background-color: rgb(249 249 249);
 }
 
+.register__input:focus {
+  outline: 1px solid rgb(160 160 160);
+}
+
 .register__input_type_error {
   color: rgb(238 52 101);
 }
 
 .register__error-message {
-  margin: 11px 0 0;
   font-size: 10px;
   font-weight: 400;
-  line-height: 12px;
-  min-height: 12px;
+  height: 20px;
   color: rgb(238 52 101);
 }
 
-.register__button {
-  margin: 68px 0 0;
+.register__buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 3px;
+}
+
+.register__submit-button {
   padding: 13px 0 15px;
   font-size: 14px;
   font-weight: 500;
@@ -90,7 +100,6 @@
 }
 
 .register__link {
-  padding: 0 0 0 6px;
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
@@ -98,11 +107,23 @@
   text-decoration: none;
 }
 
+/* 1280px */
+
+@media screen and (max-width: 1280px) {
+  .register {
+    padding: calc((100vw - 768px) / (1280 - 768) * (70 - 232) + 232px) 0;
+  }
+}
+
 /* 768px */
 
 @media screen and (max-width: 768px) {
   .register {
-    padding: 0 30px 0;
+    padding: calc((100vw - 320px) / (768 - 320) * (232 - 56) + 56px) 0 calc((100vw - 320px) / (768 - 320) * (232 - 30) + 30px);
+  }
+
+  .register__content {
+    padding: 0 30px;
   }
 }
 
@@ -110,7 +131,7 @@
 
 @media screen and (max-width: 320px) {
   .register {
-    padding: 56px 30px 30px;
+    padding: 56px 0 30px;
   }
   
   .register__logo {
@@ -123,16 +144,7 @@
     margin: 0 0 80px;
   }
 
-  .register__label {
-    margin: 0 0 10px;
-  }
-
-  .register__error-message {
-    margin: 9px 0 0;
-  }
-
-  .register__button {
-    margin: 157px 0 0;
+  .register__submit-button {
     padding: 15px 0;
     font-size: 12px;
     line-height: 15px;
@@ -145,7 +157,6 @@
   }
 
   .register__link {
-    padding: 0 0 0 7px;
     font-size: 12px;
     line-height: 15px;
   }

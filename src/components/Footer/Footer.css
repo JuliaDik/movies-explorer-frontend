@@ -91,7 +91,7 @@
     font-weight: 400;
     line-height: 15px;
   }
-  
+
   .footer__bottom-text {
     display: flex;
     flex-direction: column-reverse;
@@ -99,12 +99,12 @@
     margin: 30px 0 0;
     gap: 30px;
   }
-  
+
   .footer__copyright {
     font-size: 12px;
     line-height: 15px;
   }
-  
+
   .footer__wrapper {
     display: flex;
     flex-direction: column;
@@ -112,15 +112,14 @@
     gap: 12px;
     margin: auto;
   }
-  
+
   .footer__yandex {
     font-size: 12px;
     line-height: 15px;
   }
-  
+
   .footer__github {
     font-size: 12px;
     line-height: 15px;
   }
-  
 }
