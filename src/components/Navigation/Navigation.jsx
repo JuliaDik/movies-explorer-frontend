@@ -1,10 +1,12 @@
 // НАВИГАЦИЯ
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import Menu from "../Menu/Menu";
 import "./Navigation.css";
 
-function Navigation({ isLoggedIn, isLanding }) {
+function Navigation({ isLoggedIn }) {
+  const location = useLocation();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleMenu() {
@@ -52,7 +54,7 @@ function Navigation({ isLoggedIn, isLanding }) {
                 className={({ isActive }) => `
                   navigation__link
                   navigation__link_type_films
-                  ${isLanding ? "navigation__link_type_landing" : ""}
+                  ${location.pathname === "/" ? "navigation__link_type_landing" : ""}
                   ${isActive ? "navigation__link_active" : ""}
                   link
                 `}
@@ -66,7 +68,7 @@ function Navigation({ isLoggedIn, isLanding }) {
                 className={({ isActive }) => `
                   navigation__link
                   navigation__link_type_films
-                  ${isLanding ? "navigation__link_type_landing" : ""}
+                  ${location.pathname === "/" ? "navigation__link_type_landing" : ""}
                   ${isActive ? "navigation__link_active" : ""}
                   link
                 `}
@@ -89,7 +91,7 @@ function Navigation({ isLoggedIn, isLanding }) {
           <button
             className={`
               navigation__burger
-              ${isLanding ? "navigation__burger_type_landing" : ""}
+              ${location.pathname === "/" ? "navigation__burger_type_landing" : ""}
               button
             `}
             type="button"

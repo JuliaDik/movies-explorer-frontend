@@ -42,7 +42,6 @@ function App() {
             <>
               <Header
                 isLoggedIn={isLoggedIn}
-                isLanding={true} 
               />
               <Main />
               <Footer />
@@ -74,7 +73,6 @@ function App() {
             <>
               <Header
                 isLoggedIn={isLoggedIn}
-                isLanding={false}
               />
               <Movies />
               <Footer />
@@ -88,7 +86,6 @@ function App() {
             <>
               <Header
                 isLoggedIn={isLoggedIn}
-                isLanding={false}
               />
               <SavedMovies />
               <Footer />
@@ -102,7 +99,6 @@ function App() {
             <>
               <Header
                 isLoggedIn={isLoggedIn}
-                isLanding={false}
               />
               <Profile
                 onLogout={handleLogout}
