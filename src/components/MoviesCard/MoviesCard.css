@@ -28,7 +28,7 @@
   overflow: hidden;
 }
 
-.card__button {
+.card__save-button {
   padding: 0;
   width: 16px;
   height: 16px;
@@ -36,8 +36,12 @@
   background: url("../../images/save_inactive.svg") no-repeat center / contain;
 }
 
-.card__button_active {
+.card__save-button_active {
   background: url("../../images/save-active.svg") no-repeat center / contain;
+}
+
+.card__delete-button {
+  background: url("../../images/cross.svg") no-repeat center / contain;
 }
 
 .card__time {
