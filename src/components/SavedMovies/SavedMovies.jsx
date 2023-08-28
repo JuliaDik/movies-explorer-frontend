@@ -14,7 +14,7 @@ function SavedMovies() {
       <SearchForm />
       <FilterCheckbox />
       {/* <Preloader /> */}
-      <MoviesCardList savedMoviesPage={true}/>
+      <MoviesCardList />
     </main>
   );
 }

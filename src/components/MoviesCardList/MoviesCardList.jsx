@@ -1,10 +1,13 @@
 // КОНТЕЙНЕР ДЛЯ КАРТОЧЕК С ФИЛЬМАМИ
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { movies } from "../../utils/constants";
 import "./MoviesCardList.css";
 
-function MoviesCardList({ savedMoviesPage }) {
+function MoviesCardList() {
+  const location = useLocation();
+
   const [renderedCardsCount, setRenderedCardsCount] = useState(Number);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
@@ -20,15 +23,15 @@ function MoviesCardList({ savedMoviesPage }) {
     if (windowWidth <= 320) {
       setRenderedCardsCount(5);
     }
-    
-    if (windowWidth > 320 && savedMoviesPage) {
+
+    if (windowWidth > 320 && location.pathname === "/saved-movies") {
       setRenderedCardsCount(3);
     }
 
-    if (windowWidth <= 320 && savedMoviesPage) {
+    if (windowWidth <= 320 && location.pathname === "/saved-movies") {
       setRenderedCardsCount(2);
     }
-  }, [windowWidth, savedMoviesPage]);
+  }, [windowWidth, location.pathname]);
 
   useEffect(() => {
     function handleUpdateWindowWidth() {
@@ -41,7 +44,9 @@ function MoviesCardList({ savedMoviesPage }) {
 
   return (
     <section
-      className={`movies ${savedMoviesPage ? "movies_type_saved" : ""}`}
+      className={`movies ${
+        location.pathname === "/saved-movies" ? "movies_type_saved" : ""
+      }`}
       aria-label="фильмы"
     >
       <div className="movies__container">
@@ -54,7 +59,8 @@ function MoviesCardList({ savedMoviesPage }) {
           className={`
             movies__button button
             ${
-              ((movies.length - 1) < renderedCardsCount) || savedMoviesPage
+              movies.length - 1 < renderedCardsCount ||
+              location.pathname === "/saved-movies"
                 ? "movies__button_hidden"
                 : ""
             }
