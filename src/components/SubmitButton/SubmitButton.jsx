@@ -5,7 +5,6 @@ function SubmitButton({ location, text, errorMessage, isValid }) {
       <button
         className={`
           ${location}__submit-button
-          ${!isValid ? `${location}__submit-button_disabled` : ""}
           button
         `}
         type="submit"

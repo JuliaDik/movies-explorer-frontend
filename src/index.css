@@ -2,3 +2,25 @@
 @import url(./vendor/normalize.css);
 /* шрифты */
 @import url(./vendor/fonts/fonts.css);
+
+.link,
+.button {
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: 0.7;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.button:disabled {
+  color: rgb(194 194 194);
+  background-color: rgb(248 248 248);
+}
+
+.button:disabled:hover {
+  opacity: 1;
+}
