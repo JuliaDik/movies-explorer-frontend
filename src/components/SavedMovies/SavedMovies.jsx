@@ -1,18 +1,16 @@
 // СТРАНИЦА С СОХРАНЕННЫМИ ФИЛЬМАМИ
 // SearchForm — форма поиска
-// FilterCheckbox - фильтр с чекбоксом "Короткометражки"
-// Preloader — прелоадер (появляется в момент ожидания ответа от API)
+// Preloader — анимация загрузки (появляется в момент ожидания ответа от API)
 // MoviesCardList — контейнер для карточек с фильмами
 import SearchForm from "../SearchForm/SearchForm";
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 // import Preloader from '../Preloader/Preloader';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import "./SavedMovies.css";
 
 function SavedMovies() {
   return (
-    <main>
+    <main className="main">
       <SearchForm />
-      <FilterCheckbox />
       {/* <Preloader /> */}
       <MoviesCardList />
     </main>

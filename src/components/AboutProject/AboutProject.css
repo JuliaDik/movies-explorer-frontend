@@ -1,15 +1,15 @@
-.about {
+.about-project {
   padding: 110px 0;
 }
 
-.about__container {
+.about-project__container {
   margin: auto;
   padding: 0 70px;
   max-width: 1280px;
   box-sizing: border-box;
 }
 
-.about__title {
+.about-project__title {
   margin: 0;
   padding: 0 0 22px;
   font-size: 22px;
@@ -19,14 +19,14 @@
   border-bottom: 2px solid rgb(0 0 0);
 }
 
-.about__info {
+.about-project__info {
   display: grid;
   grid-template-columns: repeat(2, minmax(min-content, 550px));
   gap: 26px 40px;
   padding: 70px 0 110px;
 }
 
-.about__heading {
+.about-project__heading {
   order: -1;
   margin: 0;
   font-size: 20px;
@@ -35,20 +35,20 @@
   letter-spacing: -0.8px;
 }
 
-.about__text {
+.about-project__text {
   margin: 0;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
 }
 
-.about__timeline {
+.about-project__timeline {
   display: grid;
   grid-template-columns: minmax(20%, 228px) minmax(80%, 912px);
   grid-template-rows: 36px;
 }
 
-.about__week {
+.about-project__week {
   display: grid;
   justify-items: center;
   align-items: center;
@@ -58,17 +58,17 @@
   background-color: rgb(43 224 128);
 }
 
-.about__week:nth-child(2) {
+.about-project__week:nth-child(2) {
   background-color: rgb(242 242 242);
 }
 
-.about__captions {
+.about-project__captions {
   display: grid;
   grid-template-columns: minmax(20%, 228px) minmax(80%, 912px);
   padding: 14px 0 0;
 }
 
-.about__caption {
+.about-project__caption {
   display: grid;
   justify-items: center;
   align-items: center;
@@ -81,11 +81,11 @@
 /* 1280px */
 
 @media screen and (max-width: 1280px) {
-  .about {
+  .about-project {
     padding: calc((100vw - 768px) / (1280 - 768) * (110 - 90) + 90px) 0;
   }
 
-  .about__container {
+  .about-project__container {
     padding: 0 calc((100vw - 768px) / (1280 - 768) * (70 - 50) + 50px);
   }
 }
@@ -93,41 +93,41 @@
 /* 768px */
 
 @media screen and (max-width: 768px) {
-  .about {
+  .about-project {
     padding: calc((100vw - 320px) / (768 - 320) * (90 - 67) + 67px) 0
       calc((100vw - 320px) / (768 - 320) * (90 - 69) + 69px);
   }
 
-  .about__container {
+  .about-project__container {
     padding: 0 calc((100vw - 320px) / (768 - 320) * (50 - 18) + 18px);
   }
 
-  .about__title {
+  .about-project__title {
     padding: 0 0 23px;
     font-size: calc((100vw - 320px) / (768 - 320) * (22 - 18) + 18px);
     line-height: calc((100vw - 320px) / (768 - 320) * (27 - 22) + 22px);
   }
 
-  .about__info {
+  .about-project__info {
     gap: 22px 30px;
     padding: 69px 0 93px;
   }
 
-  .about__heading {
+  .about-project__heading {
     font-size: calc((100vw - 320px) / (768 - 320) * (20 - 18) + 18px);
     line-height: calc((100vw - 320px) / (768 - 320) * (24 - 22) + 22px);
   }
 
-  .about__text {
+  .about-project__text {
     font-size: calc((100vw - 320px) / (768 - 320) * (12 - 11) + 11px);
     line-height: calc((100vw - 320px) / (768 - 320) * (18 - 16) + 16px);
   }
 
-  .about__timeline {
+  .about-project__timeline {
     grid-template-columns: minmax(21%, 140px) minmax(79%, 528px);
   }
 
-  .about__captions {
+  .about-project__captions {
     grid-template-columns: minmax(21%, 140px) minmax(79%, 528px);
   }
 }
@@ -135,35 +135,35 @@
 /* 640px */
 
 @media screen and (max-width: 640px) {
-  .about__info {
+  .about-project__info {
     grid-template-columns: 1fr;
     gap: 16px 0;
     padding: 60px 0;
   }
 
-  .about__heading {
+  .about-project__heading {
     order: 0;
   }
 
-  .about__heading:nth-of-type(2) {
+  .about-project__heading:nth-of-type(2) {
     margin: 40px 0 0;
   }
 
-  .about__timeline {
+  .about-project__timeline {
     grid-template-columns: minmax(35%, 100px) minmax(65%, 184px);
   }
 
-  .about__week {
+  .about-project__week {
     font-size: 11px;
     line-height: 13px;
   }
 
-  .about__captions {
+  .about-project__captions {
     grid-template-columns: minmax(35%, 100px) minmax(65%, 184px);
     padding: 10px 0 0;
   }
 
-  .about__caption {
+  .about-project__caption {
     font-size: 11px;
     line-height: 13px;
   }
@@ -172,28 +172,28 @@
 /* 320px */
 
 @media screen and (max-width: 320px) {
-  .about {
+  .about-project {
     padding: 67px 0 69px;
   }
 
-  .about__container {
+  .about-project__container {
     padding: 0 18px;
   }
 
-  .about__title {
+  .about-project__title {
     padding: 0 0 28px;
     font-size: 18px;
     line-height: 22px;
     letter-spacing: -0.72px;
   }
 
-  .about__heading {
+  .about-project__heading {
     font-size: 18px;
     line-height: 22px;
     letter-spacing: -0.72px;
   }
 
-  .about__text {
+  .about-project__text {
     font-size: 11px;
     line-height: 16px;
   }

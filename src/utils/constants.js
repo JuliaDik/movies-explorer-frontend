@@ -1,5 +1,6 @@
 import film from "../images/film.png";
 
+// тестовые карточки фильмов
 const movies = [
   {
     id: 1,
@@ -103,6 +104,24 @@ const movies = [
     title: "33 слова о дизайне",
     time: "1ч42м",
   },
+  {
+    id: 18,
+    image: film,
+    title: "33 слова о дизайне",
+    time: "1ч42м",
+  },
+  {
+    id: 19,
+    image: film,
+    title: "33 слова о дизайне",
+    time: "1ч42м",
+  },
+  {
+    id: 20,
+    image: film,
+    title: "33 слова о дизайне",
+    time: "1ч42м",
+  },
 ];
 
 const errorMessages = {
@@ -111,8 +130,8 @@ const errorMessages = {
   profileUpdateError: "При обновлении профиля произошла ошибка.",
   incorrectCredentialsError: "Вы ввели неправильный логин или пароль.",
   nonuniqueEmailError: "Пользователь с таким email уже существует.",
-  serverError: "500 На сервере произошла ошибка.",
-  pageNotFoundError: "404 Страница по указанному маршруту не найдена.",
+  serverError: "На сервере произошла ошибка.",
+  pageNotFoundError: "Страница по указанному маршруту не найдена.",
 };
 
 export { movies, errorMessages };

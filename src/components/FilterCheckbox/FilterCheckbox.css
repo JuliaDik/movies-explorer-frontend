@@ -1,5 +1,6 @@
 .filter {
-  padding: 0 0 69px;
+  padding: 21px 0 69px;
+  border-bottom: 1px solid rgb(232 232 232);
 }
 
 .filter__label {
@@ -39,7 +40,7 @@
 
 @media screen and (max-width: 768px) {
   .filter {
-    padding: 0 0 51px;
+    padding: 22px 0 51px;
   }
 }
 

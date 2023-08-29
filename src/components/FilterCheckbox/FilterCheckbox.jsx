@@ -1,16 +1,16 @@
-// ЧЕКБОКС/ПЕРЕКЛЮЧАТЕЛЬ КОРОТКОМЕТРАЖЕК
-import "./FilterCheckbox.css";
+// ЧЕКБОКС "КОРОТКОМЕТРАЖКИ" (фильтр поиска фильмов)
 import { useState } from "react";
+import "./FilterCheckbox.css";
 
 function FilterCheckbox() {
   const [isChecked, setIsChecked] = useState(false);
 
-  const handleToggleCheckbox = () => {
+  function handleToggleCheckbox() {
     setIsChecked(!isChecked);
   };
 
   return (
-    <section className="filter" aria-label="чекбокс короткометражек">
+    <div className="filter">
       <label className="filter__label">
         <input
           className="filter__invisible-checkbox"
@@ -26,7 +26,7 @@ function FilterCheckbox() {
         ></span>
         <span className="filter__text">Короткометражки</span>
       </label>
-    </section>
+    </div>
   );
 }
 

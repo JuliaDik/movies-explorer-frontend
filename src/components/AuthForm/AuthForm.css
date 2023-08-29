@@ -43,7 +43,7 @@
   color: rgb(238 52 101);
 }
 
-.authentication__buttons-wrapper {
+.authentication__submit-wrapper {
   display: flex;
   flex-direction: column;
   text-align: center;

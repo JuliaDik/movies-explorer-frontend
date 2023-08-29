@@ -1,9 +1,9 @@
 // ОШИБКА 404: СТРАНИЦА НЕ НАЙДЕНА
 // (указанного роута не существует)
 import { Link } from "react-router-dom";
-import "./NotFound.css";
+import "./NotFoundError.css";
 
-function NotFound() {
+function NotFoundError() {
   return (
     <section className="not-found" aria-label="страница не найдена">
       <div className="not-found__error">
@@ -17,4 +17,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default NotFoundError;

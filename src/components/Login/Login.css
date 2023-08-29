@@ -1,8 +1,8 @@
 .login {
   display: flex;
   justify-content: center;
-  height: 100vh;
   padding: 70px 0;
+  min-height: 100vh;
   box-sizing: border-box;
 }
 

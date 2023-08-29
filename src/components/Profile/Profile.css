@@ -1,8 +1,8 @@
 .profile {
   display: flex;
   justify-content: center;
-  height: calc(100vh - 74px);
   padding: 74px 0 70px;
+  min-height: calc(100vh - 74px);
   box-sizing: border-box;
 }
 
@@ -57,7 +57,7 @@
 }
 
 .profile__input:focus {
-  border-radius: 8px;
+  border-radius: 2px;
   outline: 1px solid rgb(160 160 160);
 }
 
@@ -66,17 +66,16 @@
 }
 
 .profile__error-message {
+  height: 20px;
   font-size: 10px;
   font-weight: 400;
-  height: 20px;
   color: rgb(238 52 101);
 }
 
-.profile__buttons-wrapper {
+.profile__actions-wrapper {
   display: flex;
   flex-direction: column;
   text-align: center;
-  gap: 3px;
 }
 
 .profile__edit-button {
@@ -97,6 +96,13 @@
   color: rgb(238 52 101);
   border: none;
   background-color: transparent;
+}
+
+.profile__submit-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 3px;
 }
 
 .profile__submit-button {

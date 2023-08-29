@@ -6,7 +6,7 @@ import Input from "../Input/Input";
 import SubmitButton from "../SubmitButton/SubmitButton";
 import "./Profile.css";
 
-function Profile({ onLogout, onUpdateUser }) {
+function Profile({ onLogout }) {
   const { values, errors, isValid, handleChange } = useFormAndValidation({
     name: "",
     email: "",
@@ -53,7 +53,7 @@ function Profile({ onLogout, onUpdateUser }) {
             />
           </div>
           {!isEditMode ? (
-            <>
+            <div className="profile__actions-wrapper">
               <button
                 className="profile__edit-button link"
                 type="button"
@@ -68,16 +68,14 @@ function Profile({ onLogout, onUpdateUser }) {
               >
                 Выйти из аккаунта
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <SubmitButton
-                location="profile"
-                text="Сохранить"
-                // errorMessage
-                isValid={isValid}
-              />
-            </>
+            <SubmitButton
+              location="profile"
+              text="Сохранить"
+              // errorMessage
+              isValid={isValid}
+            />
           )}
         </Form>
       </div>

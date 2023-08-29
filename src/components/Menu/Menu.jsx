@@ -1,4 +1,4 @@
-// МЕНЮ-БУРГЕР
+// МЕНЮ-БУРГЕР (навигация шапки сайта)
 import { NavLink } from "react-router-dom";
 import "./Menu.css";
 
@@ -9,16 +9,17 @@ function Menu({ isOpen, onClose }) {
         <button
           className="menu__close-button button"
           type="button"
+          aria-label="закрыть"
           onClick={onClose}
         />
         <ul className="menu__list">
           <li className="menu__item">
             <NavLink
               className={({ isActive }) => `
-                  menu__link
-                  ${isActive ? "menu__link_active" : ""}
-                  link
-                `}
+                menu__link
+                ${isActive ? "menu__link_active" : ""}
+                link
+              `}
               to="/"
             >
               Главная
@@ -27,10 +28,10 @@ function Menu({ isOpen, onClose }) {
           <li className="menu__item">
             <NavLink
               className={({ isActive }) => `
-                  menu__link
-                  ${isActive ? "menu__link_active" : ""}
-                  link
-                `}
+                menu__link
+                ${isActive ? "menu__link_active" : ""}
+                link
+              `}
               to="/movies"
             >
               Фильмы
@@ -39,10 +40,10 @@ function Menu({ isOpen, onClose }) {
           <li className="menu__item">
             <NavLink
               className={({ isActive }) => `
-                  menu__link
-                  ${isActive ? "navigation__link_active" : ""}
-                  link
-                `}
+                menu__link
+                ${isActive ? "navigation__link_active" : ""}
+                link
+              `}
               to="/saved-movies"
             >
               Сохранённые фильмы

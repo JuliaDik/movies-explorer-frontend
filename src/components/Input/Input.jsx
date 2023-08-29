@@ -1,6 +1,7 @@
 function Input({
   location,
   label,
+  placeholder,
   name,
   type,
   minLength,
@@ -21,6 +22,7 @@ function Input({
         `}
         id={name}
         type={type}
+        placeholder={placeholder}
         name={name}
         minlength={minLength}
         maxlength={maxLength}

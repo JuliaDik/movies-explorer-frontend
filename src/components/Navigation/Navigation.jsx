@@ -6,7 +6,6 @@ import "./Navigation.css";
 
 function Navigation({ isLoggedIn }) {
   const location = useLocation();
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleMenu() {

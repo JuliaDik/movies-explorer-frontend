@@ -5,10 +5,9 @@ import "./MoviesCard.css";
 
 function MoviesCard({ card }) {
   const location = useLocation();
-
   const [isSaved, setIsSaved] = useState(false);
 
-  function handleSaveClick() {
+  function handleSave() {
     setIsSaved(!isSaved);
   }
 
@@ -25,7 +24,8 @@ function MoviesCard({ card }) {
             button`
           }
           type="button"
-          onClick={handleSaveClick}
+          aria-label="сохранить или удалить"
+          onClick={handleSave}
         ></button>
         <span className="card__time">{card.time}</span>
       </div>

@@ -1,4 +1,4 @@
-// ПОРТФОЛИО
+// ПОРТФОЛИО (лэндинг)
 import "./Portfolio.css";
 
 function Portfolio() {

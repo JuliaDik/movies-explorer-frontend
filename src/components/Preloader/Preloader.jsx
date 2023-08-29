@@ -1,4 +1,5 @@
 // ПРЕЛОАДЕР
+// анимация загрузки (появляется в момент ожидания ответа от API)
 import "./Preloader.css";
 
 function Preloader() {

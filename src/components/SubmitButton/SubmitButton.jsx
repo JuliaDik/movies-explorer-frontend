@@ -1,6 +1,6 @@
 function SubmitButton({ location, text, errorMessage, isValid }) {
   return (
-    <div className={`${location}__buttons-wrapper`}>
+    <div className={`${location}__submit-wrapper`}>
       <span className={`${location}__error-message`}>{errorMessage}</span>
       <button
         className={`

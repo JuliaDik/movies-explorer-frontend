@@ -1,15 +1,15 @@
-.student {
+.about-me {
   padding: 111px 0 96px;
 }
 
-.student__container {
+.about-me__container {
   margin: auto;
   padding: 0 70px;
   max-width: 1280px;
   box-sizing: border-box;
 }
 
-.student__title {
+.about-me__title {
   margin: 0;
   padding: 0 0 23px;
   font-size: 22px;
@@ -19,34 +19,34 @@
   border-bottom: 2px solid rgb(0 0 0);
 }
 
-.student__info {
+.about-me__info {
   display: grid;
   grid-template-areas:
-    "name      . photo"
-    ".         . photo"
-    "brief     . photo"
-    ".         . photo"
-    "paragraph . photo"
-    ".         . photo"
-    "github    . photo";
+    "name        . photo"
+    ".           . photo"
+    "brief-text  . photo"
+    ".           . photo"
+    "full-text   . photo"
+    ".           . photo"
+    "github-link . photo";
   grid-template-columns: minmax(min-content, 600px) minmax(auto, 270px) minmax(auto, 270px);
   grid-template-rows: auto 17px auto 22px auto 99px auto;
   padding: 64px 0 0;
 }
 
-.student__figure {
+.about-me__photo-wrapper {
   grid-area: photo;
   margin: 0;
 }
 
-.student__photo {
+.about-me__photo {
   width: 270px;
   height: 327px;
   object-fit: cover;
   border-radius: 10px;
 }
 
-.student__name {
+.about-me__name {
   grid-area: name;
   margin: 0;
   font-size: 50px;
@@ -55,24 +55,24 @@
   letter-spacing: -2px;
 }
 
-.student__brief {
-  grid-area: brief;
+.about-me__brief-text {
+  grid-area: brief-text;
   margin: 0;
   font-size: 18px;
   font-weight: 500;
   line-height: 20px;
 }
 
-.student__paragraph {
-  grid-area: paragraph;
+.about-me__full-text {
+  grid-area: full-text;
   margin: 0;
   font-size: 14px;
   font-weight: 400;
   line-height: 22px;
 }
 
-.student__github {
-  grid-area: github;
+.about-me__github-link {
+  grid-area: github-link;
   margin: 0;
   font-size: 14px;
   font-weight: 500;
@@ -84,15 +84,15 @@
 /* 1280px */
 
 @media screen and (max-width: 1280px) {
-  .student {
+  .about-me {
     padding: calc((100vw - 768px) / (1280 - 768) * (111 - 88) + 88px) 0 calc((100vw - 768px) / (1280 - 768) * (96 - 88) + 88px);
   }
 
-  .student__container {
+  .about-me__container {
     padding: 0 calc((100vw - 768px) / (1280 - 768) * (70 - 50) + 50px);
   }
 
-  .student__name {
+  .about-me__name {
     font-size: calc((100vw - 768px) / (1280 - 768) * (50 - 40) + 40px);
     line-height: calc((100vw - 768px) / (1280 - 768) * (58 - 40) + 40px);
   }
@@ -101,42 +101,42 @@
 /* 768px */
 
 @media screen and (max-width: 768px) {
-  .student {
+  .about-me {
     padding: 88px 0;
   }
 
-  .student__container {
+  .about-me__container {
     padding: 0 calc((100vw - 320px) / (768 - 320) * (50 - 14) + 14px);
   }
 
-  .student__title {
+  .about-me__title {
     font-size: calc((100vw - 320px) / (768 - 320) * (22 - 18) + 18px);
     line-height: calc((100vw - 320px) / (768 - 320) * (27 - 22) + 22px);
   }
 
-  .student__info {
+  .about-me__info {
     grid-template-columns: minmax(min-content, 364px) minmax(auto, 49px) minmax(auto, 255px);
     grid-template-rows: auto 14px auto 16px auto 87px auto;
     padding: 66px 0 0;
   }
 
-  .student__photo {
+  .about-me__photo {
     width: 255px;
     height: 307px;
   }
 
-  .student__name {
+  .about-me__name {
     font-size: calc((100vw - 320px) / (768 - 320) * (40 - 30) + 30px);
     line-height: calc((100vw - 320px) / (768 - 320) * (40 - 36) + 36px);
     letter-spacing: -1.6px;
   }
 
-  .student__brief {
+  .about-me__brief-text {
     font-size: calc((100vw - 320px) / (768 - 320) * (12 - 11) + 11px);
     line-height: calc((100vw - 320px) / (768 - 320) * (18 - 16) + 16px);
   }
 
-  .student__paragraph {
+  .about-me__full-text {
     font-size: calc((100vw - 320px) / (768 - 320) * (12 - 11) + 11px);
     line-height: calc((100vw - 320px) / (768 - 320) * (18 - 16) + 16px);
   }
@@ -145,23 +145,23 @@
 /* 640px */
 
 @media screen and (max-width: 640px) {
-  .student__info {
+  .about-me__info {
     grid-template-areas:
       "photo"
       "."
       "name"
       "."
-      "brief"
+      "brief-text"
       "."
-      "paragraph"
+      "full-text"
       "."
-      "github";
+      "github-link";
     grid-template-columns: 1fr;
     grid-template-rows: auto 36px auto 20px auto 20px auto 40px auto;
     padding: 60px 0 0;
   }
 
-  .student__photo {
+  .about-me__photo {
     width: 100%;
     height: 100%;
     min-height: 352px;
@@ -171,33 +171,33 @@
 /* 320px */
 
 @media screen and (max-width: 320px) {
-  .student {
+  .about-me {
     padding: 70px 0;
   }
 
-  .student__container {
+  .about-me__container {
     padding: 0 14px;
   }
 
-  .student__title {
+  .about-me__title {
     padding: 0 0 26px;
     font-size: 18px;
     line-height: 22px;
     letter-spacing: -0.72px;
   }
 
-  .student__name {
+  .about-me__name {
     font-size: 30px;
     line-height: 36px;
     letter-spacing: -1.2px;
   }
 
-  .student__brief {
+  .about-me__brief-text {
     font-size: 11px;
     line-height: 16px;
   }
 
-  .student__paragraph {
+  .about-me__full-text {
     font-size: 11px;
     line-height: 16px;
   }

@@ -1,4 +1,4 @@
-// ПРОМО
+// ПРОМО (лэндинг)
 import "./Promo.css";
 
 function Promo() {

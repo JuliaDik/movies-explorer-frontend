@@ -10,7 +10,7 @@ function Footer() {
         </p>
         <div className="footer__bottom-text">
           <p className="footer__copyright">© 2023</p>
-          <div className="footer__wrapper">
+          <div className="footer__services">
             <p className="footer__yandex">Яндекс.Практикум</p>
             <p className="footer__github">Github</p>
           </div>

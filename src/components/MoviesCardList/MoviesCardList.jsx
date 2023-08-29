@@ -7,65 +7,73 @@ import "./MoviesCardList.css";
 
 function MoviesCardList() {
   const location = useLocation();
-
-  const [renderedCardsCount, setRenderedCardsCount] = useState(Number);
+  const [initialCards, setInitialCards] = useState(Number);
+  const [moreCards, setMoreCards] = useState(Number);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  // для тестирования отображения карточек и кнопки еще
   useEffect(() => {
-    if (windowWidth > 1280 || (windowWidth <= 1280 && windowWidth > 768)) {
-      setRenderedCardsCount(16);
+    if (windowWidth > 768) {
+      setInitialCards(16);
+      setMoreCards(4);
     }
 
     if (windowWidth <= 768 && windowWidth > 320) {
-      setRenderedCardsCount(8);
+      setInitialCards(8);
+      setMoreCards(2);
     }
 
     if (windowWidth <= 320) {
-      setRenderedCardsCount(5);
+      setInitialCards(5);
+      setMoreCards(1);
     }
 
     if (windowWidth > 320 && location.pathname === "/saved-movies") {
-      setRenderedCardsCount(3);
+      setInitialCards(3);
     }
 
     if (windowWidth <= 320 && location.pathname === "/saved-movies") {
-      setRenderedCardsCount(2);
+      setInitialCards(2);
     }
-  }, [windowWidth, location.pathname]);
 
-  useEffect(() => {
     function handleUpdateWindowWidth() {
       setWindowWidth(window.innerWidth);
     }
 
     window.addEventListener("resize", handleUpdateWindowWidth);
     return () => window.removeEventListener("resize", handleUpdateWindowWidth);
-  }, [setWindowWidth]);
+  }, [windowWidth, location.pathname, setWindowWidth]);
+
+  function handleAddMoreCards() {
+    setInitialCards(initialCards + moreCards);
+  }
 
   return (
-    <section
-      className={`movies ${
-        location.pathname === "/saved-movies" ? "movies_type_saved" : ""
-      }`}
+    <section className={`
+        movies
+        ${location.pathname === "/saved-movies" ? "movies_type_saved" : ""}
+      `}
       aria-label="фильмы"
     >
       <div className="movies__container">
         <ul className="movies__list">
-          {movies.slice(0, renderedCardsCount).map((movie) => (
+          {movies.slice(0, initialCards).map((movie) => (
             <MoviesCard card={movie} key={movie.id} />
           ))}
         </ul>
         <button
           className={`
-            movies__button button
+            movies__add-button
+            button
             ${
-              movies.length - 1 < renderedCardsCount ||
+              movies.length < initialCards ||
               location.pathname === "/saved-movies"
-                ? "movies__button_hidden"
+                ? "movies__add-button_hidden"
                 : ""
             }
           `}
           type="button"
+          onClick={handleAddMoreCards}
         >
           Ещё
         </button>

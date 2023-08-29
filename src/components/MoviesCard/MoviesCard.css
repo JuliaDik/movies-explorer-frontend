@@ -33,7 +33,7 @@
   width: 16px;
   height: 16px;
   border: none;
-  background: url("../../images/save_inactive.svg") no-repeat center / contain;
+  background: url("../../images/save-inactive.svg") no-repeat center / contain;
 }
 
 .card__save-button_active {

@@ -1,4 +1,4 @@
-// ТЕХНОЛОГИИ
+// ТЕХНОЛОГИИ (лэндинг)
 import "./Techs.css";
 
 function Techs() {

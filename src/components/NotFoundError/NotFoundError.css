@@ -47,6 +47,11 @@
   .not-found {
     padding: 29% 0;
   }
+
+  .not-found__title {
+    font-size: calc((100vw - 320px) / (768 - 320) * (140 - 80) + 80px);
+    line-height: calc((100vw - 320px) / (768 - 320) * (169 - 97) + 97px);
+  }
 }
 
 /* 320px */
