@@ -1,0 +1,44 @@
+.authentication__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.authentication__label {
+  margin: 0 0 10px;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: rgb(160 160 160);
+}
+
+.authentication__input {
+  padding: 15px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: rgb(249 249 249);
+}
+
+.authentication__input:focus {
+  outline: 1px solid rgb(160 160 160);
+}
+
+.authentication__input::placeholder {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: rgb(160 160 160 / 0.4);
+}
+
+.authentication__input_type_error {
+  color: rgb(238 52 101);
+}
+
+.authentication__error-message {
+  height: 20px;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgb(238 52 101);
+}

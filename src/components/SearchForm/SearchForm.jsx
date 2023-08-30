@@ -1,9 +1,6 @@
 // ФОРМА ПОИСКА
 import useFormAndValidation from "../../hooks/useFormAndValidation";
-import Form from "../Form/Form";
-import Input from "../Input/Input";
-import SubmitButton from "../SubmitButton/SubmitButton";
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox"
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
 function SearchForm({ onSubmit }) {
@@ -21,22 +18,35 @@ function SearchForm({ onSubmit }) {
   return (
     <section className="search" aria-label="форма поиска">
       <div className="search__container">
-        <Form location="search" onSubmit={handleSubmit}>
-          <Input
-            location="search"
-            placeholder="Фильм"
-            name="search"
+        <form
+          className="search__form"
+          name="search"
+          onSubmit={handleSubmit}
+          noValidate
+        >
+          <input
+            className={`
+              search__input
+              ${errors.search ? `search__input_type_error` : ""}
+            `}
             type="text"
+            name="search"
+            placeholder="Фильм"
+            autoComplete="off"
+            required
             value={values.search || ""}
             errorMessage={errors.search}
-            handleChange={handleChange}
+            onChange={handleChange}
           />
-          <SubmitButton
-            location="search"
-            // errorMessage
+          <span className="search__error-message">
+            {errors.search}
+          </span>
+          <button
+            className="search__submit-button button"
+            type="submit"
             isValid={true}
-          />
-        </Form>
+          ></button>
+        </form>
         <FilterCheckbox />
       </div>
     </section>

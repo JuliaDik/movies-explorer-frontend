@@ -13,7 +13,7 @@ function Navigation({ isLoggedIn }) {
   }
 
   return (
-    <nav className="navigation__nav">
+    <nav className="navigation">
       <NavLink
         className="
           navigation__link

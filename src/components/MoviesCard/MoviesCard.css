@@ -14,8 +14,9 @@
 .card__body {
   display: grid;
   grid-template-columns: 1fr max-content;
+  align-items: center;
   gap: 10px 0;
-  padding: 14px 12px;
+  padding: 14px 16px 14px 12px;
 }
 
 .card__title {
@@ -30,10 +31,11 @@
 
 .card__save-button {
   padding: 0;
-  width: 16px;
-  height: 16px;
+  width: 8px;
+  height: 8px;
   border: none;
   background: url("../../images/save-inactive.svg") no-repeat center / contain;
+  box-sizing: border-box
 }
 
 .card__save-button_active {
@@ -41,7 +43,7 @@
 }
 
 .card__delete-button {
-  background: url("../../images/cross.svg") no-repeat center / contain;
+  background: url("../../images/delete-cross.svg") no-repeat center / contain;
 }
 
 .card__time {

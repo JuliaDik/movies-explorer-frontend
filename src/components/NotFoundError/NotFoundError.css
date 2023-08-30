@@ -5,10 +5,10 @@
   left: 0;
   bottom: 0;
   display: grid;
-  grid-template-rows: 66% auto;
+  grid-template-rows: 65.5% auto;
   justify-content: center;
   justify-items: center;
-  padding: 5% 0;
+  padding: 4.7% 0;
 }
 
 .not-found__error {
@@ -58,7 +58,7 @@
 
 @media screen and (max-width: 320px) {
   .not-found {
-    grid-template-rows: 59% auto;
+    grid-template-rows: 58.6% auto;
     padding: 9% 0;
   }
 

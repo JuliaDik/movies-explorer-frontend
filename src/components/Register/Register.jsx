@@ -1,27 +1,76 @@
 // РЕГИСТРАЦИЯ
-import { NavLink } from "react-router-dom";
+import useFormAndValidation from "../../hooks/useFormAndValidation";
+import Auth from "../Auth/Auth";
 import AuthForm from "../AuthForm/AuthForm";
+import AuthInput from "../AuthInput/AuthInput";
+import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
 import "./Register.css";
 
 function Register({ onRegister }) {
+  const { values, errors, isValid, handleChange } = useFormAndValidation({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (isValid) {
+      onRegister(values.name, values.email, values.password);
+    }
+  }
+
   return (
-    <main className="register">
-      <div className="register__content">
-        <NavLink className="register__logo button" to="/" />
-        <h2 className="register__greeting">Добро пожаловать!</h2>
-        <AuthForm
-          formType="register"
-          textButton="Зарегистрироваться"
-          onSubmit={onRegister}
+    <Auth
+      greeting="Добро пожаловать!"
+      question="Уже зарегистрированы?"
+      link="Войти"
+      route="/signin"
+    >
+      <AuthForm
+        name="registration"
+        onSubmit={handleSubmit}
+      >
+        <AuthInput
+          id="name"
+          type="text"
+          name="name"
+          label="Имя"
+          placeholder="Имя"
+          minLength="2"
+          maxLength="30"
+          value={values.name || ""}
+          errorMessage={errors.name}
+          onChange={handleChange}
         />
-        <p className="register__question">
-          Уже зарегистрированы? {""}
-          <NavLink className="register__link link" to="/signin">
-            Войти
-          </NavLink>
-        </p>
-      </div>
-    </main>
+        <AuthInput
+          id="email"
+          type="email"
+          name="email"
+          label="Email"
+          placeholder="Email"
+          value={values.email || ""}
+          errorMessage={errors.email}
+          onChange={handleChange}
+        />
+        <AuthInput
+          id="password"
+          type="password"
+          name="password"
+          label="Пароль"
+          placeholder="Пароль"
+          value={values.password || ""}
+          errorMessage={errors.password}
+          onChange={handleChange}
+        />
+        <AuthSubmitButton
+          form="register"
+          // errorMessage=
+          text="Зарегистрироваться"
+          isValid={isValid}
+        />
+      </AuthForm>
+    </Auth>
   );
 }
 

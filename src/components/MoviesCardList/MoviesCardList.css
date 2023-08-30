@@ -1,9 +1,9 @@
 .movies {
-  padding: 80px 0;
+  padding: 81px 0;
 }
 
 .movies_type_saved {
-  padding: 80px 0 52px;
+  padding: 81px 0 52px;
 }
 
 .movies__container {
@@ -63,11 +63,11 @@
 
 @media screen and (max-width: 320px) {
   .movies {
-    padding: 50px 0 98px;
+    padding: 50px 0 80px;
   }
 
   .movies_type_saved {
-    padding: 50px 0 71px
+    padding: 50px 0 54px
   }
 
   .movies__container {

@@ -29,7 +29,10 @@
     "full-text   . photo"
     ".           . photo"
     "github-link . photo";
-  grid-template-columns: minmax(min-content, 600px) minmax(auto, 270px) minmax(auto, 270px);
+  grid-template-columns: minmax(min-content, 600px) minmax(auto, 270px) minmax(
+      auto,
+      270px
+    );
   grid-template-rows: auto 17px auto 22px auto 99px auto;
   padding: 64px 0 0;
 }
@@ -85,7 +88,8 @@
 
 @media screen and (max-width: 1280px) {
   .about-me {
-    padding: calc((100vw - 768px) / (1280 - 768) * (111 - 88) + 88px) 0 calc((100vw - 768px) / (1280 - 768) * (96 - 88) + 88px);
+    padding: calc((100vw - 768px) / (1280 - 768) * (111 - 88) + 88px) 0
+      calc((100vw - 768px) / (1280 - 768) * (96 - 88) + 88px);
   }
 
   .about-me__container {
@@ -102,7 +106,7 @@
 
 @media screen and (max-width: 768px) {
   .about-me {
-    padding: 88px 0;
+    padding: calc((100vw - 320px) / (768 - 320) * (88 - 70) + 70px) 0;
   }
 
   .about-me__container {
@@ -115,7 +119,10 @@
   }
 
   .about-me__info {
-    grid-template-columns: minmax(min-content, 364px) minmax(auto, 49px) minmax(auto, 255px);
+    grid-template-columns: minmax(min-content, 364px) minmax(auto, 49px) minmax(
+        auto,
+        255px
+      );
     grid-template-rows: auto 14px auto 16px auto 87px auto;
     padding: 66px 0 0;
   }

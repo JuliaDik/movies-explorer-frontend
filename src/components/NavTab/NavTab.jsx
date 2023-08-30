@@ -6,20 +6,20 @@ import "./NavTab.css";
 function NavTab() {
   return (
     <section className="navtab" aria-label="навигационная панель">
-      <nav className="navtab_nav">
-        <ul className="navtab_list">
-          <li className="navtab_item">
-            <Link className="navtab_link link" to="#project">
+      <nav className="navtab__nav">
+        <ul className="navtab__list">
+          <li className="navtab__item">
+            <Link className="navtab__link link" to="#project">
               О проекте
             </Link>
           </li>
-          <li className="navtab_item">
-            <Link className="navtab_link link" to="#techs">
+          <li className="navtab__item">
+            <Link className="navtab__link link" to="#techs">
               Технологии
             </Link>
           </li>
-          <li className="navtab_item">
-            <Link className="navtab_link link" to="#student">
+          <li className="navtab__item">
+            <Link className="navtab__link link" to="#student">
               Студент
             </Link>
           </li>

@@ -1,9 +1,6 @@
 // РЕДАКТИРОВАНИЕ ПРОФИЛЯ
 import { useState } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
-import Form from "../Form/Form";
-import Input from "../Input/Input";
-import SubmitButton from "../SubmitButton/SubmitButton";
 import "./Profile.css";
 
 function Profile({ onLogout }) {
@@ -29,55 +26,87 @@ function Profile({ onLogout }) {
     <main className="profile">
       <div className="profile__content">
         <h2 className="profile__greeting">Привет, Юлия!</h2>
-        <Form location="profile" onSubmit={handleSubmit}>
-          <div className="profile__inputs">
-            <Input
-              location="profile"
-              label="Имя"
-              name="name"
+        <form
+          className="profile__form"
+          name="profile"
+          onSubmit={handleSubmit}
+          noValidate
+        >
+          <div className="profile__field">
+            <label className="profile__label" for="name">
+              Имя
+            </label>
+            <input
+              className={`
+                profile__input
+                  ${errors.name ? `profile__input_type_error` : ""}
+                `}
+              id="name"
               type="text"
-              minLength="2"
-              maxLength="30"
+              placeholder="Имя"
+              name="name"
+              minlength="2"
+              maxlength="30"
               value={values.name || ""}
               errorMessage={errors.name}
-              handleChange={handleChange}
+              onChange={handleChange}
+              autoComplete="off"
+              required
             />
-            <Input
-              location="profile"
-              label="Email"
-              name="email"
+            <span className="profile__error-message">{errors.name}</span>
+          </div>
+          <div className="profile__field">
+            <label className="profile__label" for="name">
+              Email
+            </label>
+            <input
+              className={`
+                profile__input
+                  ${errors.name ? `profile__input_type_error` : ""}
+                `}
+              id="email"
               type="email"
+              placeholder="Email"
+              name="email"
               value={values.email || ""}
               errorMessage={errors.email}
-              handleChange={handleChange}
+              onChange={handleChange}
+              autoComplete="off"
+              required
             />
+            <span className="profile__error-message">{errors.name}</span>
           </div>
-          {!isEditMode ? (
-            <div className="profile__actions-wrapper">
-              <button
-                className="profile__edit-button link"
-                type="button"
-                onClick={handleEdit}
-              >
-                Редактировать
-              </button>
-              <button
-                className="profile__logout-button link"
-                type="button"
-                onClick={onLogout}
-              >
-                Выйти из аккаунта
-              </button>
-            </div>
-          ) : (
-            <SubmitButton
-              location="profile"
-              text="Сохранить"
-              // errorMessage
-              isValid={isValid}
-            />
-          )}
-        </Form>
+        </form>
+        {!isEditMode ? (
+          <div className="profile__actions-wrapper">
+            <button
+              className="profile__edit-button link"
+              type="button"
+              onClick={handleEdit}
+            >
+              Редактировать
+            </button>
+            <button
+              className="profile__logout-button link"
+              type="button"
+              onClick={onLogout}
+            >
+              Выйти из аккаунта
+            </button>
+          </div>
+        ) : (
+          <div className="profile__submit-wrapper">
+            <span className="profile__error-message">{errors.email}</span>
+            <button
+              className="profile__submit-button button"
+              type="submit"
+              disabled={!isValid}
+              onClick={handleSubmit}
+            >
+              Сохранить
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );

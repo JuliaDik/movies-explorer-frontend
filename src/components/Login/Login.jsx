@@ -1,27 +1,63 @@
 // АВТОРИЗАЦИЯ
-import { NavLink } from "react-router-dom";
+import useFormAndValidation from "../../hooks/useFormAndValidation";
+import Auth from "../Auth/Auth";
 import AuthForm from "../AuthForm/AuthForm";
+import AuthInput from "../AuthInput/AuthInput";
+import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
 import "./Login.css";
 
 function Login({ onLogin }) {
+  const { values, errors, isValid, handleChange } = useFormAndValidation({
+    email: "",
+    password: "",
+  });
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    if (isValid) {
+      onLogin(values.email, values.password);
+    }
+  }
+
   return (
-    <main className="login">
-      <div className="login__content">
-        <NavLink className="login__logo button" to="/" />
-        <h2 className="login__greeting">Рады видеть!</h2>
-        <AuthForm
-          formType="login"
-          textButton="Войти"
-          onSubmit={onLogin}
+    <Auth
+      greeting="Рады видеть!"
+      question="Ещё не зарегистрированы?"
+      link="Регистрация"
+      route="/signup"
+    >
+      <AuthForm
+        name="login"
+        onSubmit={handleSubmit}
+      >
+        <AuthInput
+          id="email"
+          type="email"
+          name="email"
+          label="Email"
+          placeholder="Email"
+          value={values.email || ""}
+          errorMessage={errors.email}
+          onChange={handleChange}
         />
-        <p className="login__question">
-          Ещё не зарегистрированы? {""}
-          <NavLink className="login__link link" to="/signup">
-            Регистрация
-          </NavLink>
-        </p>
-      </div>
-    </main>
+        <AuthInput
+          id="password"
+          type="password"
+          name="password"
+          label="Пароль"
+          placeholder="Пароль"
+          value={values.password || ""}
+          errorMessage={errors.password}
+          onChange={handleChange}
+        />
+        <AuthSubmitButton
+          form="login"
+          // errorMessage=
+          text="Войти"
+          isValid={isValid}
+        />
+      </AuthForm>
+    </Auth>
   );
 }
 
