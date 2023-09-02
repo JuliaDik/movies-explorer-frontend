@@ -1,5 +1,5 @@
 // КОРНЕВОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -10,13 +10,31 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import NotFoundError from "../NotFoundError/NotFoundError";
+import moviesApi from "../../utils/MoviesApi";
 import "./App.css";
 
 function App() {
-  // статус авторизации
+  // авторизация
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // фильмы
+  const [movies, setMovies] = useState([]);
   // навигация по роутам
   const navigate = useNavigate();
+
+  // отрисовать карточки с фильмами
+  useEffect(() => {
+    // если пользователь авторизован
+    if (true) {
+      moviesApi
+        .getMovies()
+        .then((movies) => {
+          setMovies(movies);
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        });
+    }
+  }, [isLoggedIn]);
 
   function handleRegister(name, email, password) {
     navigate("/signin", { replace: true });
@@ -30,6 +48,17 @@ function App() {
   function handleLogout() {
     setIsLoggedIn(false);
     navigate("/signin", { replace: true });
+  }
+
+  function handleSearchFilm(request) {
+    // moviesApi
+    //   .getMovies()
+    //   .then((movies) => {
+    //     setMovies(movies);
+    //   })
+    //   .catch((err) => {
+    //     console.log(`Ошибка: ${err}`);
+    //   });
   }
 
   return (
@@ -74,7 +103,10 @@ function App() {
               <Header
                 isLoggedIn={isLoggedIn}
               />
-              <Movies />
+              <Movies 
+                movies={movies}
+                onSubmit={handleSearchFilm}
+              />
               <Footer />
             </>
           }

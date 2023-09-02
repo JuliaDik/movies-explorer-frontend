@@ -24,6 +24,7 @@ function useFormAndValidation(inputValues) {
   return {
     values,
     errors,
+    setErrors,
     isValid,
     handleChange,
     resetForm

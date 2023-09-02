@@ -4,14 +4,23 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
 function SearchForm({ onSubmit }) {
-  const { values, errors, isValid, handleChange } = useFormAndValidation({
-    search: "",
-  });
+  const { values, errors, setErrors, isValid, handleChange } =
+    useFormAndValidation({
+      search: "",
+    });
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    // после сабмита формы поиска производится валидация
     if (isValid) {
+      // если слово введено, то осуществляется запрос к API
       onSubmit(values.search);
+    } else {
+      // если в поле не введен текст, выводится ошибка
+      setErrors({
+        ...errors,
+        [evt.target.name]: "Нужно ввести ключевое слово",
+      });
     }
   }
 
@@ -35,16 +44,12 @@ function SearchForm({ onSubmit }) {
             autoComplete="off"
             required
             value={values.search || ""}
-            errorMessage={errors.search}
             onChange={handleChange}
           />
-          <span className="search__error-message">
-            {errors.search}
-          </span>
+          <span className="search__error-message">{errors.search}</span>
           <button
             className="search__submit-button button"
             type="submit"
-            isValid={true}
           ></button>
         </form>
         <FilterCheckbox />

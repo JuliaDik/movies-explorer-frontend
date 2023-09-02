@@ -2,16 +2,14 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import { movies } from "../../utils/constants";
 import "./MoviesCardList.css";
 
-function MoviesCardList() {
+function MoviesCardList({ movies }) {
   const location = useLocation();
   const [initialCards, setInitialCards] = useState(Number);
   const [moreCards, setMoreCards] = useState(Number);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // для тестирования отображения карточек и кнопки еще
   useEffect(() => {
     if (windowWidth > 768) {
       setInitialCards(16);
@@ -35,14 +33,16 @@ function MoviesCardList() {
     if (windowWidth <= 320 && location.pathname === "/saved-movies") {
       setInitialCards(2);
     }
+  }, [windowWidth, location.pathname]);
 
+  useEffect(() => {
     function handleUpdateWindowWidth() {
       setWindowWidth(window.innerWidth);
     }
 
     window.addEventListener("resize", handleUpdateWindowWidth);
     return () => window.removeEventListener("resize", handleUpdateWindowWidth);
-  }, [windowWidth, location.pathname, setWindowWidth]);
+  }, [setWindowWidth]);
 
   function handleAddMoreCards() {
     setInitialCards(initialCards + moreCards);

@@ -7,12 +7,14 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./Movies.css";
 
-function Movies() {
+function Movies({ movies, onSubmit }) {
   return (
     <main className="main">
-      <SearchForm />
+      <SearchForm
+        onSubmit={onSubmit}
+      />
       {/* <Preloader /> */}
-      <MoviesCardList/>
+      <MoviesCardList movies={movies} />
     </main>
   );
 }

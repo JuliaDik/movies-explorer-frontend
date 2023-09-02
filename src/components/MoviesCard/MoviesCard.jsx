@@ -13,9 +13,9 @@ function MoviesCard({ card }) {
 
   return (
     <li className="card">
-      <img className="card__image" src={card.image} alt="Постер фильма" />
+      <img className="card__image" src={`https://api.nomoreparties.co/${card.image.url}`} alt={card.nameRU} />
       <div className="card__body">
-        <h2 className="card__title">{card.title}</h2>
+        <h2 className="card__title">{card.nameRU}</h2>
         <button
           className={
             `card__save-button
@@ -27,7 +27,7 @@ function MoviesCard({ card }) {
           aria-label="сохранить или удалить"
           onClick={handleSave}
         ></button>
-        <span className="card__time">{card.time}</span>
+        <span className="card__time">{card.duration}</span>
       </div>
     </li>
   );
