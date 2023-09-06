@@ -1,21 +1,14 @@
-// ЧЕКБОКС "КОРОТКОМЕТРАЖКИ" (фильтр поиска фильмов)
-import { useState } from "react";
+// ЧЕКБОКС "КОРОТКОМЕТРАЖКИ" (фильтр)
 import "./FilterCheckbox.css";
 
-function FilterCheckbox() {
-  const [isChecked, setIsChecked] = useState(false);
-
-  function handleToggleCheckbox() {
-    setIsChecked(!isChecked);
-  };
-
+function FilterCheckbox({ onChange, isChecked }) {
   return (
     <div className="filter">
       <label className="filter__label">
         <input
           className="filter__invisible-checkbox"
           type="checkbox"
-          onChange={handleToggleCheckbox}
+          onChange={onChange}
         />
         <span
           className={

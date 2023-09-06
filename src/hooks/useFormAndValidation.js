@@ -23,6 +23,7 @@ function useFormAndValidation(inputValues) {
 
   return {
     values,
+    setValues,
     errors,
     setErrors,
     isValid,

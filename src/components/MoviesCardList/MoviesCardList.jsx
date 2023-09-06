@@ -4,36 +4,27 @@ import { useLocation } from "react-router-dom";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
 
-function MoviesCardList({ movies }) {
+function MoviesCardList({ cards }) {
   const location = useLocation();
-  const [initialCards, setInitialCards] = useState(Number);
-  const [moreCards, setMoreCards] = useState(Number);
+  const [initialCards, setInitialCards] = useState(0);
+  const [moreCards, setMoreCards] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    if (windowWidth > 768) {
+    if (windowWidth >= 1280) {
       setInitialCards(16);
       setMoreCards(4);
-    }
-
-    if (windowWidth <= 768 && windowWidth > 320) {
+    } else if (windowWidth >= 990) {
+      setInitialCards(9);
+      setMoreCards(3);
+    } else if (windowWidth >= 617) {
       setInitialCards(8);
       setMoreCards(2);
-    }
-
-    if (windowWidth <= 320) {
+    } else if (windowWidth < 616) {
       setInitialCards(5);
-      setMoreCards(1);
+      setMoreCards(2);
     }
-
-    if (windowWidth > 320 && location.pathname === "/saved-movies") {
-      setInitialCards(3);
-    }
-
-    if (windowWidth <= 320 && location.pathname === "/saved-movies") {
-      setInitialCards(2);
-    }
-  }, [windowWidth, location.pathname]);
+  }, [windowWidth]);
 
   useEffect(() => {
     function handleUpdateWindowWidth() {
@@ -57,8 +48,8 @@ function MoviesCardList({ movies }) {
     >
       <div className="movies__container">
         <ul className="movies__list">
-          {movies.slice(0, initialCards).map((movie) => (
-            <MoviesCard card={movie} key={movie.id} />
+          {cards.slice(0, initialCards).map((card) => (
+            <MoviesCard card={card} key={card.id} />
           ))}
         </ul>
         <button
@@ -66,7 +57,7 @@ function MoviesCardList({ movies }) {
             movies__add-button
             button
             ${
-              movies.length < initialCards ||
+              cards.length < initialCards ||
               location.pathname === "/saved-movies"
                 ? "movies__add-button_hidden"
                 : ""
