@@ -8,13 +8,14 @@ function AuthInput({
   placeholder,
   minLength,
   maxLength,
+  pattern,
   value,
   errorMessage,
   onChange,
 }) {
   return (
     <div className="authentication__field">
-      <label className="authentication__label" for={id}>
+      <label className="authentication__label" htmlFor={id}>
         {label}
       </label>
       <input
@@ -26,8 +27,9 @@ function AuthInput({
         type={type}
         placeholder={placeholder}
         name={name}
-        minlength={minLength}
-        maxlength={maxLength}
+        minLength={minLength}
+        maxLength={maxLength}
+        pattern={pattern}
         value={value}
         onChange={onChange}
         autoComplete="off"

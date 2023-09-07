@@ -7,7 +7,7 @@ function AuthSubmitButton({ form, errorMessage, text, isValid }) {
         authentication__submit-wrapper_type_${form}
       `}
     >
-      <span className="authentication__error-message">{errorMessage}</span>
+      <span className="authentication__error">{errorMessage}</span>
       <button
         className="authentication__submit-button button"
         type="submit"

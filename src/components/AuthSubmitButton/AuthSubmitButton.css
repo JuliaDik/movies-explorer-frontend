@@ -12,11 +12,12 @@
   margin: 136px 0 0;
 }
 
-.authentication__error-message {
+.authentication__error {
   height: 20px;
   font-size: 10px;
   font-weight: 400;
   color: rgb(238 52 101);
+  text-align: center;
 }
 
 .authentication__submit-button {

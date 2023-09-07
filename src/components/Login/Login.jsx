@@ -4,9 +4,10 @@ import Auth from "../Auth/Auth";
 import AuthForm from "../AuthForm/AuthForm";
 import AuthInput from "../AuthInput/AuthInput";
 import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
+import { EMAIL_REGEX } from "../../utils/constants";
 import "./Login.css";
 
-function Login({ onLogin }) {
+function Login({ onLogin, error }) {
   const { values, errors, isValid, handleChange } = useFormAndValidation({
     email: "",
     password: "",
@@ -14,7 +15,9 @@ function Login({ onLogin }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    // если валидация прошла успешна
     if (isValid) {
+      // отправляем запрос к API на авторизацию пользователя
       onLogin(values.email, values.password);
     }
   }
@@ -36,6 +39,7 @@ function Login({ onLogin }) {
           name="email"
           label="Email"
           placeholder="Email"
+          pattern={EMAIL_REGEX}
           value={values.email || ""}
           errorMessage={errors.email}
           onChange={handleChange}
@@ -52,7 +56,7 @@ function Login({ onLogin }) {
         />
         <AuthSubmitButton
           form="login"
-          // errorMessage=
+          errorMessage={error}
           text="Войти"
           isValid={isValid}
         />
