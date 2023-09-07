@@ -7,12 +7,12 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./SavedMovies.css";
 
-function SavedMovies() {
+function SavedMovies({ savedMovies }) {
   return (
     <main className="main">
       <SearchForm />
       {/* <Preloader /> */}
-      <MoviesCardList />
+      <MoviesCardList cards={savedMovies} />
     </main>
   );
 }

@@ -8,7 +8,7 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./Movies.css";
 
-function Movies() {
+function Movies({ onSave, onDelete }) {
   const { filterRequestedMovies, filterShortMovies } = useMoviesFilter();
   const location = useLocation();
   // фильмы, найденные по тексту запроса
@@ -68,9 +68,9 @@ function Movies() {
       setShortMovies(shortMovies);
       // сохраняем их в локальном хранилище
       localStorage.setItem("shortMovies", JSON.stringify(shortMovies));
-    // если выключаем фильтр
+      // если выключаем фильтр
     } else {
-      // удаляем из локального хранилища состояние переключателя 
+      // удаляем из локального хранилища состояние переключателя
       localStorage.removeItem("isChecked");
       // и короткометражки
       localStorage.removeItem("shortMovies");
@@ -83,7 +83,9 @@ function Movies() {
       // то при монтировании компонентов достаем из локального хранилища браузера
       // найденные фильмы, короткометражки, состояние переключателя
       // если локальное хранилище будет очищено, тогда устанавливаем дефолтные значения
-      setSearchedMovies(JSON.parse(localStorage.getItem("searchedMovies")) ?? []);
+      setSearchedMovies(
+        JSON.parse(localStorage.getItem("searchedMovies")) ?? []
+      );
       setIsShortMovies(localStorage.getItem("isChecked") ?? false);
       setShortMovies(JSON.parse(localStorage.getItem("shortMovies")) ?? []);
     }
@@ -101,7 +103,11 @@ function Movies() {
       {/* после получения данных появляются карточки фильмов */}
       {!isLoading && searchedMovies.length > 0 && !error && (
         // карточки фильмов отрисовываются в зависимости от состояния переключателя
-        <MoviesCardList cards={isShortMovies ? shortMovies : searchedMovies} />
+        <MoviesCardList
+          cards={isShortMovies ? shortMovies : searchedMovies}
+          onSave={onSave}
+          onDelete={onDelete}
+        />
       )}
       {/* если ничего не найдено или в процессе получения и обработки данных происходит ошибка,
       появляется соответствующая надпись */}

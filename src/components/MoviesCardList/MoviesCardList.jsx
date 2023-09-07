@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
 
-function MoviesCardList({ cards }) {
+function MoviesCardList({ cards, onSave, onDelete }) {
   const location = useLocation();
   const [initialCards, setInitialCards] = useState(0);
   const [moreCards, setMoreCards] = useState(0);
@@ -40,7 +40,8 @@ function MoviesCardList({ cards }) {
   }
 
   return (
-    <section className={`
+    <section
+      className={`
         movies
         ${location.pathname === "/saved-movies" ? "movies_type_saved" : ""}
       `}
@@ -49,7 +50,12 @@ function MoviesCardList({ cards }) {
       <div className="movies__container">
         <ul className="movies__list">
           {cards.slice(0, initialCards).map((card) => (
-            <MoviesCard card={card} key={card.id} />
+            <MoviesCard
+              card={card}
+              key={card.id}
+              onSave={onSave}
+              onDelete={onDelete}
+            />
           ))}
         </ul>
         <button

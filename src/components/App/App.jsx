@@ -1,6 +1,7 @@
 // КОРНЕВОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ
 import { useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import mainApi from "../../utils/MainApi";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
@@ -15,6 +16,8 @@ import "./App.css";
 function App() {
   // статус авторизации
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // сохраненные фильмы
+  const [savedMovies, setSavedMovies] = useState([]);
   // навигация по роутам
   const navigate = useNavigate();
 
@@ -32,6 +35,31 @@ function App() {
     localStorage.clear();
     setIsLoggedIn(false);
     navigate("/signin", { replace: true });
+  }
+
+  function handleSaveMovie(movie) {
+    mainApi
+      .saveMovie(movie)
+      .then((savedMovie) => {
+        // каждый сохраняемый фильм добавляется в массив среди прочих
+        setSavedMovies([savedMovie, ...savedMovies]);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
+  }
+
+  function handleDeleteMovie(movieId) {
+    mainApi
+      .deleteMovie(movieId)
+      .then(() => {
+        // из массива сохраненных фильмов удаляется только тот фильм,
+        // чей id совпадает с id фильма, запрошенного к удалению
+        setSavedMovies((savedMovies) => savedMovies.filter((savedMovie) => savedMovie._id !== movieId));
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }
 
   return (
@@ -76,7 +104,10 @@ function App() {
               <Header
                 isLoggedIn={isLoggedIn}
               />
-              <Movies />
+              <Movies
+                onSave={handleSaveMovie}
+                onDelete={handleDeleteMovie}
+              />
               <Footer />
             </>
           }
@@ -89,7 +120,9 @@ function App() {
               <Header
                 isLoggedIn={isLoggedIn}
               />
-              <SavedMovies />
+              <SavedMovies
+                savedMovies={savedMovies}
+              />
               <Footer />
             </>
           }
