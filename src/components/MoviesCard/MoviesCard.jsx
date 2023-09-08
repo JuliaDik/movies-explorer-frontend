@@ -10,7 +10,7 @@ function MoviesCard({ card, onSave, onDelete }) {
   function convertDuration() {
     const houres = Math.floor(card.duration / 60);
     const minutes = card.duration % 60;
-    return `${houres}ч${minutes}м`
+    return `${houres}ч${minutes}м`;
   }
 
   function handleSave() {
@@ -19,7 +19,7 @@ function MoviesCard({ card, onSave, onDelete }) {
     if (isSaved === true) {
       // и отправляется запрос к API на сохранение фильма
       onSave(card);
-    // если кликнуть по активной иконке, тогда isSaved меняется на false
+      // если кликнуть по активной иконке, тогда isSaved меняется на false
     } else {
       // и отправляется запрос к API на удаление фильма
       onDelete(card.id);
@@ -34,21 +34,36 @@ function MoviesCard({ card, onSave, onDelete }) {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img className="card__image" src={`https://api.nomoreparties.co/${card.image.url}`} alt={card.nameRU} />
+        <img
+          className="card__image"
+          src={`https://api.nomoreparties.co/${card.image.url}`}
+          alt={card.nameRU}
+        />
       </a>
       <div className="card__body">
         <h2 className="card__title">{card.nameRU}</h2>
-        <button
-          className={`
-            card__button
-            ${location.pathname === "/saved-movies" ? "card__button_type_delete" : "card__button_type_save"}
-            ${isSaved ? "card__button_type_save_active" : ""}
-            button`
-          }
-          type="button"
-          aria-label="сохранить или удалить"
-          onClick={handleSave}
-        ></button>
+        {location.pathname === "/saved-movies" ? (
+          <button
+            className={`
+              card__delete-button
+              button
+            `}
+            type="button"
+            aria-label="удалить"
+            onClick={handleSave}
+          ></button>
+        ) : (
+          <button
+            className={`
+              card__save-button
+              ${isSaved ? "card__save-button_active" : ""}
+              button
+            `}
+            type="button"
+            aria-label="сохранить"
+            onClick={handleSave}
+          ></button>
+        )}
         <span className="card__time">{convertDuration()}</span>
       </div>
     </li>
