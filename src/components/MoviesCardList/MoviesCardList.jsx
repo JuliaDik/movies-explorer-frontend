@@ -52,7 +52,7 @@ function MoviesCardList({ cards, onSave, onDelete }) {
           {cards.slice(0, initialCards).map((card) => (
             <MoviesCard
               card={card}
-              key={card.id}
+              key={"_id" in card ? card._id : card.id}
               onSave={onSave}
               onDelete={onDelete}
             />

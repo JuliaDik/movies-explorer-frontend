@@ -14,16 +14,23 @@ function MoviesCard({ card, onSave, onDelete }) {
   }
 
   function handleSave() {
-    setIsSaved(!isSaved);
-    // если кликнуть по неактивной иконке, тогда isSaved меняется на true
-    if (isSaved === true) {
-      // и отправляется запрос к API на сохранение фильма
+    // если кликнуть по неактивной кнопке
+    if (isSaved === false) {
+      // отправляется запрос к API на сохранение фильма
       onSave(card);
-      // если кликнуть по активной иконке, тогда isSaved меняется на false
+      // меняется состояние кнопки на true
+      setIsSaved(!isSaved);
+    // если кликнуть по активной кнопке
     } else {
-      // и отправляется запрос к API на удаление фильма
+      // отправляется запрос к API на удаление фильма
       onDelete(card.id);
+      // меняется состояние кнопки на false
+      setIsSaved(!isSaved);
     }
+  }
+
+  function handleDelete() {
+    onDelete(card._id);
   }
 
   return (
@@ -36,7 +43,7 @@ function MoviesCard({ card, onSave, onDelete }) {
       >
         <img
           className="card__image"
-          src={`https://api.nomoreparties.co/${card.image.url}`}
+          src={location.pathname === "/saved-movies" ? card.image : `https://api.nomoreparties.co/${card.image.url}`}
           alt={card.nameRU}
         />
       </a>
@@ -50,7 +57,7 @@ function MoviesCard({ card, onSave, onDelete }) {
             `}
             type="button"
             aria-label="удалить"
-            onClick={handleSave}
+            onClick={handleDelete}
           ></button>
         ) : (
           <button

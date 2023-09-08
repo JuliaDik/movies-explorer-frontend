@@ -4,7 +4,7 @@ class MoviesApi {
     this._headers = headers;
   }
 
-  // проверить ответ сервера
+  // ПРОВЕРИТЬ ОТВЕТ СЕРВЕРА
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
@@ -12,7 +12,7 @@ class MoviesApi {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  // получить все фильмы
+  // ПОЛУЧИТЬ ВСЕ ФИЛЬМЫ
   getMovies() {
     return fetch(`${this._baseUrl}`, {
       method: "GET",

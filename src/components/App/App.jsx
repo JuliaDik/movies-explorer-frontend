@@ -30,21 +30,24 @@ function App() {
   const [error, setError] = useState("");
   // пользователь
   const [currentUser, setCurrentUser] = useState({});
+  // режим редактирования профиля
+  const [isEditMode, setIsEditMode] = useState(false);
   // навигация по роутам
   const navigate = useNavigate();
 
+  // монтирование пользователя и сохраненных карточек
   useEffect(() => {
     // если пользователь авторизован
     if (isLoggedIn) {
-      mainApi
-        // получаем данные пользователя
-        .getUserData()
-        .then((user) => {
+      // получаем данные пользователя и отрисовываем сохраненные фильмы
+      Promise.all([mainApi.getUserData(), mainApi.getSavedMovies()])
+        .then(([userData, savedMovies]) => {
           // и сохраняем их в стейт-переменной
-          setCurrentUser(user);
+          setCurrentUser(userData);
+          setSavedMovies(savedMovies);
         })
         .catch((err) => {
-          console.log(`Ошибка: ${err}`);
+          console.log(err);
         });
     }
   }, [isLoggedIn]);
@@ -61,7 +64,7 @@ function App() {
           setIsLoggedIn(true);
         })
         .catch((err) => {
-          console.log(`Ошибка: ${err}`);
+          console.log(err);
         });
     }
   }, [navigate]);
@@ -70,9 +73,9 @@ function App() {
     mainApi
       .register(name, email, password)
       .then(() => {
+        setError("");
         // если ответ на запрос успешен
-        // пользователь сразу авторизуется
-        // и перенаправляется на страницу "Фмльмы"
+        // пользователь сразу авторизовывается
         handleLogin(email, password);
       })
       .catch((err) => {
@@ -90,10 +93,12 @@ function App() {
   function handleLogin(email, password) {
     mainApi
       .login(email, password)
-      .then((res) => {
-        // если логин и пароль правильные, сервер возвращает пользователю токен
-        // извлекаем токен из ответа сервера и сохраняем его в локальном хранилище браузера
-        localStorage.setItem("jwt", res.token);
+      .then(({ token }) => {
+        setError("");
+        // если пользователь найден в БД по переданным учетным данным,
+        // то сервер предоставляет токен
+        // сохраняем токен в локальном хранилище браузера
+        localStorage.setItem("jwt", token);
         setIsLoggedIn(true);
         // и перенаправляем на страницу "Фильмы"
         navigate("/movies", { replace: true });
@@ -116,15 +121,37 @@ function App() {
     navigate("/signin", { replace: true });
   }
 
+  function handleUpdateUserData(name, email) {
+    mainApi
+      .updateUserData(name, email)
+      .then((user) => {
+        setCurrentUser(user);
+        setIsEditMode(false);
+      })
+      .catch((err) => {
+        if (err.includes(statusCode.conflictError)) {
+          setError(conflictErrorMessage.userEmail);
+        } else if (err.includes(statusCode.badRequestError)) {
+          setError(badRequestErrorMessage.userUpdate);
+        } else {
+          setError(authErrorMessage.profile);
+        }
+        console.log(err);
+      });
+  }
+
   function handleSaveMovie(movie) {
     mainApi
       .saveMovie(movie)
       .then((savedMovie) => {
-        // каждый сохраняемый фильм добавляется в массив среди прочих
+        // возвращаются данные сохраненного фильма, содержащие:
+        // 1) movieId - с BeatfilmMoviesApi (1, 2, ...)
+        // 2) _id - длинный идентификатор, присвоенный БД
+        // каждый сохраняемый фильм добавляется в массив
         setSavedMovies([savedMovie, ...savedMovies]);
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
+        console.log(err);
       });
   }
 
@@ -139,7 +166,7 @@ function App() {
         );
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
+        console.log(err);
       });
   }
 
@@ -185,7 +212,10 @@ function App() {
             element={
               <>
                 <Header isLoggedIn={isLoggedIn} />
-                <SavedMovies savedMovies={savedMovies} />
+                <SavedMovies
+                  savedMovies={savedMovies}
+                  onDelete={handleDeleteMovie}
+                />
                 <Footer />
               </>
             }
@@ -196,7 +226,13 @@ function App() {
             element={
               <>
                 <Header isLoggedIn={isLoggedIn} />
-                <Profile onLogout={handleLogout} />
+                <Profile
+                  error={error}
+                  isEditMode={isEditMode}
+                  onEdit={setIsEditMode}
+                  onUpdate={handleUpdateUserData}
+                  onLogout={handleLogout}
+                />
               </>
             }
           ></Route>

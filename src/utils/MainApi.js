@@ -4,7 +4,7 @@ class MainApi {
     this._headers = headers;
   }
 
-  // проверить ответ сервера
+  // ПРОВЕРИТЬ ОТВЕТ СЕРВЕРА
   _checkResponse(res) {
     if (res.ok) {
       return res.json();
@@ -12,7 +12,7 @@ class MainApi {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  // зарегистрировать пользователя
+  // РЕГИСТРАЦИЯ: создать пользователя
   register(name, email, password) {
     return fetch(`${this._baseUrl}/signup`, {
       method: "POST",
@@ -25,7 +25,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  // авторизовать пользователя (предоставить доступ к защищенным маршрутам)
+  // АВТОРИЗАЦИЯ: предоставить пользователю токен, позволяющий получить доступ к защищенным маршрутам
   login(email, password) {
     return fetch(`${this._baseUrl}/signin`, {
       method: "POST",
@@ -37,7 +37,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  // проверить токен пользователя (чтобы решить, предоставлять ли доступ к защищенным маршрутам или нет)
+  // ПРОВЕРИТЬ ТОКЕН
   checkToken(jwt) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
@@ -49,6 +49,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
+  // ПОЛУЧИТЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ (name и email)
   getUserData() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
@@ -56,7 +57,27 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  // сохранить фильм
+  // ОБНОВИТЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ (name и email)
+  updateUserData(name, email) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: this._headers,
+      body: JSON.stringify({
+        name,
+        email,
+      }),
+    }).then(this._checkResponse);
+  }
+
+  // ПОЛУЧИТЬ СОХРАНЕННЫЕ ФИЛЬМЫ
+  getSavedMovies() {
+    return fetch(`${this._baseUrl}/movies`, {
+      method: "GET",
+      headers: this._headers,
+    }).then(this._checkResponse);
+  }
+
+  // ДОБАВИТЬ ФИЛЬМ В СОХРАНЕННЫЕ
   saveMovie(movie) {
     return fetch(`${this._baseUrl}/movies`, {
       method: "POST",
@@ -77,7 +98,7 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  // удалить фильм по id
+  // УДАЛИТЬ ФИЛЬМ ИЗ СОХРАНЕННЫХ
   deleteMovie(movieId) {
     return fetch(`${this._baseUrl}/movies/${movieId}`, {
       method: "DELETE",

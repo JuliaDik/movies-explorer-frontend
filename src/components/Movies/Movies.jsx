@@ -47,7 +47,7 @@ function Movies({ onSave, onDelete }) {
           Возможно, проблема с соединением или сервер недоступен.
           Подождите немного и попробуйте ещё раз`
         );
-        console.log(`Ошибка: ${err}`);
+        console.log(err);
       })
       .finally(() => {
         setIsLoading(false);

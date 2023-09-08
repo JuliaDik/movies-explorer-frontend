@@ -1,31 +1,42 @@
 // РЕДАКТИРОВАНИЕ ПРОФИЛЯ
-import { useState } from "react";
+import { useEffect, useContext } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
 import "./Profile.css";
 
-function Profile({ onLogout }) {
-  const { values, errors, isValid, handleChange } = useFormAndValidation({
+function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
+  const currentUser = useContext(CurrentUserContext);
+
+  const { values, setValues, errors, isValid, handleChange } = useFormAndValidation({
     name: "",
     email: "",
   });
 
-  const [isEditMode, setEditMode] = useState(false);
+  useEffect(() => {
+    setValues({
+      name: currentUser.name,
+      email: currentUser.email,
+    });
+    onEdit(false);
+  }, [setValues, onEdit, currentUser]);
 
-  function handleEdit() {
-    setEditMode(true);
+
+  function handleEditMode() {
+    onEdit(true);
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
     if (isValid) {
-      setEditMode(false);
+      onUpdate(values.name, values.email);
     }
   }
 
   return (
     <main className="profile">
       <div className="profile__content">
-        <h2 className="profile__greeting">Привет, Юлия!</h2>
+        <h2 className="profile__greeting">{`Привет, ${values.name}!`}</h2>
         <form
           className="profile__form"
           name="profile"
@@ -33,7 +44,7 @@ function Profile({ onLogout }) {
           noValidate
         >
           <div className="profile__field">
-            <label className="profile__label" for="name">
+            <label className="profile__label" htmlFor="name">
               Имя
             </label>
             <input
@@ -45,10 +56,10 @@ function Profile({ onLogout }) {
               type="text"
               placeholder="Имя"
               name="name"
-              minlength="2"
-              maxlength="30"
+              minLength="2"
+              maxLength="30"
+              pattern={NAME_REGEX}
               value={values.name || ""}
-              errorMessage={errors.name}
               onChange={handleChange}
               autoComplete="off"
               required
@@ -56,38 +67,39 @@ function Profile({ onLogout }) {
             <span className="profile__error-message">{errors.name}</span>
           </div>
           <div className="profile__field">
-            <label className="profile__label" for="name">
+            <label className="profile__label" htmlFor="email">
               Email
             </label>
             <input
               className={`
                 profile__input
-                  ${errors.name ? `profile__input_type_error` : ""}
+                  ${errors.email ? `profile__input_type_error` : ""}
                 `}
               id="email"
               type="email"
               placeholder="Email"
               name="email"
+              pattern={EMAIL_REGEX}
               value={values.email || ""}
-              errorMessage={errors.email}
               onChange={handleChange}
               autoComplete="off"
               required
             />
-            <span className="profile__error-message">{errors.name}</span>
+            <span className="profile__error-message">{errors.email}</span>
           </div>
         </form>
         {!isEditMode ? (
           <div className="profile__actions-wrapper">
             <button
-              className="profile__edit-button link"
+              className="profile__edit-button button"
               type="button"
-              onClick={handleEdit}
+              disabled={!isValid}
+              onClick={handleEditMode}
             >
               Редактировать
             </button>
             <button
-              className="profile__logout-button link"
+              className="profile__logout-button button"
               type="button"
               onClick={onLogout}
             >
@@ -96,7 +108,7 @@ function Profile({ onLogout }) {
           </div>
         ) : (
           <div className="profile__submit-wrapper">
-            <span className="profile__error-message">{errors.email}</span>
+            <span className="profile__error-message">{error}</span>
             <button
               className="profile__submit-button button"
               type="submit"
