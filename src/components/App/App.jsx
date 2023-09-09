@@ -44,7 +44,7 @@ function App() {
         .then(([userData, savedMovies]) => {
           // и сохраняем их в стейт-переменной
           setCurrentUser(userData);
-          setSavedMovies(savedMovies);
+          setSavedMovies(savedMovies.reverse());
         })
         .catch((err) => {
           console.log(err);

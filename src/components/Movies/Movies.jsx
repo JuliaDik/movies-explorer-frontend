@@ -27,7 +27,7 @@ function Movies({ onSave, onDelete }) {
       // получаем все фильмы
       .getMovies()
       .then((movies) => {
-        // находим те, которые совпадают с текстом запроса
+        // находим те фильмы, которые совпадают с текстом запроса
         const requestedMovies = filterRequestedMovies(movies, searchText);
         // сохраняем найденные фильмы в стейт-переменной
         setSearchedMovies(requestedMovies);
