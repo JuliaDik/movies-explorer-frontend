@@ -1,14 +1,15 @@
 // КОНТЕЙНЕР ДЛЯ КАРТОЧЕК С ФИЛЬМАМИ
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
 
-function MoviesCardList({ cards, onSave, onDelete }) {
-  const location = useLocation();
+function MoviesCardList({ cards, onClick, savedMovies }) {
   const [initialCards, setInitialCards] = useState(0);
   const [moreCards, setMoreCards] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const { pathname } = useLocation();
+  const isSavedMovies = pathname === '/saved-movies';
 
   useEffect(() => {
     if (windowWidth >= 1280) {
@@ -39,11 +40,19 @@ function MoviesCardList({ cards, onSave, onDelete }) {
     setInitialCards(initialCards + moreCards);
   }
 
+  function handleIsSaved(card) {
+    if (!isSavedMovies) {
+      const savedMovie = savedMovies.find(film => film.movieId === card.id);
+      return !!savedMovie;
+    }
+    return true;
+  };
+
   return (
     <section
       className={`
         movies
-        ${location.pathname === "/saved-movies" ? "movies_type_saved" : ""}
+        ${isSavedMovies ? "movies_type_saved" : ""}
       `}
       aria-label="фильмы"
     >
@@ -52,9 +61,10 @@ function MoviesCardList({ cards, onSave, onDelete }) {
           {cards.slice(0, initialCards).map((card) => (
             <MoviesCard
               card={card}
-              key={"_id" in card ? card._id : card.id}
-              onSave={onSave}
-              onDelete={onDelete}
+              key={isSavedMovies ? card._id : card.id}
+              isSavedMovies={isSavedMovies}
+              onClick={onClick}
+              isSaved={handleIsSaved(card)}
             />
           ))}
         </ul>
@@ -64,7 +74,7 @@ function MoviesCardList({ cards, onSave, onDelete }) {
             button
             ${
               cards.length < initialCards ||
-              location.pathname === "/saved-movies"
+              isSavedMovies
                 ? "movies__add-button_hidden"
                 : ""
             }

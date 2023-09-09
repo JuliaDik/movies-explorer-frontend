@@ -8,7 +8,7 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./Movies.css";
 
-function Movies({ onSave, onDelete }) {
+function Movies({ onSaveMovies, onDeleteMovie, savedMovies }) {
   const { filterRequestedMovies, filterShortMovies } = useMoviesFilter();
   const location = useLocation();
   // фильмы, найденные по тексту запроса
@@ -91,6 +91,15 @@ function Movies({ onSave, onDelete }) {
     }
   }, [location.pathname]);
 
+  function handleClickMovie(card) {
+    const savedMovie = savedMovies.find(savedFilm => savedFilm.movieId === card.id);
+    if (savedMovie) {
+      onDeleteMovie(savedMovie._id);
+      return;
+    }
+    onSaveMovies(card);
+  };
+
   return (
     <main className="main">
       <SearchForm
@@ -105,8 +114,8 @@ function Movies({ onSave, onDelete }) {
         // карточки фильмов отрисовываются в зависимости от состояния переключателя
         <MoviesCardList
           cards={isShortMovies ? shortMovies : searchedMovies}
-          onSave={onSave}
-          onDelete={onDelete}
+          onClick={handleClickMovie}
+          savedMovies={savedMovies}
         />
       )}
       {/* если ничего не найдено или в процессе получения и обработки данных происходит ошибка,

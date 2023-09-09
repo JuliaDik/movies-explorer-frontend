@@ -6,7 +6,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./SavedMovies.css";
 
-function SavedMovies({ savedMovies, onDelete }) {
+function SavedMovies({ savedMovies, onDeleteMovie}) {
   const { filterRequestedMovies, filterShortMovies } = useMoviesFilter();
   const location = useLocation();
   // фильмы, найденные по тексту запроса
@@ -17,6 +17,10 @@ function SavedMovies({ savedMovies, onDelete }) {
   const [isShortMovies, setIsShortMovies] = useState(false);
   // сообщение об ошибке
   const [error, setError] = useState("");
+
+  function handleDeleteMovie({ _id: movieId }) {
+    onDeleteMovie(movieId);
+  };
 
   function handleSearchSavedMovies(searchTextSavedMovies) {
     // находим те фильмы, которые совпадают с текстом запроса
@@ -78,7 +82,7 @@ function SavedMovies({ savedMovies, onDelete }) {
       {!error && (
         <MoviesCardList
           cards={(searchedSavedMovies.length) ? searchedSavedMovies : (shortMovies.length) ? shortMovies : savedMovies}
-          onDelete={onDelete}
+          onClick={handleDeleteMovie}
         />
       )}
       {/* если ничего не найдено или в процессе получения и обработки данных происходит ошибка,

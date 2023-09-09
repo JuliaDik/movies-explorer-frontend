@@ -201,7 +201,11 @@ function App() {
             element={
               <>
                 <Header isLoggedIn={isLoggedIn} />
-                <Movies onSave={handleSaveMovie} onDelete={handleDeleteMovie} />
+                <Movies
+                  onSaveMovies={handleSaveMovie}
+                  onDeleteMovie={handleDeleteMovie}
+                  savedMovies={savedMovies}
+                />
                 <Footer />
               </>
             }
@@ -214,7 +218,7 @@ function App() {
                 <Header isLoggedIn={isLoggedIn} />
                 <SavedMovies
                   savedMovies={savedMovies}
-                  onDelete={handleDeleteMovie}
+                  onDeleteMovie={handleDeleteMovie}
                 />
                 <Footer />
               </>
