@@ -56,6 +56,11 @@
   outline: 1px solid rgb(160 160 160);
 }
 
+.profile__input:disabled {
+  color: rgb(194 194 194);
+  background-color: transparent;
+}
+
 .profile__input::placeholder {
   font-size: 10px;
   font-weight: 400;
@@ -89,11 +94,6 @@
   font-weight: 400;
   line-height: 16px;
   border: none;
-  background-color: transparent;
-}
-
-.profile__edit-button:disabled {
-  color: rgb(194 194 194);
   background-color: transparent;
 }
 

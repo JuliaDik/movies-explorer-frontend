@@ -7,7 +7,7 @@ import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
 import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
 import "./Register.css";
 
-function Register({ onRegister, error }) {
+function Register({ error, onRegister }) {
   const { values, errors, isValid, handleChange } = useFormAndValidation({
     name: "",
     email: "",
@@ -30,7 +30,10 @@ function Register({ onRegister, error }) {
       link="Войти"
       route="/signin"
     >
-      <AuthForm name="registration" onSubmit={handleSubmit}>
+      <AuthForm
+        name="registration"
+        onSubmit={handleSubmit}
+      >
         <AuthInput
           id="name"
           type="text"

@@ -7,8 +7,10 @@ class MoviesApi {
   // ПРОВЕРИТЬ ОТВЕТ СЕРВЕРА
   _checkResponse(res) {
     if (res.ok) {
+      // возвращается JSON ответа
       return res.json();
     }
+    // или ошибка
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 

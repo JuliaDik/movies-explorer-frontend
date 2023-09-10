@@ -1,6 +1,5 @@
 // СТРАНИЦА С ПОИСКОМ ФИЛЬМОВ И БЛОКОМ РЕЗУЛЬТАТА
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import useMoviesFilter from "../../hooks/useMoviesFilter";
 import moviesApi from "../../utils/MoviesApi";
 import SearchForm from "../SearchForm/SearchForm";
@@ -8,12 +7,11 @@ import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./Movies.css";
 
-function Movies({ onSaveMovies, onDeleteMovie, savedMovies }) {
-  const { filterRequestedMovies, filterShortMovies } = useMoviesFilter();
-  const location = useLocation();
-  // фильмы, найденные по тексту запроса
+function Movies({ isMovies, savedMovies, onSave, onDelete }) {
+  const { filterSearchedMovies, filterShortMovies } = useMoviesFilter();
+  // найденные фильмы
   const [searchedMovies, setSearchedMovies] = useState([]);
-  // короткометражки, отобранные среди найденных фильмов
+  // короткометражки
   const [shortMovies, setShortMovies] = useState([]);
   // состояние переключателя короткометражек
   const [isShortMovies, setIsShortMovies] = useState(false);
@@ -23,25 +21,16 @@ function Movies({ onSaveMovies, onDeleteMovie, savedMovies }) {
   const [error, setError] = useState("");
 
   function handleSearchMovies(searchText) {
+    // осуществляем запрос к серверу 
     moviesApi
-      // получаем все фильмы
+      // на получение всех фильмов
       .getMovies()
-      .then((movies) => {
-        // находим те фильмы, которые совпадают с текстом запроса
-        const requestedMovies = filterRequestedMovies(movies, searchText);
-        // сохраняем найденные фильмы в стейт-переменной
-        setSearchedMovies(requestedMovies);
-        // сохраняем найденные фильмы в локальном хранилище браузера
-        localStorage.setItem("searchedMovies", JSON.stringify(requestedMovies));
-        // сохраняем текст запроса в локальном хранилище браузера
-        localStorage.setItem("searchText", searchText);
-        // если ничего не найдено
-        if (!requestedMovies.length) {
-          // то показываем ошибку
-          setError("Ничего не найдено");
-        }
+      .then((allMovies) => {
+        handleFilterSearchedMovies(allMovies, searchText);
       })
       .catch((err) => {
+        // если в процессе получения и обработки данных происходит ошибка,
+        // в окне результатов выводится надпись
         setError(
           `Во время запроса произошла ошибка.
           Возможно, проблема с соединением или сервер недоступен.
@@ -55,54 +44,84 @@ function Movies({ onSaveMovies, onDeleteMovie, savedMovies }) {
     setIsLoading(true);
   }
 
-  function handleFilterShortMovies() {
-    // изменяем состояние переключателя при нажатии
-    setIsShortMovies(!isShortMovies);
-    // если включаем фильтр
-    if (isShortMovies === false) {
-      // то сохраняем состояние переключателя в локальном хранилище
-      localStorage.setItem("isChecked", isShortMovies);
-      // выбираем короткометражки из ранее найденных фильмов
-      const shortMovies = filterShortMovies(searchedMovies);
-      // сохраняем их в стейт-переменную
-      setShortMovies(shortMovies);
-      // сохраняем их в локальном хранилище
-      localStorage.setItem("shortMovies", JSON.stringify(shortMovies));
-      // если выключаем фильтр
-    } else {
-      // удаляем из локального хранилища состояние переключателя
-      localStorage.removeItem("isChecked");
-      // и короткометражки
-      localStorage.removeItem("shortMovies");
+  function handleFilterSearchedMovies(allMovies, searchText) {
+    // находим фильмы по запросу среди всех фильмов, полученных из БД beatfilms
+    const filteredMovies = filterSearchedMovies(allMovies, searchText);
+    // сохраняем найденные фильмы в стейт-переменную
+    setSearchedMovies(filteredMovies);
+    // сохраняем найденные фильмы в локальном хранилище
+    localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
+    // сохраняем текст запроса в локальном хранилище
+    localStorage.setItem("searchText", searchText);
+    // если ничего не найдено
+    if (!filteredMovies.length) {
+      // появляется надпись
+      setError("Ничего не найдено");
     }
   }
 
-  useEffect(() => {
-    // если пользователь повторно переходит на страницу фильмов,
-    if (location.pathname === "/movies") {
-      // то при монтировании компонентов достаем из локального хранилища браузера
-      // найденные фильмы, короткометражки, состояние переключателя
-      // если локальное хранилище будет очищено, тогда устанавливаем дефолтные значения
-      setSearchedMovies(
-        JSON.parse(localStorage.getItem("searchedMovies")) ?? []
-      );
-      setIsShortMovies(localStorage.getItem("isChecked") ?? false);
-      setShortMovies(JSON.parse(localStorage.getItem("shortMovies")) ?? []);
+  function handleFilterShortMovies() {
+    if (isShortMovies === false) {
+      // изменяем состояние переключателя
+      setIsShortMovies(true);
+      // находим короткометражки среди найденных по запросу фильмов
+      const filteredMovies = filterShortMovies(searchedMovies);
+      // сохраняем короткометражки в стейт-переменную
+      setShortMovies(filteredMovies);
+      // сохраняем короткометражки в локальном хранилище
+      localStorage.setItem("shortMovies", JSON.stringify(filteredMovies));
+      // сохраняем состояние переключателя в локальном хранилище
+      localStorage.setItem("isChecked", isShortMovies);
+      // если ничего не найдено
+      if (!filteredMovies.length) {
+        // появляется надпись
+        setError("Ничего не найдено");
+      }
+    } else {
+      // изменяем состояние переключателя
+      setIsShortMovies(false);
+      // удаляем короткометражки из стейт-переменной
+      setShortMovies([]);
+      // удаляем короткометражки из локального хранилища
+      localStorage.removeItem("shortMovies");
+      // удаляем состояние переключателя из локального хранилища
+      localStorage.removeItem("isChecked");
     }
-  }, [location.pathname]);
+  }
+
+  // результаты выполненного запроса отображаются
+  // даже после перезагрузки страницы или закрытия вкладки
+  useEffect(() => {
+    // если пользователь повторно переходит на страницу "Фильмы",
+    if (isMovies) {
+      // достаем из локального хранилища найденные фильмы, короткометражки, состояние переключателя
+      // если локальное хранилище будет очищено, тогда устанавливаем дефолтные значения
+      setSearchedMovies(JSON.parse(localStorage.getItem("searchedMovies")) ?? []);
+      setShortMovies(JSON.parse(localStorage.getItem("shortMovies")) ?? []);
+      setIsShortMovies(localStorage.getItem("isChecked") ?? false);
+    }
+  }, [isMovies]);
 
   function handleClickMovie(card) {
-    const savedMovie = savedMovies.find(savedFilm => savedFilm.movieId === card.id);
+    const savedMovie = savedMovies.find((savedMovie) => savedMovie.movieId === card.id);
     if (savedMovie) {
-      onDeleteMovie(savedMovie._id);
+      onDelete(savedMovie._id);
       return;
     }
-    onSaveMovies(card);
+    onSave(card);
   };
+
+  function renderMovies() {
+    if (shortMovies.length) {
+      return shortMovies;
+    }
+    return searchedMovies;
+  }
 
   return (
     <main className="main">
       <SearchForm
+        isMovies={isMovies}
         onSubmit={handleSearchMovies}
         onCheckboxChange={handleFilterShortMovies}
         isShortMoviesChecked={isShortMovies}
@@ -111,11 +130,11 @@ function Movies({ onSaveMovies, onDeleteMovie, savedMovies }) {
       {isLoading && <Preloader />}
       {/* после получения данных появляются карточки фильмов */}
       {!isLoading && searchedMovies.length > 0 && !error && (
-        // карточки фильмов отрисовываются в зависимости от состояния переключателя
         <MoviesCardList
-          cards={isShortMovies ? shortMovies : searchedMovies}
-          onClick={handleClickMovie}
+          isMovies={isMovies}
+          cards={renderMovies()}
           savedMovies={savedMovies}
+          onClick={handleClickMovie}
         />
       )}
       {/* если ничего не найдено или в процессе получения и обработки данных происходит ошибка,

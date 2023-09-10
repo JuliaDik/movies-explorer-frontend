@@ -1,11 +1,10 @@
 // НАВИГАЦИЯ
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Menu from "../Menu/Menu";
 import "./Navigation.css";
 
-function Navigation({ isLoggedIn }) {
-  const location = useLocation();
+function Navigation({ isLoggedIn, isLanding }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function handleMenu() {
@@ -53,7 +52,7 @@ function Navigation({ isLoggedIn }) {
                 className={({ isActive }) => `
                   navigation__link
                   navigation__link_type_films
-                  ${location.pathname === "/" ? "navigation__link_type_landing" : ""}
+                  ${isLanding ? "navigation__link_type_landing" : ""}
                   ${isActive ? "navigation__link_active" : ""}
                   link
                 `}
@@ -67,7 +66,7 @@ function Navigation({ isLoggedIn }) {
                 className={({ isActive }) => `
                   navigation__link
                   navigation__link_type_films
-                  ${location.pathname === "/" ? "navigation__link_type_landing" : ""}
+                  ${isLanding ? "navigation__link_type_landing" : ""}
                   ${isActive ? "navigation__link_active" : ""}
                   link
                 `}
@@ -90,13 +89,16 @@ function Navigation({ isLoggedIn }) {
           <button
             className={`
               navigation__burger
-              ${location.pathname === "/" ? "navigation__burger_type_landing" : ""}
+              ${isLanding ? "navigation__burger_type_landing" : ""}
               button
             `}
             type="button"
             onClick={handleMenu}
           />
-          <Menu isOpen={isMenuOpen} onClose={handleMenu} />
+          <Menu
+            isOpen={isMenuOpen}
+            onClose={handleMenu}
+          />
         </>
       )}
     </nav>

@@ -1,18 +1,18 @@
 // ШАПКА САЙТА
-import { useLocation } from "react-router-dom";
 import Navigation from "../Navigation/Navigation";
 import "./Header.css";
 
-function Header({ isLoggedIn }) {
-  const location = useLocation();
-
+function Header({ isLoggedIn, isLanding }) {
   return (
     <header className={`
       header
-      ${location.pathname === "/" ? "header_type_landing" : ""}
+      ${isLanding ? "header_type_landing" : ""}
     `}>
       <div className="header__container">
-        <Navigation isLoggedIn={isLoggedIn} />
+        <Navigation
+          isLoggedIn={isLoggedIn}
+          isLanding={isLanding}
+        />
       </div>
     </header>
   );

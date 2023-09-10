@@ -1,19 +1,17 @@
 function useMoviesFilter() {
-  // среди фильмов найти те,
-  // которые в своих названиях на русском и английском
-  // содержат текст запроса
-  const filterRequestedMovies = (movies, queryText) => {
-    const requestedMovies = movies.filter(({ nameRU, nameEN }) => {
+  // найти те, которые в своих названиях
+  // на русском и английском языках содержат текст запроса
+  const filterSearchedMovies = (movies, searchText) => {
+    const searchedMovies = movies.filter(({ nameRU, nameEN }) => {
       return (
-        nameRU.toLowerCase().includes(queryText.toLowerCase()) ||
-        nameEN.toLowerCase().includes(queryText.toLowerCase())
+        nameRU.toLowerCase().includes(searchText.toLowerCase()) ||
+        nameEN.toLowerCase().includes(searchText.toLowerCase())
       );
     });
-    return requestedMovies;
+    return searchedMovies;
   };
 
-  // среди фильмов найти те,
-  // длительность которых не превышает 40 минут
+  // найти те, длительность которых не превышает 40 минут
   const filterShortMovies = (movies) => {
     const shortMovies = movies.filter(({ duration }) => {
       return duration <= 40;
@@ -21,7 +19,7 @@ function useMoviesFilter() {
     return shortMovies;
   };
 
-  return { filterRequestedMovies, filterShortMovies };
+  return { filterSearchedMovies, filterShortMovies };
 }
 
 export default useMoviesFilter;

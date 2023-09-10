@@ -5,22 +5,22 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
 import "./Profile.css";
 
-function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
+function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
   const currentUser = useContext(CurrentUserContext);
-
   const { values, setValues, errors, isValid, handleChange } = useFormAndValidation({
-    name: "",
-    email: "",
-  });
+      name: "",
+      email: "",
+    });
+  const disabledButton =
+    !isValid ||
+    (values.name === currentUser.name && values.email === currentUser.email);
 
   useEffect(() => {
     setValues({
       name: currentUser.name,
       email: currentUser.email,
     });
-    onEdit(false);
-  }, [setValues, onEdit, currentUser]);
-
+  }, [setValues, currentUser]);
 
   function handleEditMode() {
     onEdit(true);
@@ -50,8 +50,8 @@ function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
             <input
               className={`
                 profile__input
-                  ${errors.name ? `profile__input_type_error` : ""}
-                `}
+                ${errors.name ? `profile__input_type_error` : ""}
+              `}
               id="name"
               type="text"
               placeholder="Имя"
@@ -62,6 +62,7 @@ function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
               value={values.name || ""}
               onChange={handleChange}
               autoComplete="off"
+              disabled={!isEditMode}
               required
             />
             <span className="profile__error-message">{errors.name}</span>
@@ -73,8 +74,8 @@ function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
             <input
               className={`
                 profile__input
-                  ${errors.email ? `profile__input_type_error` : ""}
-                `}
+                ${errors.email ? `profile__input_type_error` : ""}
+              `}
               id="email"
               type="email"
               placeholder="Email"
@@ -83,6 +84,7 @@ function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
               value={values.email || ""}
               onChange={handleChange}
               autoComplete="off"
+              disabled={!isEditMode}
               required
             />
             <span className="profile__error-message">{errors.email}</span>
@@ -93,7 +95,6 @@ function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
             <button
               className="profile__edit-button button"
               type="button"
-              disabled={!isValid}
               onClick={handleEditMode}
             >
               Редактировать
@@ -112,7 +113,7 @@ function Profile({ onUpdate, onLogout, error, onEdit, isEditMode }) {
             <button
               className="profile__submit-button button"
               type="submit"
-              disabled={!isValid}
+              disabled={disabledButton}
               onClick={handleSubmit}
             >
               Сохранить

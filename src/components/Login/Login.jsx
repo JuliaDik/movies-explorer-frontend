@@ -7,7 +7,7 @@ import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
 import { EMAIL_REGEX } from "../../utils/constants";
 import "./Login.css";
 
-function Login({ onLogin, error }) {
+function Login({ error, onLogin }) {
   const { values, errors, isValid, handleChange } = useFormAndValidation({
     email: "",
     password: "",

@@ -1,16 +1,29 @@
 // КАРТОЧКА ФИЛЬМА
 import "./MoviesCard.css";
 
-function MoviesCard({ card, isSavedMovies, onClick, isSaved }) {
+function MoviesCard({ isMovies, isSavedMovies, card, savedMovies, onClick }) {
+  const duration = convertDuration();
+  const isSaved = checkSaved(card);
+
   function convertDuration() {
     const houres = Math.floor(card.duration / 60);
     const minutes = card.duration % 60;
     return `${houres}ч${minutes}м`;
   }
 
+  // проверяем статус сохранения каждой карточки на странице "Фильмы"
+  // для выставления соответствующего состояния индикатора (сохранен/не сохранен)
+  function checkSaved(card) {
+    if (isMovies) {
+      const isMovieSaved = savedMovies.some((savedMovie) => savedMovie.movieId === card.id);
+      // возвращается true или false
+      return isMovieSaved;
+    }
+  }
+
   function handleClick() {
     onClick(card);
-  };
+  }
 
   return (
     <li className="card">
@@ -22,7 +35,11 @@ function MoviesCard({ card, isSavedMovies, onClick, isSaved }) {
       >
         <img
           className="card__image"
-          src={isSavedMovies ? card.image : `https://api.nomoreparties.co/${card.image.url}`}
+          src={
+            isSavedMovies
+              ? card.image
+              : `https://api.nomoreparties.co/${card.image.url}`
+          }
           alt={card.nameRU}
         />
       </a>
@@ -50,7 +67,7 @@ function MoviesCard({ card, isSavedMovies, onClick, isSaved }) {
             onClick={handleClick}
           ></button>
         )}
-        <span className="card__time">{convertDuration()}</span>
+        <span className="card__time">{duration}</span>
       </div>
     </li>
   );

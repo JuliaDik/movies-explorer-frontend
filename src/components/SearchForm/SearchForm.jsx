@@ -1,12 +1,10 @@
 // ФОРМА ПОИСКА
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
-function SearchForm({ onSubmit, onCheckboxChange, isShortMoviesChecked }) {
-  const location = useLocation();
+function SearchForm({ isMovies, isSavedMovies, onSubmit, onCheckboxChange, isShortMoviesChecked }) {
   const { values, setValues, errors, setErrors, isValid, handleChange } =
     useFormAndValidation({
       searchText: "",
@@ -15,22 +13,21 @@ function SearchForm({ onSubmit, onCheckboxChange, isShortMoviesChecked }) {
   function handleSubmit(evt) {
     evt.preventDefault();
     // после сабмита формы поиска производится валидация
-    if (!isValid) {
-      // eсли в поле не введен текст, выводится ошибка
+    if (!isValid || values.searchText === "") {
       setErrors({ searchText: "Нужно ввести ключевое слово" });
     } else {
-      // если введен, то осуществляется запрос к API
+      // если слово введено, то осуществляется запрос к API
       onSubmit(values.searchText);
     }
   }
 
   useEffect(() => {
     // если пользователь повторно переходит на страницу фильмов,
-    if (location.pathname === "/movies") {
+    if (isMovies) {
       // то при монтировании компонентов достаем текст запроса из локального хранилища браузера
       setValues({ searchText: localStorage.getItem("searchText") });
     }
-  }, [location.pathname, setValues]);
+  }, [isMovies, setValues]);
 
   return (
     <section className="search" aria-label="форма поиска">

@@ -1,15 +1,12 @@
 // КОНТЕЙНЕР ДЛЯ КАРТОЧЕК С ФИЛЬМАМИ
 import { useState, useEffect } from "react";
-import { useLocation } from 'react-router-dom';
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.css";
 
-function MoviesCardList({ cards, onClick, savedMovies }) {
+function MoviesCardList({ isMovies, isSavedMovies, cards, savedMovies, onClick }) {
   const [initialCards, setInitialCards] = useState(0);
   const [moreCards, setMoreCards] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const { pathname } = useLocation();
-  const isSavedMovies = pathname === '/saved-movies';
 
   useEffect(() => {
     if (windowWidth >= 1280) {
@@ -40,14 +37,6 @@ function MoviesCardList({ cards, onClick, savedMovies }) {
     setInitialCards(initialCards + moreCards);
   }
 
-  function handleIsSaved(card) {
-    if (!isSavedMovies) {
-      const savedMovie = savedMovies.find(film => film.movieId === card.id);
-      return !!savedMovie;
-    }
-    return true;
-  };
-
   return (
     <section
       className={`
@@ -60,11 +49,12 @@ function MoviesCardList({ cards, onClick, savedMovies }) {
         <ul className="movies__list">
           {cards.slice(0, initialCards).map((card) => (
             <MoviesCard
+              isMovies={isMovies}
+              isSavedMovies={isSavedMovies}
               card={card}
               key={isSavedMovies ? card._id : card.id}
-              isSavedMovies={isSavedMovies}
+              savedMovies={savedMovies}
               onClick={onClick}
-              isSaved={handleIsSaved(card)}
             />
           ))}
         </ul>

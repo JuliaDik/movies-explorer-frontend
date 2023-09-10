@@ -1,6 +1,6 @@
 // КОРНЕВОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ
 import { useState, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import mainApi from "../../utils/MainApi";
 import Header from "../Header/Header";
@@ -22,27 +22,31 @@ import {
 import "./App.css";
 
 function App() {
-  // статус авторизации
+  // состояние авторизации
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // сохраненные фильмы
-  const [savedMovies, setSavedMovies] = useState([]);
-  // сообщение об ошибке
-  const [error, setError] = useState("");
   // пользователь
   const [currentUser, setCurrentUser] = useState({});
   // режим редактирования профиля
   const [isEditMode, setIsEditMode] = useState(false);
-  // навигация по роутам
+  // сохраненные фильмы
+  const [savedMovies, setSavedMovies] = useState([]);
+  // сообщение об ошибке
+  const [error, setError] = useState("");
+  // переход по роуту
   const navigate = useNavigate();
+  // текущий роут
+  const { pathname } = useLocation();
+  const isLanding = pathname === "/";
+  const isMovies = pathname === "/movies";
+  const isSavedMovies = pathname === "/saved-movies";
 
-  // монтирование пользователя и сохраненных карточек
   useEffect(() => {
     // если пользователь авторизован
     if (isLoggedIn) {
-      // получаем данные пользователя и отрисовываем сохраненные фильмы
+      // получаем данные пользователя и сохраненных фильмов
       Promise.all([mainApi.getUserData(), mainApi.getSavedMovies()])
         .then(([userData, savedMovies]) => {
-          // и сохраняем их в стейт-переменной
+          // сохраняем данные в стейт-переменных
           setCurrentUser(userData);
           setSavedMovies(savedMovies.reverse());
         })
@@ -53,11 +57,12 @@ function App() {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    // достаем токен из локального хранилища браузера
     const jwt = localStorage.getItem("jwt");
-    // если в локальном хранилище браузера есть токен
+    // если токен есть
     if (jwt) {
       mainApi
-        // и этот токен совпадает с токеном, который вернул пользователю сервер
+        // и он совпадает с токеном, который вернул пользователю сервер при авторизации
         .checkToken(jwt)
         .then(() => {
           // тогда сохраняем за пользователем статус "авторизован"
@@ -67,13 +72,12 @@ function App() {
           console.log(err);
         });
     }
-  }, [navigate]);
+  }, []);
 
   function handleRegister(name, email, password) {
     mainApi
       .register(name, email, password)
       .then(() => {
-        setError("");
         // если ответ на запрос успешен
         // пользователь сразу авторизовывается
         handleLogin(email, password);
@@ -88,15 +92,15 @@ function App() {
         }
         console.log(err);
       });
+    setError("");
   }
 
   function handleLogin(email, password) {
     mainApi
       .login(email, password)
       .then(({ token }) => {
-        setError("");
         // если пользователь найден в БД по переданным учетным данным,
-        // то сервер предоставляет токен
+        // то сервер отправляет токен
         // сохраняем токен в локальном хранилище браузера
         localStorage.setItem("jwt", token);
         setIsLoggedIn(true);
@@ -111,6 +115,7 @@ function App() {
         }
         console.log(err);
       });
+    setError("");
   }
 
   function handleLogout() {
@@ -126,6 +131,7 @@ function App() {
       .updateUserData(name, email)
       .then((user) => {
         setCurrentUser(user);
+        // после обновления данных пользователя режим редактирования отключается
         setIsEditMode(false);
       })
       .catch((err) => {
@@ -144,10 +150,7 @@ function App() {
     mainApi
       .saveMovie(movie)
       .then((savedMovie) => {
-        // возвращаются данные сохраненного фильма, содержащие:
-        // 1) movieId - с BeatfilmMoviesApi (1, 2, ...)
-        // 2) _id - длинный идентификатор, присвоенный БД
-        // каждый сохраняемый фильм добавляется в массив
+        // сохраненный фильм добавляем в массив
         setSavedMovies([savedMovie, ...savedMovies]);
       })
       .catch((err) => {
@@ -179,7 +182,10 @@ function App() {
             path="/"
             element={
               <>
-                <Header isLoggedIn={isLoggedIn} />
+                <Header
+                  isLoggedIn={isLoggedIn}
+                  isLanding={isLanding}
+                />
                 <Main />
                 <Footer />
               </>
@@ -188,23 +194,36 @@ function App() {
           {/* регистрация */}
           <Route
             path="/signup"
-            element={<Register onRegister={handleRegister} error={error} />}
+            element={
+              <Register
+                error={error}
+                onRegister={handleRegister}
+              />
+            }
           ></Route>
           {/* авторизация */}
           <Route
             path="/signin"
-            element={<Login onLogin={handleLogin} error={error} />}
+            element={
+              <Login
+                error={error}
+                onLogin={handleLogin}
+              />
+            }
           ></Route>
           {/* фильмы */}
           <Route
             path="/movies"
             element={
               <>
-                <Header isLoggedIn={isLoggedIn} />
+                <Header
+                  isLoggedIn={isLoggedIn}
+                />
                 <Movies
-                  onSaveMovies={handleSaveMovie}
-                  onDeleteMovie={handleDeleteMovie}
+                  isMovies={isMovies}
                   savedMovies={savedMovies}
+                  onSave={handleSaveMovie}
+                  onDelete={handleDeleteMovie}
                 />
                 <Footer />
               </>
@@ -215,10 +234,13 @@ function App() {
             path="/saved-movies"
             element={
               <>
-                <Header isLoggedIn={isLoggedIn} />
+                <Header
+                  isLoggedIn={isLoggedIn}
+                />
                 <SavedMovies
+                  isSavedMovies={isSavedMovies}
                   savedMovies={savedMovies}
-                  onDeleteMovie={handleDeleteMovie}
+                  onDelete={handleDeleteMovie}
                 />
                 <Footer />
               </>
@@ -229,7 +251,9 @@ function App() {
             path="/profile"
             element={
               <>
-                <Header isLoggedIn={isLoggedIn} />
+                <Header
+                  isLoggedIn={isLoggedIn}
+                />
                 <Profile
                   error={error}
                   isEditMode={isEditMode}
@@ -241,7 +265,12 @@ function App() {
             }
           ></Route>
           {/* ошибка 404 */}
-          <Route path="*" element={<NotFoundError />}></Route>
+          <Route
+            path="*"
+            element={
+              <NotFoundError />
+            }
+          ></Route>
         </Routes>
       </CurrentUserContext.Provider>
     </div>
