@@ -42,10 +42,15 @@ function App() {
   // переход по роуту
   const navigate = useNavigate();
   // текущий роут
-  const { pathname } = useLocation();
-  const isLanding = pathname === "/";
-  const isMovies = pathname === "/movies";
-  const isSavedMovies = pathname === "/saved-movies";
+  const location = useLocation();
+  const isLanding = location.pathname === "/";
+  const isMovies = location.pathname === "/movies";
+  const isSavedMovies = location.pathname === "/saved-movies";
+
+  // сброс ошибок
+  useEffect(() => {
+    setError("");
+  }, [location.pathname]);
 
   useEffect(() => {
     // если пользователь авторизован
@@ -81,29 +86,6 @@ function App() {
     }
   }, []);
 
-  function handleRegister(name, email, password) {
-    mainApi
-      .register(name, email, password)
-      .then(() => {
-        // если ответ на запрос успешен
-        // пользователь сразу авторизовывается
-        handleLogin(email, password);
-      })
-      .catch((err) => {
-        if (err.includes(statusCode.conflictError)) {
-          setError(conflictErrorMessage.userEmail);
-        } else if (err.includes(statusCode.badRequestError)) {
-          setError(badRequestErrorMessage.userData);
-        } else {
-          setError(authErrorMessage.register);
-        }
-        console.log(err);
-      })
-      .finally(() => {
-        setTimeout(() => setError(""), 5000);
-      });
-  }
-
   function handleLogin(email, password) {
     mainApi
       .login(email, password)
@@ -123,9 +105,26 @@ function App() {
           setError(authErrorMessage.login);
         }
         console.log(err);
+      });
+  }
+
+  function handleRegister(name, email, password) {
+    mainApi
+      .register(name, email, password)
+      .then(() => {
+        // если ответ на запрос успешен
+        // пользователь сразу авторизовывается
+        handleLogin(email, password);
       })
-      .finally(() => {
-        setTimeout(() => setError(""), 5000);
+      .catch((err) => {
+        if (err.includes(statusCode.conflictError)) {
+          setError(conflictErrorMessage.userEmail);
+        } else if (err.includes(statusCode.badRequestError)) {
+          setError(badRequestErrorMessage.userData);
+        } else {
+          setError(authErrorMessage.register);
+        }
+        console.log(err);
       });
   }
 
