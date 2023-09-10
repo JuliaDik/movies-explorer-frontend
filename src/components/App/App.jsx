@@ -85,7 +85,6 @@ function App() {
     mainApi
       .register(name, email, password)
       .then(() => {
-        setError("");
         // если ответ на запрос успешен
         // пользователь сразу авторизовывается
         handleLogin(email, password);
@@ -99,6 +98,9 @@ function App() {
           setError(authErrorMessage.register);
         }
         console.log(err);
+      })
+      .finally(() => {
+        setTimeout(() => setError(""), 5000);
       });
   }
 
@@ -106,7 +108,6 @@ function App() {
     mainApi
       .login(email, password)
       .then(({ token }) => {
-        setError("");
         // если пользователь найден в БД по переданным учетным данным,
         // то сервер отправляет токен
         // сохраняем токен в локальном хранилище браузера
@@ -122,6 +123,9 @@ function App() {
           setError(authErrorMessage.login);
         }
         console.log(err);
+      })
+      .finally(() => {
+        setTimeout(() => setError(""), 5000);
       });
   }
 

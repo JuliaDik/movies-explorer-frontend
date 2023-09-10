@@ -109,7 +109,7 @@ function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
           </div>
         ) : (
           <div className="profile__submit-wrapper">
-            <span className="profile__error-message">{error}</span>
+            <span className="profile__error-request">{error}</span>
             <button
               className="profile__submit-button button"
               type="submit"
