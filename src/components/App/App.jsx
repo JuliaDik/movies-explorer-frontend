@@ -1,7 +1,14 @@
 // КОРНЕВОЙ КОМПОНЕНТ ПРИЛОЖЕНИЯ
 import { useState, useEffect } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import mainApi from "../../utils/MainApi";
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -78,6 +85,7 @@ function App() {
     mainApi
       .register(name, email, password)
       .then(() => {
+        setError("");
         // если ответ на запрос успешен
         // пользователь сразу авторизовывается
         handleLogin(email, password);
@@ -92,13 +100,13 @@ function App() {
         }
         console.log(err);
       });
-    setError("");
   }
 
   function handleLogin(email, password) {
     mainApi
       .login(email, password)
       .then(({ token }) => {
+        setError("");
         // если пользователь найден в БД по переданным учетным данным,
         // то сервер отправляет токен
         // сохраняем токен в локальном хранилище браузера
@@ -115,7 +123,6 @@ function App() {
         }
         console.log(err);
       });
-    setError("");
   }
 
   function handleLogout() {
@@ -182,10 +189,7 @@ function App() {
             path="/"
             element={
               <>
-                <Header
-                  isLoggedIn={isLoggedIn}
-                  isLanding={isLanding}
-                />
+                <Header isLoggedIn={isLoggedIn} isLanding={isLanding} />
                 <Main />
                 <Footer />
               </>
@@ -195,82 +199,79 @@ function App() {
           <Route
             path="/signup"
             element={
-              <Register
-                error={error}
-                onRegister={handleRegister}
-              />
+              isLoggedIn ? (
+                <Navigate to="/movies" replace />
+              ) : (
+                <Register error={error} onRegister={handleRegister} />
+              )
             }
           ></Route>
           {/* авторизация */}
           <Route
             path="/signin"
             element={
-              <Login
-                error={error}
-                onLogin={handleLogin}
-              />
+              isLoggedIn ? (
+                <Navigate to="/movies" replace />
+              ) : (
+                <Login error={error} onLogin={handleLogin} />
+              )
             }
           ></Route>
           {/* фильмы */}
           <Route
             path="/movies"
             element={
-              <>
-                <Header
-                  isLoggedIn={isLoggedIn}
-                />
-                <Movies
-                  isMovies={isMovies}
-                  savedMovies={savedMovies}
-                  onSave={handleSaveMovie}
-                  onDelete={handleDeleteMovie}
-                />
-                <Footer />
-              </>
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <>
+                  <Header isLoggedIn={isLoggedIn} />
+                  <Movies
+                    isMovies={isMovies}
+                    savedMovies={savedMovies}
+                    onSave={handleSaveMovie}
+                    onDelete={handleDeleteMovie}
+                  />
+                  <Footer />
+                </>
+              </ProtectedRoute>
             }
           ></Route>
           {/* сохраненные фильмы */}
           <Route
             path="/saved-movies"
             element={
-              <>
-                <Header
-                  isLoggedIn={isLoggedIn}
-                />
-                <SavedMovies
-                  isSavedMovies={isSavedMovies}
-                  savedMovies={savedMovies}
-                  onDelete={handleDeleteMovie}
-                />
-                <Footer />
-              </>
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <>
+                  <Header isLoggedIn={isLoggedIn} />
+                  <SavedMovies
+                    isSavedMovies={isSavedMovies}
+                    savedMovies={savedMovies}
+                    onDelete={handleDeleteMovie}
+                  />
+                  <Footer />
+                </>
+              </ProtectedRoute>
             }
           ></Route>
           {/* редактирование профиля */}
           <Route
             path="/profile"
             element={
-              <>
-                <Header
-                  isLoggedIn={isLoggedIn}
-                />
-                <Profile
-                  error={error}
-                  isEditMode={isEditMode}
-                  onEdit={setIsEditMode}
-                  onUpdate={handleUpdateUserData}
-                  onLogout={handleLogout}
-                />
-              </>
+              <ProtectedRoute isLoggedIn={isLoggedIn}>
+                <>
+                  <Header isLoggedIn={isLoggedIn} />
+                  <Profile
+                    error={error}
+                    isEditMode={isEditMode}
+                    onEdit={setIsEditMode}
+                    onUpdate={handleUpdateUserData}
+                    onLogout={handleLogout}
+                  />
+                </>
+              </ProtectedRoute>
             }
           ></Route>
           {/* ошибка 404 */}
-          <Route
-            path="*"
-            element={
-              <NotFoundError />
-            }
-          ></Route>
+          <Route path="*" element={<NotFoundError />}></Route>
         </Routes>
       </CurrentUserContext.Provider>
     </div>
