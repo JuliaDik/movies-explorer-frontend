@@ -30,6 +30,6 @@
 - React;
 
 ## Ссылка:
-[Репозиторий](https://github.com/JuliaDik/movies-explorer-frontend.git)
-[Pull-request](https://github.com/JuliaDik/movies-explorer-frontend/pull/2)
-[Сайт](https://movies.dikolenko.nomoreparties.co/)
+- [Репозиторий](https://github.com/JuliaDik/movies-explorer-frontend.git)
+- [Pull-request](https://github.com/JuliaDik/movies-explorer-frontend/pull/2)
+- [Сайт](https://movies.dikolenko.nomoreparties.co/)
