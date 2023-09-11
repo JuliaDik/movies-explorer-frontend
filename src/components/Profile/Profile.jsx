@@ -5,7 +5,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
 import "./Profile.css";
 
-function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
+function Profile({ error, isEditMode, onResetError, onEdit, onUpdate, onLogout, response }) {
   const currentUser = useContext(CurrentUserContext);
   const { values, setValues, errors, isValid, handleChange } = useFormAndValidation({
       name: "",
@@ -22,6 +22,7 @@ function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
 
   function handleEditMode() {
     onEdit(true);
+    onResetError("");
   }
 
   function handleSubmit(evt) {
@@ -90,6 +91,7 @@ function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
         </form>
         {!isEditMode ? (
           <div className="profile__actions-wrapper">
+            <span className="profile__error-request">{response}</span>
             <button
               className="profile__edit-button button"
               type="button"

@@ -39,6 +39,8 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   // сообщение об ошибке
   const [error, setError] = useState("");
+  // ответ от сервера
+  const [response, setResponse] = useState("");
   // переход по роуту
   const navigate = useNavigate();
   // текущий роут
@@ -50,6 +52,7 @@ function App() {
   // сброс ошибок
   useEffect(() => {
     setError("");
+    setResponse("");
   }, [location.pathname]);
 
   // отрисовка данных пользователя и сохраненных фильмов,
@@ -138,6 +141,8 @@ function App() {
         // после обновления данных пользователя
         // режим редактирования отключается
         setIsEditMode(false);
+        // появляется уведомление
+        setResponse("Данные профиля успешно обновлены");
       })
       .catch((err) => {
         if (err.includes(statusCode.conflictError)) {
@@ -266,9 +271,11 @@ function App() {
                   <Profile
                     error={error}
                     isEditMode={isEditMode}
+                    onResetError={setError}
                     onEdit={setIsEditMode}
                     onUpdate={handleUpdateUserData}
                     onLogout={handleLogout}
+                    response={response}
                   />
                 </>
               </ProtectedRoute>

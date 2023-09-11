@@ -9,6 +9,8 @@ import "./Movies.css";
 
 function Movies({ isMovies, savedMovies, onSave, onDelete }) {
   const { filterSearchedMovies, filterShortMovies } = useMoviesFilter();
+  // все фильмы
+  const [allMovies, setAllMovies] = useState([]);
   // найденные фильмы
   const [searchedMovies, setSearchedMovies] = useState([]);
   // короткометражки
@@ -21,33 +23,43 @@ function Movies({ isMovies, savedMovies, onSave, onDelete }) {
   const [error, setError] = useState("");
 
   function handleSearchMovies(searchText) {
-    // осуществляем запрос к серверу 
-    moviesApi
-      // на получение всех фильмов
-      .getMovies()
-      .then((allMovies) => {
-        // получив все фильмы, осуществляем поиск на строне клиента
-        handleFilterSearchedMovies(allMovies, searchText);
-      })
-      .catch((err) => {
-        // если в процессе получения и обработки данных происходит ошибка
-        // в окне результатов выводится надпись
-        setError(
-          `Во время запроса произошла ошибка.
-          Возможно, проблема с соединением или сервер недоступен.
-          Подождите немного и попробуйте ещё раз`
-        );
-        console.log(err);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-    setIsLoading(true);
-    // очищаем ошибки (на случай, если возникали)
-    setError("");
+    // если запрос к серверу осуществляется впервые
+    if (!allMovies.length) {
+      // осуществляем запрос к серверу 
+      moviesApi
+        // на получение всех фильмов
+        .getMovies()
+        .then((allMovies) => {
+          setAllMovies(allMovies);
+          // получив все фильмы, осуществляем поиск на строне клиента
+          handleFilterSearchedMovies(allMovies, searchText);
+        })
+        .catch((err) => {
+          // если в процессе получения и обработки данных происходит ошибка
+          // в окне результатов выводится надпись
+          setError(
+            `Во время запроса произошла ошибка.
+            Возможно, проблема с соединением или сервер недоступен.
+            Подождите немного и попробуйте ещё раз`
+          );
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+      setIsLoading(true);
+      // очищаем ошибки (на случай, если возникали)
+      setError("");
+    // если запросы непервичные
+    } else {
+      // осуществляем поиск по всем фильмам, хранящимся в стейт-переменной
+      handleFilterSearchedMovies(allMovies, searchText);
+    }
   }
 
   function handleFilterSearchedMovies(allMovies, searchText) {
+    // очищаем ошибки (на случай, если возникали)
+    setError("");
     // находим фильмы по запросу среди всех фильмов, полученных из БД beatfilms
     const filteredMovies = filterSearchedMovies(allMovies, searchText);
     // если ничего не найдено
