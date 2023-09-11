@@ -13,18 +13,21 @@ function SearchForm({ isMovies, isSavedMovies, onSubmit, onCheckboxChange, isSho
   function handleSubmit(evt) {
     evt.preventDefault();
     // после сабмита формы поиска производится валидация
+    // если запрос пустой
     if (!isValid || values.searchText === "") {
+      // появляется ошибка
       setErrors({ searchText: "Нужно ввести ключевое слово" });
+    // если что-то введено
     } else {
-      // если слово введено, то осуществляется запрос к API
+      // осуществляется запрос к API на поиск
       onSubmit(values.searchText);
     }
   }
 
   useEffect(() => {
-    // если пользователь повторно переходит на страницу фильмов,
+    // если пользователь повторно переходит на страницу "Фильмы",
     if (isMovies) {
-      // то при монтировании компонентов достаем текст запроса из локального хранилища браузера
+      // достаем текст запроса из локального хранилища браузера
       setValues({ searchText: localStorage.getItem("searchText") });
     }
   }, [isMovies, setValues]);

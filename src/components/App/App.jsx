@@ -52,13 +52,12 @@ function App() {
     setError("");
   }, [location.pathname]);
 
+  // отрисовка данных пользователя и сохраненных фильмов,
+  // пока пользователь авторизован
   useEffect(() => {
-    // если пользователь авторизован
     if (isLoggedIn) {
-      // получаем данные пользователя и сохраненных фильмов
       Promise.all([mainApi.getUserData(), mainApi.getSavedMovies()])
         .then(([userData, savedMovies]) => {
-          // сохраняем данные в стейт-переменных
           setCurrentUser(userData);
           setSavedMovies(savedMovies.reverse());
         })
@@ -68,17 +67,18 @@ function App() {
     }
   }, [isLoggedIn]);
 
+  // пользователь авторизован,
+  // пока токен, хранящийся в локальном хранилище браузера,
+  // совпадает с токеном, выданным сервером при авторизации
   useEffect(() => {
-    // достаем токен из локального хранилища браузера
     const jwt = localStorage.getItem("jwt");
-    // если токен есть
     if (jwt) {
       mainApi
-        // и он совпадает с токеном, который вернул пользователю сервер при авторизации
         .checkToken(jwt)
-        .then(() => {
-          // тогда сохраняем за пользователем статус "авторизован"
+        .then((userData) => {
+          setCurrentUser(userData);
           setIsLoggedIn(true);
+          navigate(location.pathname, { replace: true });
         })
         .catch((err) => {
           console.log(err);
@@ -86,35 +86,13 @@ function App() {
     }
   }, []);
 
-  function handleLogin(email, password) {
-    mainApi
-      .login(email, password)
-      .then(({ token }) => {
-        // если пользователь найден в БД по переданным учетным данным,
-        // то сервер отправляет токен
-        // сохраняем токен в локальном хранилище браузера
-        localStorage.setItem("jwt", token);
-        setIsLoggedIn(true);
-        // и перенаправляем на страницу "Фильмы"
-        navigate("/movies", { replace: true });
-      })
-      .catch((err) => {
-        if (err.includes(statusCode.unauthorizedError)) {
-          setError(unauthorizedErrorMessage.userCredentials);
-        } else {
-          setError(authErrorMessage.login);
-        }
-        console.log(err);
-      });
-  }
-
   function handleRegister(name, email, password) {
     mainApi
       .register(name, email, password)
-      .then(() => {
-        // если ответ на запрос успешен
-        // пользователь сразу авторизовывается
-        handleLogin(email, password);
+      .then((res) => {
+        if (res) {
+          handleLogin(email, password);
+        }
       })
       .catch((err) => {
         if (err.includes(statusCode.conflictError)) {
@@ -128,12 +106,28 @@ function App() {
       });
   }
 
+  function handleLogin(email, password) {
+    mainApi
+      .login(email, password)
+      .then(({ token }) => {
+        localStorage.setItem("jwt", token);
+        setIsLoggedIn(true);
+        navigate("/movies", { replace: true });
+      })
+      .catch((err) => {
+        if (err.includes(statusCode.unauthorizedError)) {
+          setError(unauthorizedErrorMessage.userCredentials);
+        } else {
+          setError(authErrorMessage.login);
+        }
+        console.log(err);
+      });
+  }
+
   function handleLogout() {
-    // при выходе из системы очищаем локальное хранилище
     localStorage.clear();
     setIsLoggedIn(false);
-    // пользователь перенаправляется на страницу авторизации
-    navigate("/signin", { replace: true });
+    navigate("/", { replace: true });
   }
 
   function handleUpdateUserData(name, email) {
@@ -141,7 +135,8 @@ function App() {
       .updateUserData(name, email)
       .then((user) => {
         setCurrentUser(user);
-        // после обновления данных пользователя режим редактирования отключается
+        // после обновления данных пользователя
+        // режим редактирования отключается
         setIsEditMode(false);
       })
       .catch((err) => {
@@ -189,6 +184,7 @@ function App() {
         <Routes>
           {/* лэндинг */}
           <Route
+            exact
             path="/"
             element={
               <>
@@ -200,6 +196,7 @@ function App() {
           ></Route>
           {/* регистрация */}
           <Route
+            exact
             path="/signup"
             element={
               isLoggedIn ? (
@@ -211,6 +208,7 @@ function App() {
           ></Route>
           {/* авторизация */}
           <Route
+            exact
             path="/signin"
             element={
               isLoggedIn ? (
@@ -222,6 +220,7 @@ function App() {
           ></Route>
           {/* фильмы */}
           <Route
+            exact
             path="/movies"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
@@ -240,6 +239,7 @@ function App() {
           ></Route>
           {/* сохраненные фильмы */}
           <Route
+            exact
             path="/saved-movies"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>
@@ -257,6 +257,7 @@ function App() {
           ></Route>
           {/* редактирование профиля */}
           <Route
+            exact
             path="/profile"
             element={
               <ProtectedRoute isLoggedIn={isLoggedIn}>

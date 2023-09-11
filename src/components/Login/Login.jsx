@@ -38,7 +38,7 @@ function Login({ error, onLogin }) {
           type="email"
           name="email"
           label="Email"
-          placeholder="Email"
+          placeholder="my_email@gmail.com"
           pattern={EMAIL_REGEX}
           value={values.email || ""}
           errorMessage={errors.email}
@@ -49,7 +49,7 @@ function Login({ error, onLogin }) {
           type="password"
           name="password"
           label="Пароль"
-          placeholder="Пароль"
+          placeholder="******"
           value={values.password || ""}
           errorMessage={errors.password}
           onChange={handleChange}

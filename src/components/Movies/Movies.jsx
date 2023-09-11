@@ -26,10 +26,11 @@ function Movies({ isMovies, savedMovies, onSave, onDelete }) {
       // на получение всех фильмов
       .getMovies()
       .then((allMovies) => {
+        // получив все фильмы, осуществляем поиск на строне клиента
         handleFilterSearchedMovies(allMovies, searchText);
       })
       .catch((err) => {
-        // если в процессе получения и обработки данных происходит ошибка,
+        // если в процессе получения и обработки данных происходит ошибка
         // в окне результатов выводится надпись
         setError(
           `Во время запроса произошла ошибка.
@@ -42,41 +43,49 @@ function Movies({ isMovies, savedMovies, onSave, onDelete }) {
         setIsLoading(false);
       });
     setIsLoading(true);
+    // очищаем ошибки (на случай, если возникали)
+    setError("");
   }
 
   function handleFilterSearchedMovies(allMovies, searchText) {
     // находим фильмы по запросу среди всех фильмов, полученных из БД beatfilms
     const filteredMovies = filterSearchedMovies(allMovies, searchText);
-    // сохраняем найденные фильмы в стейт-переменную
-    setSearchedMovies(filteredMovies);
-    // сохраняем найденные фильмы в локальном хранилище
-    localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
-    // сохраняем текст запроса в локальном хранилище
-    localStorage.setItem("searchText", searchText);
     // если ничего не найдено
     if (!filteredMovies.length) {
       // появляется надпись
       setError("Ничего не найдено");
+    // если есть результат
+    } else {
+      // сохраняем найденные фильмы в стейт-переменную
+      setSearchedMovies(filteredMovies);
+      // сохраняем найденные фильмы в локальном хранилище
+      localStorage.setItem("searchedMovies", JSON.stringify(filteredMovies));
+      // сохраняем текст запроса в локальном хранилище
+      localStorage.setItem("searchText", searchText);
     }
   }
 
   function handleFilterShortMovies() {
+    // включаем фильтр
     if (isShortMovies === false) {
       // изменяем состояние переключателя
       setIsShortMovies(true);
-      // находим короткометражки среди найденных по запросу фильмов
+      // находим короткометражки среди найденных фильмов
       const filteredMovies = filterShortMovies(searchedMovies);
-      // сохраняем короткометражки в стейт-переменную
-      setShortMovies(filteredMovies);
-      // сохраняем короткометражки в локальном хранилище
-      localStorage.setItem("shortMovies", JSON.stringify(filteredMovies));
-      // сохраняем состояние переключателя в локальном хранилище
-      localStorage.setItem("isChecked", isShortMovies);
       // если ничего не найдено
       if (!filteredMovies.length) {
         // появляется надпись
         setError("Ничего не найдено");
+      // если есть результат
+      } else {
+        // сохраняем короткометражки в стейт-переменную
+        setShortMovies(filteredMovies);
+        // сохраняем короткометражки в локальном хранилище
+        localStorage.setItem("shortMovies", JSON.stringify(filteredMovies));
+        // сохраняем состояние переключателя в локальном хранилище
+        localStorage.setItem("isChecked", isShortMovies);
       }
+    // выключаем фильтр
     } else {
       // изменяем состояние переключателя
       setIsShortMovies(false);
@@ -86,15 +95,17 @@ function Movies({ isMovies, savedMovies, onSave, onDelete }) {
       localStorage.removeItem("shortMovies");
       // удаляем состояние переключателя из локального хранилища
       localStorage.removeItem("isChecked");
+      // очищаем ошибки (на случай, если возникали)
+      setError("");
     }
   }
 
   // результаты выполненного запроса отображаются
   // даже после перезагрузки страницы или закрытия вкладки
   useEffect(() => {
-    // если пользователь повторно переходит на страницу "Фильмы",
+    // если пользователь повторно переходит на страницу "Фильмы"
     if (isMovies) {
-      // достаем из локального хранилища найденные фильмы, короткометражки, состояние переключателя
+      // найденные фильмы, короткометражки, состояние переключателя достаем из локального хранилища 
       // если локальное хранилище будет очищено, тогда устанавливаем дефолтные значения
       setSearchedMovies(JSON.parse(localStorage.getItem("searchedMovies")) ?? []);
       setShortMovies(JSON.parse(localStorage.getItem("shortMovies")) ?? []);
@@ -129,7 +140,7 @@ function Movies({ isMovies, savedMovies, onSave, onDelete }) {
       {/* до получения данных отрисовывается прелоадер */}
       {isLoading && <Preloader />}
       {/* после получения данных появляются карточки фильмов */}
-      {!isLoading && searchedMovies.length > 0 && !error && (
+      {!isLoading && (searchedMovies.length > 0 || shortMovies.length > 0) && !error && (
         <MoviesCardList
           isMovies={isMovies}
           cards={renderMovies()}

@@ -19,33 +19,55 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
   function handleFilterSearchedMovies(searchText) {
     // находим фильмы по запросу среди сохраненных фильмов
     const filteredMovies = filterSearchedMovies(savedMovies, searchText);
-    // сохраняем найденные фильмы в стейт-переменную
-    setSearchedMovies(filteredMovies);
     // если ничего не найдено
     if (!filteredMovies.length) {
       // появляется надпись
       setError("Ничего не найдено");
+    // если есть результат
+    } else {
+      // сохраняем найденные фильмы в стейт-переменную
+      setSearchedMovies(filteredMovies);
     }
   }
 
   function handleFilterShortMovies() {
+    // включаем фильтр
     if (isShortMovies === false) {
       // изменяем состояние переключателя
       setIsShortMovies(true);
-      // находим короткометражки среди сохраненных фильмов
-      const filteredMovies = filterShortMovies(savedMovies);
-      // сохраняем короткометражки в стейт-переменную
-      setShortMovies(filteredMovies);
-      // если ничего не найдено
-      if (!filteredMovies.length) {
-        // появляется надпись
-        setError("Ничего не найдено");
+      if (searchedMovies.length) {
+        // находим короткометражки среди найденных фильмов
+        const filteredMovies = filterShortMovies(searchedMovies);
+        // если ничего не найдено
+        if (!filteredMovies.length) {
+          // появляется надпись
+          setError("Ничего не найдено");
+        // если есть результат
+        } else {
+          // сохраняем короткометражки в стейт-переменную
+          setShortMovies(filteredMovies);
+        }
+      } else {
+        // находим короткометражки среди сохраненных фильмов
+        const filteredMovies = filterShortMovies(savedMovies);
+        // если ничего не найдено
+        if (!filteredMovies.length) {
+          // появляется надпись
+          setError("Ничего не найдено");
+        // если есть результат
+        } else {
+          // сохраняем короткометражки в стейт-переменную
+          setShortMovies(filteredMovies);
+        }
       }
+    // выключаем фильтр
     } else {
       // изменяем состояние переключателя
       setIsShortMovies(false);
       // удаляем короткометражки из стейт-переменной
       setShortMovies([]);
+      // очищаем ошибки (на случай, если возникали)
+      setError("");
     }
   }
 
@@ -60,7 +82,7 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
       return shortMovies;
     }
     return savedMovies;
-  }
+  } 
 
   return (
     <main className="main">
@@ -70,7 +92,7 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
         onCheckboxChange={handleFilterShortMovies}
         isShortMoviesChecked={isShortMovies}
       />
-      {!error && savedMovies.length > 0 && (
+      {!error && (savedMovies.length > 0 || searchedMovies.length > 0 || shortMovies.length > 0) && (
         <MoviesCardList
           isSavedMovies={isSavedMovies}
           cards={renderMovies()}

@@ -11,9 +11,7 @@ function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
       name: "",
       email: "",
     });
-  const disabledButton =
-    !isValid ||
-    (values.name === currentUser.name && values.email === currentUser.email);
+  const disabledButton = !isValid || (values.name === currentUser.name && values.email === currentUser.email);
 
   useEffect(() => {
     setValues({
@@ -54,7 +52,7 @@ function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
               `}
               id="name"
               type="text"
-              placeholder="Имя"
+              placeholder="Иван Иванов"
               name="name"
               minLength="2"
               maxLength="30"
@@ -78,7 +76,7 @@ function Profile({ error, isEditMode, onEdit, onUpdate, onLogout }) {
               `}
               id="email"
               type="email"
-              placeholder="Email"
+              placeholder="my_email@gmail.com"
               name="email"
               pattern={EMAIL_REGEX}
               value={values.email || ""}

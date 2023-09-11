@@ -39,7 +39,7 @@ function Register({ error, onRegister }) {
           type="text"
           name="name"
           label="Имя"
-          placeholder="Имя"
+          placeholder="Иван Иванов"
           minLength="2"
           maxLength="30"
           pattern={NAME_REGEX}
@@ -52,7 +52,7 @@ function Register({ error, onRegister }) {
           type="email"
           name="email"
           label="Email"
-          placeholder="Email"
+          placeholder="my_email@gmail.com"
           pattern={EMAIL_REGEX}
           value={values.email || ""}
           errorMessage={errors.email}
@@ -63,7 +63,7 @@ function Register({ error, onRegister }) {
           type="password"
           name="password"
           label="Пароль"
-          placeholder="Пароль"
+          placeholder="******"
           value={values.password || ""}
           errorMessage={errors.password}
           onChange={handleChange}
