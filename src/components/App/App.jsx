@@ -29,7 +29,7 @@ import {
 import "./App.css";
 
 function App() {
-  // состояние авторизации
+  // статус авторизации
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // пользователь
   const [currentUser, setCurrentUser] = useState({});
@@ -44,58 +44,53 @@ function App() {
   // переход по роуту
   const navigate = useNavigate();
   // текущий роут
-  const location = useLocation();
-  const isLanding = location.pathname === "/";
-  const isMovies = location.pathname === "/movies";
-  const isSavedMovies = location.pathname === "/saved-movies";
+  const { pathname } = useLocation();
+  const isLanding = pathname === "/";
+  const isMovies = pathname === "/movies";
+  const isSavedMovies = pathname === "/saved-movies";
 
   // сброс ошибок
   useEffect(() => {
     setError("");
     setResponse("");
-  }, [location.pathname]);
+  }, [pathname]);
 
-  // отрисовка данных пользователя и сохраненных фильмов,
-  // пока пользователь авторизован
   useEffect(() => {
-    if (isLoggedIn) {
-      Promise.all([mainApi.getUserData(), mainApi.getSavedMovies()])
-        .then(([userData, savedMovies]) => {
-          setCurrentUser(userData);
-          setSavedMovies(savedMovies.reverse());
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [isLoggedIn]);
-
-  // пользователь авторизован,
-  // пока токен, хранящийся в локальном хранилище браузера,
-  // совпадает с токеном, выданным сервером при авторизации
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt) {
-      mainApi
-        .checkToken(jwt)
-        .then((userData) => {
-          setCurrentUser(userData);
-          setIsLoggedIn(true);
-          navigate(location.pathname, { replace: true });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    const token = localStorage.getItem("jwt");
+    // если токен есть в локальном хранилище браузера
+    if (token) {
+      // сохраняется статус "Авторизован"
+      setIsLoggedIn(true);
+      // перенаправляем на текущую страницу
+      navigate(pathname, { replace: true });
+    } else {
+      // иначе выйти из системы
+      handleLogout();
     }
   }, []);
+
+  useEffect(() => {
+    // если пользователь авторизован
+    if (isLoggedIn) {
+      // получаем данные пользователя и сохраненные фильмы с сервера
+      Promise.all([mainApi.getUserData(), mainApi.getSavedMovies()])
+        .then(([userData, savedMovies]) => {
+          // сохраняем в стейт-переменную
+          setCurrentUser(userData);
+          setSavedMovies(savedMovies);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+  }, [isLoggedIn]);
 
   function handleRegister(name, email, password) {
     mainApi
       .register(name, email, password)
-      .then((res) => {
-        if (res) {
-          handleLogin(email, password);
-        }
+      .then(() => {
+        // пользователь сразу авторизуется
+        handleLogin(email, password);
       })
       .catch((err) => {
         if (err.includes(statusCode.conflictError)) {
@@ -113,8 +108,11 @@ function App() {
     mainApi
       .login(email, password)
       .then(({ token }) => {
+        // сохраняем токен в локальном хранилище браузера
         localStorage.setItem("jwt", token);
-        setIsLoggedIn(true);
+        // выставляем статус "Авторизован"
+        setIsLoggedIn(true)
+        // перенаправляем на страницу «Фильмы»
         navigate("/movies", { replace: true });
       })
       .catch((err) => {
@@ -130,6 +128,7 @@ function App() {
   function handleLogout() {
     localStorage.clear();
     setIsLoggedIn(false);
+    setCurrentUser({});
     navigate("/", { replace: true });
   }
 

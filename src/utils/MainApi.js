@@ -1,3 +1,8 @@
+// "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+// внутри запросов отправляется токен пользователя, выданный ему сервером при авторизации
+// токен хранится в локальном хранилище браузера
+// Bearer - имя схемы аутентификации; схема сообщает серверу, что проверять наличие прав у пользователя нужно по токену
+
 class MainApi {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
@@ -39,23 +44,14 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
-  // ПРОВЕРИТЬ ТОКЕН
-  checkToken(jwt) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${jwt}`,
-      },
-    }).then(this._checkResponse);
-  }
-
   // ПОЛУЧИТЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ (name и email)
   getUserData() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+      },
     }).then(this._checkResponse);
   }
 
@@ -63,7 +59,10 @@ class MainApi {
   updateUserData(name, email) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+      },
       body: JSON.stringify({
         name,
         email,
@@ -75,7 +74,10 @@ class MainApi {
   getSavedMovies() {
     return fetch(`${this._baseUrl}/movies`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+      },
     }).then(this._checkResponse);
   }
 
@@ -83,7 +85,10 @@ class MainApi {
   saveMovie(movie) {
     return fetch(`${this._baseUrl}/movies`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+      },
       body: JSON.stringify({
         country: movie.country,
         director: movie.director,
@@ -104,7 +109,10 @@ class MainApi {
   deleteMovie(movieId) {
     return fetch(`${this._baseUrl}/movies/${movieId}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
+      },
     }).then(this._checkResponse);
   }
 }
@@ -113,14 +121,7 @@ const mainApi = new MainApi({
   baseUrl: "https://api.movies.dikolenko.nomoreparties.co",
   headers: {
     "Accept": "application/json",
-    // формат передачи данных в теле запроса/ответа - json
     "Content-Type": "application/json",
-    // внутри запросов отправляется токен пользователя, выданный ему сервером при авторизации
-    // токен хранится в локальном хранилище браузера
-    // Bearer - имя схемы аутентификации; схема сообщает серверу, что проверять наличие прав у пользователя нужно по токену
-    // только авторизованным пользователям предоставляется доступ к защищенным маршрутам
-    // теперь пользователю не нужно вводить пароль при каждом посещении сайта
-    "Authorization": `Bearer ${localStorage.getItem("jwt")}`,
   },
 });
 
