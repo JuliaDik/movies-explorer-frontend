@@ -31,7 +31,7 @@ function Movies({ isMovies, savedMovies, onSave, onDelete }) {
         .getMovies()
         .then((allMovies) => {
           setAllMovies(allMovies);
-          // получив все фильмы, осуществляем поиск на строне клиента
+          // получив все фильмы, осуществляем поиск на стороне клиента
           handleFilterSearchedMovies(allMovies, searchText);
         })
         .catch((err) => {
@@ -58,6 +58,8 @@ function Movies({ isMovies, savedMovies, onSave, onDelete }) {
   }
 
   function handleFilterSearchedMovies(allMovies, searchText) {
+    // удаляем найденные фильмы из стейт-переменной
+    setSearchedMovies([]);
     // очищаем ошибки (на случай, если возникали)
     setError("");
     // находим фильмы по запросу среди всех фильмов, полученных из БД beatfilms

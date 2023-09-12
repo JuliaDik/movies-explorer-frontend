@@ -4,7 +4,7 @@ import useFormAndValidation from "../../hooks/useFormAndValidation";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
-function SearchForm({ isMovies, isSavedMovies, onSubmit, onCheckboxChange, isShortMoviesChecked }) {
+function SearchForm({ isMovies, onSubmit, onCheckboxChange, isShortMoviesChecked }) {
   const { values, setValues, errors, setErrors, isValid, handleChange } =
     useFormAndValidation({
       searchText: "",

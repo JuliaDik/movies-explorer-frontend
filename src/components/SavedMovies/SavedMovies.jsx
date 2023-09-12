@@ -17,6 +17,10 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
   const [error, setError] = useState("");
 
   function handleFilterSearchedMovies(searchText) {
+    // удаляем найденные фильмы из стейт-переменной
+    setSearchedMovies([]);
+    // очищаем ошибки (на случай, если возникали)
+    setError("");
     // находим фильмы по запросу среди сохраненных фильмов
     const filteredMovies = filterSearchedMovies(savedMovies, searchText);
     // если ничего не найдено
@@ -36,8 +40,10 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
       // изменяем состояние переключателя
       setIsShortMovies(true);
       if (searchedMovies.length) {
+        console.log(searchedMovies);
         // находим короткометражки среди найденных фильмов
         const filteredMovies = filterShortMovies(searchedMovies);
+        console.log(filteredMovies);
         // если ничего не найдено
         if (!filteredMovies.length) {
           // появляется надпись
@@ -76,10 +82,10 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
   };
 
   function renderMovies() {
-    if (searchedMovies.length) {
-      return searchedMovies;
-    } else if (shortMovies.length) {
+    if (shortMovies.length) {
       return shortMovies;
+    } else if (searchedMovies.length) {
+      return searchedMovies;
     }
     return savedMovies;
   } 

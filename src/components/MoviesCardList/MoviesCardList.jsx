@@ -63,7 +63,7 @@ function MoviesCardList({ isMovies, isSavedMovies, cards, savedMovies, onClick }
             movies__add-button
             button
             ${
-              cards.length < initialCards ||
+              (cards.length - 1) < initialCards ||
               isSavedMovies
                 ? "movies__add-button_hidden"
                 : ""

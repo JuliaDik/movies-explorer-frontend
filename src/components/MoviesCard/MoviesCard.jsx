@@ -63,7 +63,7 @@ function MoviesCard({ isMovies, isSavedMovies, card, savedMovies, onClick }) {
               button
             `}
             type="button"
-            aria-label="сохранить"
+            aria-label="сохранить или удалить"
             onClick={handleClick}
           ></button>
         )}
