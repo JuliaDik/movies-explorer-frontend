@@ -23,6 +23,7 @@ function AuthInput({
         className={`
           authentication__input
           ${errorMessage ? `authentication__input_type_error` : ""}
+          input
         `}
         id={id}
         type={type}

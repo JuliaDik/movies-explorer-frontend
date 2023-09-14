@@ -57,7 +57,6 @@
 }
 
 .profile__input:disabled {
-  color: rgb(160 160 160 / 0.7);
   background-color: transparent;
 }
 
@@ -131,10 +130,6 @@
   background-color: rgb(255 104 56);
   border: none;
   border-radius: 3px;
-}
-
-.profile__submit-button:disabled {
-  cursor: default;
 }
 
 /* 1280px */

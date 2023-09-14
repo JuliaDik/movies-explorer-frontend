@@ -23,14 +23,12 @@ import {
   ERROR_400,
   ERROR_401,
   ERROR_409,
-  ERROR_500,
   ERROR_VALIDATION,
   ERROR_INCORRECT_USER_ID,
   ERROR_INCORRECT_MOVIE_ID,
   ERROR_INCORRECT_CREDENTIALS,
   ERROR_UNAUTHORIZED,
   ERROR_NOT_UNIQUE_EMAIL,
-  ERROR_SERVER,
   ERROR_REGISTRATION,
   ERROR_LOGIN,
   ERROR_UPDATE_PROFILE,
@@ -41,14 +39,14 @@ import "./App.css";
 function App() {
   // статус авторизации
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // пользователь
+  // пользователь (имя и email)
   const [currentUser, setCurrentUser] = useState({});
   // режим редактирования профиля
   const [isEditMode, setIsEditMode] = useState(false);
   // сохраненные фильмы
   const [savedMovies, setSavedMovies] = useState([]);
   // сообщение об ошибке
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   // уведомление
   const [notice, setNotice] = useState("");
   // статус сабмита
@@ -61,17 +59,23 @@ function App() {
   const isMoviesPage = pathname === "/movies";
   const isSavedMoviesPage = pathname === "/saved-movies";
 
-  // сброс ошибок и ответов
+  // сброс ошибок и уведомлений
+  // при изменении текущего роута
   useEffect(() => {
-    setError("");
+    setErrorMessage("");
     setNotice("");
   }, [pathname]);
 
+  // проверка токена на валидность
   useEffect(() => {
+    // сохраняем токен из локального хранилища браузера в переменную
     const token = localStorage.getItem("jwt");
     // если токен есть в локальном хранилище браузера
     if (token) {
       // отправляем запрос на проверку токена
+      // проверка осуществляется посредством обращения к роуту users/me
+      // на получение данных пользователя
+      // и отправки token через заголовок authorization
       mainApi
         .checkToken(token)
         .then((userData) => {
@@ -94,8 +98,6 @@ function App() {
             console.log(ERROR_UNAUTHORIZED);
           } else if (err === ERROR_400) {
             console.log(ERROR_INCORRECT_USER_ID);
-          } else if (err === ERROR_500) {
-            console.log(ERROR_SERVER);
           } else {
             console.log(err);
           }
@@ -105,30 +107,6 @@ function App() {
       // выходим из системы
       handleLogout();
     }
-  }, []);
-
-  useEffect(() => {
-    // если пользователь авторизован
-    if (isLoggedIn) {
-      // получаем данные пользователя с сервера
-      mainApi
-        .getUserData()
-        .then((userData) => {
-          // сохраняем в стейт-переменную
-          setCurrentUser(userData);
-        })
-        .catch((err) => {
-          if (err === ERROR_401) {
-            console.log(ERROR_UNAUTHORIZED);
-          } else if (err === ERROR_400) {
-            console.log(ERROR_INCORRECT_USER_ID);
-          } else if (err === ERROR_500) {
-            console.log(ERROR_SERVER);
-          } else {
-            console.log(err);
-          }
-        });
-      }
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -144,8 +122,6 @@ function App() {
         .catch((err) => {
           if (err === ERROR_401) {
             console.log(ERROR_UNAUTHORIZED);
-          } else if (err === ERROR_500) {
-            console.log(ERROR_SERVER);
           } else {
             console.log(err);
           }
@@ -162,16 +138,15 @@ function App() {
       })
       .catch((err) => {
         if (err === ERROR_409) {
-          setError(ERROR_NOT_UNIQUE_EMAIL);
+          setErrorMessage(ERROR_NOT_UNIQUE_EMAIL);
         } else if (err === ERROR_400) {
-          setError(ERROR_VALIDATION);
-        } else if (err === ERROR_500) {
-          setError(ERROR_SERVER);
+          setErrorMessage(ERROR_VALIDATION);
         } else {
-          setError(ERROR_REGISTRATION);
+          setErrorMessage(ERROR_REGISTRATION);
         }
       })
       .finally(() => {
+        // меняется статус сабмита
         setIsSubmitted(false);
       });
   }
@@ -189,14 +164,13 @@ function App() {
       })
       .catch((err) => {
         if (err === ERROR_401) {
-          setError(ERROR_INCORRECT_CREDENTIALS);
-        } else if (err === ERROR_500) {
-          setError(ERROR_SERVER);
+          setErrorMessage(ERROR_INCORRECT_CREDENTIALS);
         } else {
-          setError(ERROR_LOGIN);
+          setErrorMessage(ERROR_LOGIN);
         }
       })
       .finally(() => {
+        // меняется статус сабмита
         setIsSubmitted(false);
       });
   }
@@ -214,24 +188,25 @@ function App() {
       .updateUserData(name, email)
       .then((userData) => {
         setCurrentUser(userData);
+        // отключается режим редактирования
+        setIsEditMode(false);
+        // появляется уведомление
+        setNotice(NOTICE_UPDATE_PROFILE);
       })
       .catch((err) => {
         if (err === ERROR_401) {
           console.log(ERROR_UNAUTHORIZED);
         } else if (err === ERROR_409) {
-          setError(ERROR_NOT_UNIQUE_EMAIL);
+          setErrorMessage(ERROR_NOT_UNIQUE_EMAIL);
         } else if (err === ERROR_400) {
-          setError(ERROR_VALIDATION);
-        } else if (err === ERROR_500) {
-          setError(ERROR_SERVER);
+          setErrorMessage(ERROR_VALIDATION);
         } else {
-          setError(ERROR_UPDATE_PROFILE);
+          setErrorMessage(ERROR_UPDATE_PROFILE);
         }
       })
       .finally(() => {
+        // меняется статус сабмита
         setIsSubmitted(false);
-        setIsEditMode(false);
-        setNotice(NOTICE_UPDATE_PROFILE);
       });
   }
 
@@ -247,8 +222,6 @@ function App() {
           console.log(ERROR_UNAUTHORIZED);
         } else if (err === ERROR_400) {
           console.log(ERROR_VALIDATION);
-        } else if (err === ERROR_500) {
-          console.log(ERROR_SERVER);
         } else {
           console.log(err);
         }
@@ -270,8 +243,6 @@ function App() {
           console.log(ERROR_UNAUTHORIZED);
         } else if (err === ERROR_400) {
           console.log(ERROR_INCORRECT_MOVIE_ID);
-        } else if (err === ERROR_500) {
-          console.log(ERROR_SERVER);
         } else {
           console.log(err);
         }
@@ -303,7 +274,8 @@ function App() {
                 <Navigate to="/movies" replace />
               ) : (
                 <Register
-                  error={error}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
                   isSubmitted={isSubmitted}
                   setIsSubmitted={setIsSubmitted}
                   onRegister={handleRegister}
@@ -320,7 +292,8 @@ function App() {
                 <Navigate to="/movies" replace />
               ) : (
                 <Login
-                  error={error}
+                  errorMessage={errorMessage}
+                  setErrorMessage={setErrorMessage}
                   isSubmitted={isSubmitted}
                   setIsSubmitted={setIsSubmitted}
                   onLogin={handleLogin}
@@ -375,13 +348,14 @@ function App() {
                 <>
                   <Header isLoggedIn={isLoggedIn} />
                   <Profile
-                    error={error}
+                    errorMessage={errorMessage}
+                    setErrorMessage={setErrorMessage}
+                    notice={notice}
+                    setNotice={setNotice}
                     isEditMode={isEditMode}
-                    onResetError={setError}
                     onEdit={setIsEditMode}
                     onUpdate={handleUpdateUserData}
                     onLogout={handleLogout}
-                    notice={notice}
                     isSubmitted={isSubmitted}
                     setIsSubmitted={setIsSubmitted}
                   />

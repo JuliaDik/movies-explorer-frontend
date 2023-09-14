@@ -2,13 +2,19 @@
 import { useEffect } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import { ERROR_NO_KEYWORDS } from "../../utils/constants";
 import "./SearchForm.css";
 
-function SearchForm({ isMoviesPage, onSubmit, onCheckboxChange, isShortMoviesChecked }) {
-  const { values, setValues, errors, setErrors, isValid, handleChange } =
-    useFormAndValidation({
-      searchText: "",
-    });
+function SearchForm({
+  isMoviesPage,
+  onSubmit,
+  onCheckboxChange,
+  isShortMoviesChecked,
+}) {
+  
+  const { values, setValues, errors, setErrors, isValid, handleChange } = useFormAndValidation({
+    searchText: "",
+  });
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -16,8 +22,8 @@ function SearchForm({ isMoviesPage, onSubmit, onCheckboxChange, isShortMoviesChe
     // если запрос пустой
     if (!isValid || values.searchText === "") {
       // появляется ошибка
-      setErrors({ searchText: "Нужно ввести ключевое слово" });
-    // если что-то введено
+      setErrors({ searchText: ERROR_NO_KEYWORDS });
+      // если что-то введено
     } else {
       // осуществляется запрос к API на поиск
       onSubmit(values.searchText);
@@ -42,7 +48,7 @@ function SearchForm({ isMoviesPage, onSubmit, onCheckboxChange, isShortMoviesChe
           noValidate
         >
           <input
-            className="search__input"
+            className="search__input input"
             type="text"
             name="searchText"
             placeholder="Фильм"

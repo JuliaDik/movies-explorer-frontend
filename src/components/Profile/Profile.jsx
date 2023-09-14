@@ -1,31 +1,35 @@
 // РЕДАКТИРОВАНИЕ ПРОФИЛЯ
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { REGEX_NAME, REGEX_EMAIL } from "../../utils/constants";
 import "./Profile.css";
 
 function Profile({
-  error,
+  errorMessage,
+  setErrorMessage,
+  notice,
+  setNotice,
   isEditMode,
-  onResetError,
   onEdit,
   onUpdate,
   onLogout,
-  response,
   isSubmitted,
   setIsSubmitted,
 }) {
+  
   const currentUser = useContext(CurrentUserContext);
-  const { values, setValues, errors, isValid, handleChange } =
-    useFormAndValidation({
-      name: "",
-      email: "",
-    });
+
+  const { values, setValues, errors, isValid, handleChange } = useFormAndValidation({
+    name: "",
+    email: "",
+  });
+
   const disabledButton =
     !isValid ||
     (values.name === currentUser.name && values.email === currentUser.email) ||
     isSubmitted;
+
   const disabledInput = !isEditMode || isSubmitted;
 
   useEffect(() => {
@@ -37,12 +41,15 @@ function Profile({
 
   function handleEditMode() {
     onEdit(true);
-    onResetError("");
+    setNotice("");
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
     if (isValid) {
+      // очищаем предыдущую ошибку
+      setErrorMessage("");
+      // отправляем запрос к API на обновление данных пользователя
       onUpdate(values.name, values.email);
       // блокируем кнопку и поля
       setIsSubmitted(true);
@@ -67,6 +74,7 @@ function Profile({
               className={`
                 profile__input
                 ${errors.name ? `profile__input_type_error` : ""}
+                input
               `}
               id="name"
               type="text"
@@ -91,6 +99,7 @@ function Profile({
               className={`
                 profile__input
                 ${errors.email ? `profile__input_type_error` : ""}
+                input
               `}
               id="email"
               type="email"
@@ -108,7 +117,7 @@ function Profile({
         </form>
         {!isEditMode ? (
           <div className="profile__actions-wrapper">
-            <span className="profile__error-request">{response}</span>
+            <span className="profile__error-request">{notice}</span>
             <button
               className="profile__edit-button button"
               type="button"
@@ -126,7 +135,7 @@ function Profile({
           </div>
         ) : (
           <div className="profile__submit-wrapper">
-            <span className="profile__error-request">{error}</span>
+            <span className="profile__error-request">{errorMessage}</span>
             <button
               className="profile__submit-button button"
               type="submit"

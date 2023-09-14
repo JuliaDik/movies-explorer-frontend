@@ -3,7 +3,7 @@ import { useState } from "react";
 import useMoviesFilter from "../../hooks/useMoviesFilter";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import { NOTICE_NOT_FOUND_MOVIES } from "../../utils/constants";
+import { ERROR_NOT_FOUND_MOVIES } from "../../utils/constants";
 import "./SavedMovies.css";
 
 function SavedMovies({ savedMovies, isSavedMoviesPage, onDelete }) {
@@ -29,16 +29,16 @@ function SavedMovies({ savedMovies, isSavedMoviesPage, onDelete }) {
       // если ничего не найдено
       if (filteredMovies.length === 0) {
         // появляется уведомление
-        setError(NOTICE_NOT_FOUND_MOVIES);
+        setError(ERROR_NOT_FOUND_MOVIES);
         // данные не сохраняем
         // после перезагрузки страницы отображается предыдущий запрос
-        // если есть результат
+      // если есть результат
       } else {
         // сохраняем короткометражки в стейт-переменную
         setShortMovies(filteredMovies);
       }
 
-      // ПОИСК СРЕДИ ВСЕХ СОХРАНЕННЫХ
+    // ПОИСК СРЕДИ ВСЕХ СОХРАНЕННЫХ
     } else {
       console.log(searchText);
       // находим фильмы по запросу среди всех сохраненных фильмов
@@ -46,10 +46,10 @@ function SavedMovies({ savedMovies, isSavedMoviesPage, onDelete }) {
       // если ничего не найдено
       if (filteredMovies.length === 0) {
         // появляется уведомление
-        setError(NOTICE_NOT_FOUND_MOVIES);
+        setError(ERROR_NOT_FOUND_MOVIES);
         // данные не сохраняем
         // после перезагрузки страницы отображается предыдущий запрос
-        // если есть результат
+      // если есть результат
       } else {
         // сохраняем найденные фильмы в стейт-переменную
         setSearchedMovies(filteredMovies);
@@ -71,32 +71,32 @@ function SavedMovies({ savedMovies, isSavedMoviesPage, onDelete }) {
         // если ничего не найдено
         if (filteredMovies.length === 0) {
           // появляется уведомление
-          setError(NOTICE_NOT_FOUND_MOVIES);
+          setError(ERROR_NOT_FOUND_MOVIES);
           // данные не сохраняем
           // после перезагрузки страницы отображается предыдущий запрос
-          // если есть результат
+        // если есть результат
         } else {
           // сохраняем короткометражки в стейт-переменную
           setShortMovies(filteredMovies);
         }
 
-        // ФИЛЬТР СРЕДИ СОХРАНЕННЫХ
+      // ФИЛЬТР СРЕДИ СОХРАНЕННЫХ
       } else {
         // находим короткометражки среди сохраненных фильмов
         const filteredMovies = filterShortMovies(savedMovies);
         // если ничего не найдено
         if (filteredMovies.length === 0) {
           // появляется уведомление
-          setError(NOTICE_NOT_FOUND_MOVIES);
+          setError(ERROR_NOT_FOUND_MOVIES);
           // данные не сохраняем
           // после перезагрузки страницы отображается предыдущий запрос
-          // если есть результат
+         // если есть результат
         } else {
           // сохраняем короткометражки в стейт-переменную
           setShortMovies(filteredMovies);
         }
       }
-      // выключаем фильтр
+    // выключаем фильтр
     } else {
       // изменяем состояние переключателя
       setIsShortMovies(false);
@@ -137,16 +137,13 @@ function SavedMovies({ savedMovies, isSavedMoviesPage, onDelete }) {
         onCheckboxChange={handleFilterShortMovies}
         isShortMoviesChecked={isShortMovies}
       />
-      {!error &&
-        (savedMovies.length > 0 ||
-          searchedMovies.length > 0 ||
-          shortMovies.length > 0) && (
-          <MoviesCardList
-            cards={renderMovies()}
-            isSavedMoviesPage={isSavedMoviesPage}
-            onClick={handleDeleteMovie}
-          />
-        )}
+      {!error && (savedMovies.length > 0 || searchedMovies.length > 0 || shortMovies.length > 0) && (
+        <MoviesCardList
+          cards={renderMovies()}
+          isSavedMoviesPage={isSavedMoviesPage}
+          onClick={handleDeleteMovie}
+        />
+      )}
       {/* если ничего не найдено появляется соответствующая надпись */}
       {error && <p className="request-error">{error}</p>}
     </main>

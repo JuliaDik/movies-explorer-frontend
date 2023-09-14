@@ -1,5 +1,4 @@
 // РЕГИСТРАЦИЯ
-import { useState } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import Auth from "../Auth/Auth";
 import AuthForm from "../AuthForm/AuthForm";
@@ -8,12 +7,20 @@ import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
 import { REGEX_NAME, REGEX_EMAIL } from "../../utils/constants";
 import "./Register.css";
 
-function Register({ error, isSubmitted, setIsSubmitted, onRegister }) {
+function Register({
+  errorMessage,
+  setErrorMessage,
+  isSubmitted,
+  setIsSubmitted,
+  onRegister,
+}) {
+
   const { values, errors, isValid, handleChange } = useFormAndValidation({
     name: "",
     email: "",
     password: "",
   });
+  
   const disabledButton = !isValid || isSubmitted;
   const disabledInput = isSubmitted;
 
@@ -21,6 +28,8 @@ function Register({ error, isSubmitted, setIsSubmitted, onRegister }) {
     evt.preventDefault();
     // если валидация прошла успешна
     if (isValid) {
+      // очищаем предыдущую ошибку
+      setErrorMessage("");
       // отправляем запрос к API на создание нового пользователя
       onRegister(values.name, values.email, values.password);
       // блокируем кнопку и поля
@@ -35,10 +44,7 @@ function Register({ error, isSubmitted, setIsSubmitted, onRegister }) {
       link="Войти"
       route="/signin"
     >
-      <AuthForm
-        name="registration"
-        onSubmit={handleSubmit}
-      >
+      <AuthForm name="registration" onSubmit={handleSubmit}>
         <AuthInput
           id="name"
           type="text"
@@ -78,7 +84,7 @@ function Register({ error, isSubmitted, setIsSubmitted, onRegister }) {
         />
         <AuthSubmitButton
           form="register"
-          errorMessage={error}
+          errorMessage={errorMessage}
           text="Зарегистрироваться"
           disabled={disabledButton}
         />

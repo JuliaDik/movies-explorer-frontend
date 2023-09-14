@@ -5,10 +5,19 @@ import moviesApi from "../../utils/MoviesApi";
 import SearchForm from "../SearchForm/SearchForm";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import { ERROR_GET_MOVIES, NOTICE_NOT_FOUND_MOVIES } from "../../utils/constants";
+import {
+  ERROR_GET_MOVIES,
+  ERROR_NOT_FOUND_MOVIES,
+} from "../../utils/constants";
 import "./Movies.css";
 
-function Movies({ savedMovies, isMoviesPage, isSavedMoviesPage, onSave, onDelete }) {
+function Movies({
+  savedMovies,
+  isMoviesPage,
+  isSavedMoviesPage,
+  onSave,
+  onDelete,
+}) {
   const { filterSearchedMovies, filterShortMovies } = useMoviesFilter();
   // все фильмы
   const [allMovies, setAllMovies] = useState([]);
@@ -26,7 +35,7 @@ function Movies({ savedMovies, isMoviesPage, isSavedMoviesPage, onSave, onDelete
   function handleSearchMovies(searchText) {
     // если запрос к серверу осуществляется впервые
     if (!allMovies.length) {
-      // осуществляем запрос к серверу 
+      // осуществляем запрос к серверу
       moviesApi
         // на получение всех фильмов
         .getMovies()
@@ -66,7 +75,7 @@ function Movies({ savedMovies, isMoviesPage, isSavedMoviesPage, onSave, onDelete
       // если ничего не найдено
       if (filteredMovies.length === 0) {
         // появляется уведомление
-        setError(NOTICE_NOT_FOUND_MOVIES);
+        setError(ERROR_NOT_FOUND_MOVIES);
         // данные не сохраняем
         // после перезагрузки страницы отображается предыдущий запрос
       // если есть результат
@@ -80,14 +89,13 @@ function Movies({ savedMovies, isMoviesPage, isSavedMoviesPage, onSave, onDelete
       }
 
     // ПОИСК СРЕДИ ВСЕХ ФИЛЬМОВ ИЗ БД
-    
     } else {
       // находим фильмы по запросу среди всех фильмов, полученных из БД beatfilms
       const filteredMovies = filterSearchedMovies(allMovies, searchText);
       // если ничего не найдено
       if (filteredMovies.length === 0) {
         // появляется уведомление
-        setError(NOTICE_NOT_FOUND_MOVIES);
+        setError(ERROR_NOT_FOUND_MOVIES);
         // данные не сохраняем
         // после перезагрузки страницы отображается предыдущий запрос
       // если есть результат
@@ -112,7 +120,7 @@ function Movies({ savedMovies, isMoviesPage, isSavedMoviesPage, onSave, onDelete
       // если ничего не найдено
       if (filteredMovies.length === 0) {
         // появляется уведомление
-        setError(NOTICE_NOT_FOUND_MOVIES);
+        setError(ERROR_NOT_FOUND_MOVIES);
         // данные не сохраняем
         // после перезагрузки страницы отображается предыдущий запрос
       // если есть результат
@@ -144,7 +152,7 @@ function Movies({ savedMovies, isMoviesPage, isSavedMoviesPage, onSave, onDelete
   useEffect(() => {
     // если пользователь повторно переходит на страницу "Фильмы"
     if (isMoviesPage) {
-      // найденные фильмы, короткометражки, состояние переключателя достаем из локального хранилища 
+      // найденные фильмы, короткометражки, состояние переключателя достаем из локального хранилища
       // если локальное хранилище будет очищено, тогда устанавливаем дефолтные значения
       setSearchedMovies(JSON.parse(localStorage.getItem("searchedMovies")) ?? []);
       setShortMovies(JSON.parse(localStorage.getItem("shortMovies")) ?? []);
@@ -159,7 +167,7 @@ function Movies({ savedMovies, isMoviesPage, isSavedMoviesPage, onSave, onDelete
       return;
     }
     onSave(card);
-  };
+  }
 
   function renderMovies() {
     if (shortMovies.length > 0) {

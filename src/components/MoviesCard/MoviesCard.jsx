@@ -1,9 +1,15 @@
 // КАРТОЧКА ФИЛЬМА
 import "./MoviesCard.css";
 
-function MoviesCard({ card, savedMovies, isMoviesPage, isSavedMoviesPage, onClick }) {
+function MoviesCard({
+  card,
+  savedMovies,
+  isMoviesPage,
+  isSavedMoviesPage,
+  onClick,
+}) {
   const duration = convertDuration();
-  const isMovieSaved = checkIsMovieSaved(card)
+  const isMovieSaved = checkIsMovieSaved(card);
 
   function convertDuration() {
     const houres = Math.floor(card.duration / 60);
