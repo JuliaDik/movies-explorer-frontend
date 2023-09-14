@@ -16,7 +16,7 @@ class MainApi {
       return res.json();
     }
     // или ошибка
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(res.status);
   }
 
   // РЕГИСТРАЦИЯ: создать пользователя
@@ -41,6 +41,17 @@ class MainApi {
         email,
         password,
       }),
+    }).then(this._checkResponse);
+  }
+
+  // ПРОВЕРИТЬ ТОКЕН
+  checkToken(token) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      headers: {
+        ...this._headers,
+        "Authorization": `Bearer ${token}`,
+      },
     }).then(this._checkResponse);
   }
 

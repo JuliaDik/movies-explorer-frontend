@@ -1,9 +1,9 @@
 // КАРТОЧКА ФИЛЬМА
 import "./MoviesCard.css";
 
-function MoviesCard({ isMovies, isSavedMovies, card, savedMovies, onClick }) {
+function MoviesCard({ card, savedMovies, isMoviesPage, isSavedMoviesPage, onClick }) {
   const duration = convertDuration();
-  const isSaved = checkSaved(card);
+  const isMovieSaved = checkIsMovieSaved(card)
 
   function convertDuration() {
     const houres = Math.floor(card.duration / 60);
@@ -11,10 +11,10 @@ function MoviesCard({ isMovies, isSavedMovies, card, savedMovies, onClick }) {
     return `${houres}ч${minutes}м`;
   }
 
-  // проверяем статус сохранения каждой карточки на странице "Фильмы"
+  // проверяем статус сохранения каждой карточки
   // для выставления соответствующего состояния индикатора (сохранен/не сохранен)
-  function checkSaved(card) {
-    if (isMovies) {
+  function checkIsMovieSaved(card) {
+    if (isMoviesPage) {
       const isMovieSaved = savedMovies.some((savedMovie) => savedMovie.movieId === card.id);
       // возвращается true или false
       return isMovieSaved;
@@ -36,7 +36,7 @@ function MoviesCard({ isMovies, isSavedMovies, card, savedMovies, onClick }) {
         <img
           className="card__image"
           src={
-            isSavedMovies
+            isSavedMoviesPage
               ? card.image
               : `https://api.nomoreparties.co/${card.image.url}`
           }
@@ -45,7 +45,7 @@ function MoviesCard({ isMovies, isSavedMovies, card, savedMovies, onClick }) {
       </a>
       <div className="card__body">
         <h2 className="card__title">{card.nameRU}</h2>
-        {isSavedMovies ? (
+        {isSavedMoviesPage ? (
           <button
             className={`
               card__delete-button
@@ -59,7 +59,7 @@ function MoviesCard({ isMovies, isSavedMovies, card, savedMovies, onClick }) {
           <button
             className={`
               card__save-button
-              ${isSaved ? "card__save-button_active" : ""}
+              ${isMovieSaved ? "card__save-button_active" : ""}
               button
             `}
             type="button"

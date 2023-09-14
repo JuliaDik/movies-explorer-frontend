@@ -12,6 +12,7 @@ function AuthInput({
   value,
   errorMessage,
   onChange,
+  disabled,
 }) {
   return (
     <div className="authentication__field">
@@ -34,6 +35,7 @@ function AuthInput({
         onChange={onChange}
         autoComplete="off"
         required
+        disabled={disabled}
       />
       <span className="authentication__error-message">
         {errorMessage}

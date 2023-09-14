@@ -25,6 +25,11 @@
   outline: 1px solid rgb(160 160 160);
 }
 
+.authentication__input:disabled {
+  color: rgb(160 160 160 / 0.7);
+  background-color: transparent;
+}
+
 .authentication__input::placeholder {
   font-size: 10px;
   font-weight: 400;

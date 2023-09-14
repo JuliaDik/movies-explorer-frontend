@@ -4,7 +4,7 @@ import useFormAndValidation from "../../hooks/useFormAndValidation";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
-function SearchForm({ isMovies, onSubmit, onCheckboxChange, isShortMoviesChecked }) {
+function SearchForm({ isMoviesPage, onSubmit, onCheckboxChange, isShortMoviesChecked }) {
   const { values, setValues, errors, setErrors, isValid, handleChange } =
     useFormAndValidation({
       searchText: "",
@@ -26,11 +26,11 @@ function SearchForm({ isMovies, onSubmit, onCheckboxChange, isShortMoviesChecked
 
   useEffect(() => {
     // если пользователь повторно переходит на страницу "Фильмы",
-    if (isMovies) {
+    if (isMoviesPage) {
       // достаем текст запроса из локального хранилища браузера
       setValues({ searchText: localStorage.getItem("searchText") });
     }
-  }, [isMovies, setValues]);
+  }, [isMoviesPage, setValues]);
 
   return (
     <section className="search" aria-label="форма поиска">

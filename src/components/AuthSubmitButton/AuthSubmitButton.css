@@ -31,6 +31,10 @@
   background-color: rgb(255 104 56);
 }
 
+.authentication__submit-button:disabled {
+  cursor: default;
+}
+
 /* 768px */
 
 @media screen and (max-width: 768px) {

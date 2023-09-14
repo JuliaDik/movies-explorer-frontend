@@ -20,11 +20,21 @@ import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import NotFoundError from "../NotFoundError/NotFoundError";
 import {
-  statusCode,
-  badRequestErrorMessage,
-  unauthorizedErrorMessage,
-  conflictErrorMessage,
-  authErrorMessage,
+  ERROR_400,
+  ERROR_401,
+  ERROR_409,
+  ERROR_500,
+  ERROR_VALIDATION,
+  ERROR_INCORRECT_USER_ID,
+  ERROR_INCORRECT_MOVIE_ID,
+  ERROR_INCORRECT_CREDENTIALS,
+  ERROR_UNAUTHORIZED,
+  ERROR_NOT_UNIQUE_EMAIL,
+  ERROR_SERVER,
+  ERROR_REGISTRATION,
+  ERROR_LOGIN,
+  ERROR_UPDATE_PROFILE,
+  NOTICE_UPDATE_PROFILE,
 } from "../../utils/constants";
 import "./App.css";
 
@@ -39,32 +49,60 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   // сообщение об ошибке
   const [error, setError] = useState("");
-  // ответ от сервера
-  const [response, setResponse] = useState("");
+  // уведомление
+  const [notice, setNotice] = useState("");
+  // статус сабмита
+  const [isSubmitted, setIsSubmitted] = useState(false);
   // переход по роуту
   const navigate = useNavigate();
   // текущий роут
   const { pathname } = useLocation();
   const isLanding = pathname === "/";
-  const isMovies = pathname === "/movies";
-  const isSavedMovies = pathname === "/saved-movies";
+  const isMoviesPage = pathname === "/movies";
+  const isSavedMoviesPage = pathname === "/saved-movies";
 
-  // сброс ошибок
+  // сброс ошибок и ответов
   useEffect(() => {
     setError("");
-    setResponse("");
+    setNotice("");
   }, [pathname]);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     // если токен есть в локальном хранилище браузера
     if (token) {
-      // сохраняется статус "Авторизован"
-      setIsLoggedIn(true);
-      // перенаправляем на текущую страницу
-      navigate(pathname, { replace: true });
+      // отправляем запрос на проверку токена
+      mainApi
+        .checkToken(token)
+        .then((userData) => {
+          // если токен валиден, возвращаются данные пользователя
+          if (userData) {
+            // сохраняем данные пользователя в стейт-переменную
+            setCurrentUser(userData);
+            // определяем статус "Авторизован"
+            setIsLoggedIn(true);
+            // перенаправляем на текущую страницу
+            navigate(pathname, { replace: true });
+          // если токен невалиден
+          } else {
+            // выходим из системы
+            handleLogout();
+          }
+        })
+        .catch((err) => {
+          if (err === ERROR_401) {
+            console.log(ERROR_UNAUTHORIZED);
+          } else if (err === ERROR_400) {
+            console.log(ERROR_INCORRECT_USER_ID);
+          } else if (err === ERROR_500) {
+            console.log(ERROR_SERVER);
+          } else {
+            console.log(err);
+          }
+        });
+    // если токена нет в локальном хранилище браузера
     } else {
-      // иначе выйти из системы
+      // выходим из системы
       handleLogout();
     }
   }, []);
@@ -72,15 +110,45 @@ function App() {
   useEffect(() => {
     // если пользователь авторизован
     if (isLoggedIn) {
-      // получаем данные пользователя и сохраненные фильмы с сервера
-      Promise.all([mainApi.getUserData(), mainApi.getSavedMovies()])
-        .then(([userData, savedMovies]) => {
+      // получаем данные пользователя с сервера
+      mainApi
+        .getUserData()
+        .then((userData) => {
           // сохраняем в стейт-переменную
           setCurrentUser(userData);
+        })
+        .catch((err) => {
+          if (err === ERROR_401) {
+            console.log(ERROR_UNAUTHORIZED);
+          } else if (err === ERROR_400) {
+            console.log(ERROR_INCORRECT_USER_ID);
+          } else if (err === ERROR_500) {
+            console.log(ERROR_SERVER);
+          } else {
+            console.log(err);
+          }
+        });
+      }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    // если пользователь авторизован
+    if (isLoggedIn) {
+      // получаем сохраненные фильмы с сервера
+      mainApi
+        .getSavedMovies()
+        .then((savedMovies) => {
+          // сохраняем в стейт-переменную
           setSavedMovies(savedMovies.reverse());
         })
         .catch((err) => {
-          console.log(err);
+          if (err === ERROR_401) {
+            console.log(ERROR_UNAUTHORIZED);
+          } else if (err === ERROR_500) {
+            console.log(ERROR_SERVER);
+          } else {
+            console.log(err);
+          }
         });
       }
   }, [isLoggedIn]);
@@ -93,14 +161,18 @@ function App() {
         handleLogin(email, password);
       })
       .catch((err) => {
-        if (err.includes(statusCode.conflictError)) {
-          setError(conflictErrorMessage.userEmail);
-        } else if (err.includes(statusCode.badRequestError)) {
-          setError(badRequestErrorMessage.userData);
+        if (err === ERROR_409) {
+          setError(ERROR_NOT_UNIQUE_EMAIL);
+        } else if (err === ERROR_400) {
+          setError(ERROR_VALIDATION);
+        } else if (err === ERROR_500) {
+          setError(ERROR_SERVER);
         } else {
-          setError(authErrorMessage.register);
+          setError(ERROR_REGISTRATION);
         }
-        console.log(err);
+      })
+      .finally(() => {
+        setIsSubmitted(false);
       });
   }
 
@@ -110,18 +182,22 @@ function App() {
       .then(({ token }) => {
         // сохраняем токен в локальном хранилище браузера
         localStorage.setItem("jwt", token);
-        // выставляем статус "Авторизован"
+        // определяем статус "Авторизован"
         setIsLoggedIn(true)
         // перенаправляем на страницу «Фильмы»
         navigate("/movies", { replace: true });
       })
       .catch((err) => {
-        if (err.includes(statusCode.unauthorizedError)) {
-          setError(unauthorizedErrorMessage.userCredentials);
+        if (err === ERROR_401) {
+          setError(ERROR_INCORRECT_CREDENTIALS);
+        } else if (err === ERROR_500) {
+          setError(ERROR_SERVER);
         } else {
-          setError(authErrorMessage.login);
+          setError(ERROR_LOGIN);
         }
-        console.log(err);
+      })
+      .finally(() => {
+        setIsSubmitted(false);
       });
   }
 
@@ -129,29 +205,33 @@ function App() {
     localStorage.clear();
     setIsLoggedIn(false);
     setCurrentUser({});
+    setSavedMovies([]);
     navigate("/", { replace: true });
   }
 
   function handleUpdateUserData(name, email) {
     mainApi
       .updateUserData(name, email)
-      .then((user) => {
-        setCurrentUser(user);
-        // после обновления данных пользователя
-        // режим редактирования отключается
-        setIsEditMode(false);
-        // появляется уведомление
-        setResponse("Данные профиля успешно обновлены");
+      .then((userData) => {
+        setCurrentUser(userData);
       })
       .catch((err) => {
-        if (err.includes(statusCode.conflictError)) {
-          setError(conflictErrorMessage.userEmail);
-        } else if (err.includes(statusCode.badRequestError)) {
-          setError(badRequestErrorMessage.userUpdate);
+        if (err === ERROR_401) {
+          console.log(ERROR_UNAUTHORIZED);
+        } else if (err === ERROR_409) {
+          setError(ERROR_NOT_UNIQUE_EMAIL);
+        } else if (err === ERROR_400) {
+          setError(ERROR_VALIDATION);
+        } else if (err === ERROR_500) {
+          setError(ERROR_SERVER);
         } else {
-          setError(authErrorMessage.profile);
+          setError(ERROR_UPDATE_PROFILE);
         }
-        console.log(err);
+      })
+      .finally(() => {
+        setIsSubmitted(false);
+        setIsEditMode(false);
+        setNotice(NOTICE_UPDATE_PROFILE);
       });
   }
 
@@ -163,7 +243,15 @@ function App() {
         setSavedMovies([savedMovie, ...savedMovies]);
       })
       .catch((err) => {
-        console.log(err);
+        if (err === ERROR_401) {
+          console.log(ERROR_UNAUTHORIZED);
+        } else if (err === ERROR_400) {
+          console.log(ERROR_VALIDATION);
+        } else if (err === ERROR_500) {
+          console.log(ERROR_SERVER);
+        } else {
+          console.log(err);
+        }
       });
   }
 
@@ -175,10 +263,18 @@ function App() {
         // чей id совпадает с id фильма, запрошенного к удалению
         setSavedMovies((savedMovies) =>
           savedMovies.filter((savedMovie) => savedMovie._id !== movieId)
-        );
+        ); 
       })
       .catch((err) => {
-        console.log(err);
+        if (err === ERROR_401) {
+          console.log(ERROR_UNAUTHORIZED);
+        } else if (err === ERROR_400) {
+          console.log(ERROR_INCORRECT_MOVIE_ID);
+        } else if (err === ERROR_500) {
+          console.log(ERROR_SERVER);
+        } else {
+          console.log(err);
+        }
       });
   }
 
@@ -206,7 +302,12 @@ function App() {
               isLoggedIn ? (
                 <Navigate to="/movies" replace />
               ) : (
-                <Register error={error} onRegister={handleRegister} />
+                <Register
+                  error={error}
+                  isSubmitted={isSubmitted}
+                  setIsSubmitted={setIsSubmitted}
+                  onRegister={handleRegister}
+                />
               )
             }
           ></Route>
@@ -218,7 +319,12 @@ function App() {
               isLoggedIn ? (
                 <Navigate to="/movies" replace />
               ) : (
-                <Login error={error} onLogin={handleLogin} />
+                <Login
+                  error={error}
+                  isSubmitted={isSubmitted}
+                  setIsSubmitted={setIsSubmitted}
+                  onLogin={handleLogin}
+                />
               )
             }
           ></Route>
@@ -231,8 +337,9 @@ function App() {
                 <>
                   <Header isLoggedIn={isLoggedIn} />
                   <Movies
-                    isMovies={isMovies}
                     savedMovies={savedMovies}
+                    isMoviesPage={isMoviesPage}
+                    isSavedMoviesPage={isSavedMoviesPage}
                     onSave={handleSaveMovie}
                     onDelete={handleDeleteMovie}
                   />
@@ -250,8 +357,8 @@ function App() {
                 <>
                   <Header isLoggedIn={isLoggedIn} />
                   <SavedMovies
-                    isSavedMovies={isSavedMovies}
                     savedMovies={savedMovies}
+                    isSavedMoviesPage={isSavedMoviesPage}
                     onDelete={handleDeleteMovie}
                   />
                   <Footer />
@@ -274,7 +381,9 @@ function App() {
                     onEdit={setIsEditMode}
                     onUpdate={handleUpdateUserData}
                     onLogout={handleLogout}
-                    response={response}
+                    notice={notice}
+                    isSubmitted={isSubmitted}
+                    setIsSubmitted={setIsSubmitted}
                   />
                 </>
               </ProtectedRoute>

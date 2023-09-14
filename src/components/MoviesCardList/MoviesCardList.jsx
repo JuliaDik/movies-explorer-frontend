@@ -1,70 +1,108 @@
 // КОНТЕЙНЕР ДЛЯ КАРТОЧЕК С ФИЛЬМАМИ
 import { useState, useEffect } from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import {
+  WIDTH_FOR_16_CARDS,
+  WIDTH_FOR_9_CARDS,
+  WIDTH_FOR_8_CARDS,
+  WIDTH_FOR_5_CARDS,
+  INITIAL_CARDS_WIDTH_1280,
+  INITIAL_CARDS_WIDTH_990,
+  INITIAL_CARDS_WIDTH_617,
+  INITIAL_CARDS_WIDTH_616,
+  MORE_CARDS_WIDTH_1280,
+  MORE_CARDS_WIDTH_990,
+  MORE_CARDS_WIDTH_617,
+  MORE_CARDS_WIDTH_616,
+} from "../../utils/constants";
 import "./MoviesCardList.css";
 
-function MoviesCardList({ isMovies, isSavedMovies, cards, savedMovies, onClick }) {
+function MoviesCardList({
+  cards,
+  savedMovies,
+  isMoviesPage,
+  isSavedMoviesPage,
+  onClick,
+}) {
   const [initialCards, setInitialCards] = useState(0);
   const [moreCards, setMoreCards] = useState(0);
+  const [start, setStart] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  // отрисовка изначального блока карточек в зависимости от массива карточек
+  // массив карточек обновляется каждый раз при сабмите поиска
   useEffect(() => {
-    if (windowWidth >= 1280) {
-      setInitialCards(16);
-      setMoreCards(4);
-    } else if (windowWidth >= 990) {
-      setInitialCards(9);
-      setMoreCards(3);
-    } else if (windowWidth >= 617) {
-      setInitialCards(8);
-      setMoreCards(2);
-    } else if (windowWidth < 616) {
-      setInitialCards(5);
-      setMoreCards(2);
-    }
-  }, [windowWidth]);
+    setStart(0);
+  }, [cards]);
 
+  // отрисовка карточек в зависимости от ширины экрана
   useEffect(() => {
+    if (windowWidth >= WIDTH_FOR_16_CARDS) {
+      setInitialCards(INITIAL_CARDS_WIDTH_1280);
+      setMoreCards(MORE_CARDS_WIDTH_1280);
+    } else if (windowWidth >= WIDTH_FOR_9_CARDS) {
+      setInitialCards(INITIAL_CARDS_WIDTH_990);
+      setMoreCards(MORE_CARDS_WIDTH_990);
+    } else if (windowWidth >= WIDTH_FOR_8_CARDS) {
+      setInitialCards(INITIAL_CARDS_WIDTH_617);
+      setMoreCards(MORE_CARDS_WIDTH_617);
+    } else if (windowWidth < WIDTH_FOR_5_CARDS) {
+      setInitialCards(INITIAL_CARDS_WIDTH_616);
+      setMoreCards(MORE_CARDS_WIDTH_616);
+    }
+
     function handleUpdateWindowWidth() {
       setWindowWidth(window.innerWidth);
     }
 
     window.addEventListener("resize", handleUpdateWindowWidth);
     return () => window.removeEventListener("resize", handleUpdateWindowWidth);
-  }, [setWindowWidth]);
+  }, [windowWidth, setWindowWidth]);
 
   function handleAddMoreCards() {
-    setInitialCards(initialCards + moreCards);
+    setStart(start + 1);
   }
 
   return (
     <section
       className={`
         movies
-        ${isSavedMovies ? "movies_type_saved" : ""}
+        ${isSavedMoviesPage ? "movies_type_saved" : ""}
       `}
       aria-label="фильмы"
     >
       <div className="movies__container">
         <ul className="movies__list">
-          {cards.slice(0, initialCards).map((card) => (
-            <MoviesCard
-              isMovies={isMovies}
-              isSavedMovies={isSavedMovies}
-              card={card}
-              key={isSavedMovies ? card._id : card.id}
-              savedMovies={savedMovies}
-              onClick={onClick}
-            />
-          ))}
+          {isSavedMoviesPage
+            ? cards.map((card) => (
+                <MoviesCard
+                  card={card}
+                  key={card._id}
+                  savedMovies={savedMovies}
+                  isMoviesPage={isMoviesPage}
+                  isSavedMoviesPage={isSavedMoviesPage}
+                  onClick={onClick}
+                />
+              ))
+            : cards
+                .slice(0, initialCards + start * moreCards)
+                .map((card) => (
+                  <MoviesCard
+                    card={card}
+                    key={card.id}
+                    savedMovies={savedMovies}
+                    isMoviesPage={isMoviesPage}
+                    isSavedMoviesPage={isSavedMoviesPage}
+                    onClick={onClick}
+                  />
+                ))}
         </ul>
         <button
           className={`
             movies__add-button
             button
             ${
-              (cards.length - 1) < initialCards ||
-              isSavedMovies
+              cards.length <= initialCards || isSavedMoviesPage
                 ? "movies__add-button_hidden"
                 : ""
             }

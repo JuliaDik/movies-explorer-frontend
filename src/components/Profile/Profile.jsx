@@ -1,17 +1,32 @@
 // РЕДАКТИРОВАНИЕ ПРОФИЛЯ
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
+import { REGEX_NAME, REGEX_EMAIL } from "../../utils/constants";
 import "./Profile.css";
 
-function Profile({ error, isEditMode, onResetError, onEdit, onUpdate, onLogout, response }) {
+function Profile({
+  error,
+  isEditMode,
+  onResetError,
+  onEdit,
+  onUpdate,
+  onLogout,
+  response,
+  isSubmitted,
+  setIsSubmitted,
+}) {
   const currentUser = useContext(CurrentUserContext);
-  const { values, setValues, errors, isValid, handleChange } = useFormAndValidation({
+  const { values, setValues, errors, isValid, handleChange } =
+    useFormAndValidation({
       name: "",
       email: "",
     });
-  const disabledButton = !isValid || (values.name === currentUser.name && values.email === currentUser.email);
+  const disabledButton =
+    !isValid ||
+    (values.name === currentUser.name && values.email === currentUser.email) ||
+    isSubmitted;
+  const disabledInput = !isEditMode || isSubmitted;
 
   useEffect(() => {
     setValues({
@@ -29,6 +44,8 @@ function Profile({ error, isEditMode, onResetError, onEdit, onUpdate, onLogout, 
     evt.preventDefault();
     if (isValid) {
       onUpdate(values.name, values.email);
+      // блокируем кнопку и поля
+      setIsSubmitted(true);
     }
   }
 
@@ -57,11 +74,11 @@ function Profile({ error, isEditMode, onResetError, onEdit, onUpdate, onLogout, 
               name="name"
               minLength="2"
               maxLength="30"
-              pattern={NAME_REGEX}
+              pattern={REGEX_NAME}
               value={values.name || ""}
               onChange={handleChange}
               autoComplete="off"
-              disabled={!isEditMode}
+              disabled={disabledInput}
               required
             />
             <span className="profile__error-message">{errors.name}</span>
@@ -79,11 +96,11 @@ function Profile({ error, isEditMode, onResetError, onEdit, onUpdate, onLogout, 
               type="email"
               placeholder="my_email@gmail.com"
               name="email"
-              pattern={EMAIL_REGEX}
+              pattern={REGEX_EMAIL}
               value={values.email || ""}
               onChange={handleChange}
               autoComplete="off"
-              disabled={!isEditMode}
+              disabled={disabledInput}
               required
             />
             <span className="profile__error-message">{errors.email}</span>

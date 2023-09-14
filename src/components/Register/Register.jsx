@@ -1,18 +1,21 @@
 // РЕГИСТРАЦИЯ
+import { useState } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import Auth from "../Auth/Auth";
 import AuthForm from "../AuthForm/AuthForm";
 import AuthInput from "../AuthInput/AuthInput";
 import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
-import { NAME_REGEX, EMAIL_REGEX } from "../../utils/constants";
+import { REGEX_NAME, REGEX_EMAIL } from "../../utils/constants";
 import "./Register.css";
 
-function Register({ error, onRegister }) {
+function Register({ error, isSubmitted, setIsSubmitted, onRegister }) {
   const { values, errors, isValid, handleChange } = useFormAndValidation({
     name: "",
     email: "",
     password: "",
   });
+  const disabledButton = !isValid || isSubmitted;
+  const disabledInput = isSubmitted;
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -20,6 +23,8 @@ function Register({ error, onRegister }) {
     if (isValid) {
       // отправляем запрос к API на создание нового пользователя
       onRegister(values.name, values.email, values.password);
+      // блокируем кнопку и поля
+      setIsSubmitted(true);
     }
   }
 
@@ -42,10 +47,11 @@ function Register({ error, onRegister }) {
           placeholder="Иван Иванов"
           minLength="2"
           maxLength="30"
-          pattern={NAME_REGEX}
+          pattern={REGEX_NAME}
           value={values.name || ""}
           errorMessage={errors.name}
           onChange={handleChange}
+          disabled={disabledInput}
         />
         <AuthInput
           id="email"
@@ -53,10 +59,11 @@ function Register({ error, onRegister }) {
           name="email"
           label="Email"
           placeholder="my_email@gmail.com"
-          pattern={EMAIL_REGEX}
+          pattern={REGEX_EMAIL}
           value={values.email || ""}
           errorMessage={errors.email}
           onChange={handleChange}
+          disabled={disabledInput}
         />
         <AuthInput
           id="password"
@@ -67,12 +74,13 @@ function Register({ error, onRegister }) {
           value={values.password || ""}
           errorMessage={errors.password}
           onChange={handleChange}
+          disabled={disabledInput}
         />
         <AuthSubmitButton
           form="register"
           errorMessage={error}
           text="Зарегистрироваться"
-          isValid={isValid}
+          disabled={disabledButton}
         />
       </AuthForm>
     </Auth>

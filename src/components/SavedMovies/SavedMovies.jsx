@@ -3,9 +3,10 @@ import { useState } from "react";
 import useMoviesFilter from "../../hooks/useMoviesFilter";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import { NOTICE_NOT_FOUND_MOVIES } from "../../utils/constants";
 import "./SavedMovies.css";
 
-function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
+function SavedMovies({ savedMovies, isSavedMoviesPage, onDelete }) {
   const { filterSearchedMovies, filterShortMovies } = useMoviesFilter();
   // найденные фильмы
   const [searchedMovies, setSearchedMovies] = useState([]);
@@ -17,20 +18,42 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
   const [error, setError] = useState("");
 
   function handleFilterSearchedMovies(searchText) {
-    // удаляем найденные фильмы из стейт-переменной
-    setSearchedMovies([]);
-    // очищаем ошибки (на случай, если возникали)
+    // очищаем уведомление
     setError("");
-    // находим фильмы по запросу среди сохраненных фильмов
-    const filteredMovies = filterSearchedMovies(savedMovies, searchText);
-    // если ничего не найдено
-    if (!filteredMovies.length) {
-      // появляется надпись
-      setError("Ничего не найдено");
-    // если есть результат
+
+    // ПОИСК СРЕДИ КОРОТКОМЕТРАЖЕК
+
+    if (shortMovies.length > 0) {
+      // находим фильмы по запросу среди короткометражек
+      const filteredMovies = filterSearchedMovies(shortMovies, searchText);
+      // если ничего не найдено
+      if (filteredMovies.length === 0) {
+        // появляется уведомление
+        setError(NOTICE_NOT_FOUND_MOVIES);
+        // данные не сохраняем
+        // после перезагрузки страницы отображается предыдущий запрос
+        // если есть результат
+      } else {
+        // сохраняем короткометражки в стейт-переменную
+        setShortMovies(filteredMovies);
+      }
+
+      // ПОИСК СРЕДИ ВСЕХ СОХРАНЕННЫХ
     } else {
-      // сохраняем найденные фильмы в стейт-переменную
-      setSearchedMovies(filteredMovies);
+      console.log(searchText);
+      // находим фильмы по запросу среди всех сохраненных фильмов
+      const filteredMovies = filterSearchedMovies(savedMovies, searchText);
+      // если ничего не найдено
+      if (filteredMovies.length === 0) {
+        // появляется уведомление
+        setError(NOTICE_NOT_FOUND_MOVIES);
+        // данные не сохраняем
+        // после перезагрузки страницы отображается предыдущий запрос
+        // если есть результат
+      } else {
+        // сохраняем найденные фильмы в стейт-переменную
+        setSearchedMovies(filteredMovies);
+      }
     }
   }
 
@@ -39,72 +62,91 @@ function SavedMovies({ isSavedMovies, savedMovies, onDelete }) {
     if (isShortMovies === false) {
       // изменяем состояние переключателя
       setIsShortMovies(true);
-      if (searchedMovies.length) {
-        console.log(searchedMovies);
+
+      // ФИЛЬТР СРЕДИ НАЙДЕННЫХ
+
+      if (searchedMovies.length > 0) {
         // находим короткометражки среди найденных фильмов
         const filteredMovies = filterShortMovies(searchedMovies);
-        console.log(filteredMovies);
         // если ничего не найдено
-        if (!filteredMovies.length) {
-          // появляется надпись
-          setError("Ничего не найдено");
-        // если есть результат
+        if (filteredMovies.length === 0) {
+          // появляется уведомление
+          setError(NOTICE_NOT_FOUND_MOVIES);
+          // данные не сохраняем
+          // после перезагрузки страницы отображается предыдущий запрос
+          // если есть результат
         } else {
           // сохраняем короткометражки в стейт-переменную
           setShortMovies(filteredMovies);
         }
+
+        // ФИЛЬТР СРЕДИ СОХРАНЕННЫХ
       } else {
         // находим короткометражки среди сохраненных фильмов
         const filteredMovies = filterShortMovies(savedMovies);
         // если ничего не найдено
-        if (!filteredMovies.length) {
-          // появляется надпись
-          setError("Ничего не найдено");
-        // если есть результат
+        if (filteredMovies.length === 0) {
+          // появляется уведомление
+          setError(NOTICE_NOT_FOUND_MOVIES);
+          // данные не сохраняем
+          // после перезагрузки страницы отображается предыдущий запрос
+          // если есть результат
         } else {
           // сохраняем короткометражки в стейт-переменную
           setShortMovies(filteredMovies);
         }
       }
-    // выключаем фильтр
+      // выключаем фильтр
     } else {
       // изменяем состояние переключателя
       setIsShortMovies(false);
       // удаляем короткометражки из стейт-переменной
       setShortMovies([]);
-      // очищаем ошибки (на случай, если возникали)
+      // очищаем уведомление
       setError("");
     }
   }
 
   function handleDeleteMovie(card) {
+    if (shortMovies.length > 0) {
+      setShortMovies((shortMovies) =>
+        shortMovies.filter((shortMovie) => shortMovie._id !== card._id)
+      );
+    } else if (searchedMovies.length > 0) {
+      setSearchedMovies((searchedMovies) =>
+        searchedMovies.filter((searchedMovie) => searchedMovie._id !== card._id)
+      );
+    }
     onDelete(card._id);
-  };
+  }
 
   function renderMovies() {
-    if (shortMovies.length) {
+    if (shortMovies.length > 0) {
       return shortMovies;
-    } else if (searchedMovies.length) {
+    } else if (searchedMovies.length > 0) {
       return searchedMovies;
+    } else {
+      return savedMovies;
     }
-    return savedMovies;
-  } 
+  }
 
   return (
     <main className="main">
       <SearchForm
-        isSavedMovies={isSavedMovies}
         onSubmit={handleFilterSearchedMovies}
         onCheckboxChange={handleFilterShortMovies}
         isShortMoviesChecked={isShortMovies}
       />
-      {!error && (savedMovies.length > 0 || searchedMovies.length > 0 || shortMovies.length > 0) && (
-        <MoviesCardList
-          isSavedMovies={isSavedMovies}
-          cards={renderMovies()}
-          onClick={handleDeleteMovie}
-        />
-      )}
+      {!error &&
+        (savedMovies.length > 0 ||
+          searchedMovies.length > 0 ||
+          shortMovies.length > 0) && (
+          <MoviesCardList
+            cards={renderMovies()}
+            isSavedMoviesPage={isSavedMoviesPage}
+            onClick={handleDeleteMovie}
+          />
+        )}
       {/* если ничего не найдено появляется соответствующая надпись */}
       {error && <p className="request-error">{error}</p>}
     </main>

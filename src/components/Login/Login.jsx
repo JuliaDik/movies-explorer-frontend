@@ -1,17 +1,20 @@
 // АВТОРИЗАЦИЯ
+import { useState } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import Auth from "../Auth/Auth";
 import AuthForm from "../AuthForm/AuthForm";
 import AuthInput from "../AuthInput/AuthInput";
 import AuthSubmitButton from "../AuthSubmitButton/AuthSubmitButton";
-import { EMAIL_REGEX } from "../../utils/constants";
+import { REGEX_EMAIL } from "../../utils/constants";
 import "./Login.css";
 
-function Login({ error, onLogin }) {
+function Login({ error, isSubmitted, setIsSubmitted, onLogin }) {
   const { values, errors, isValid, handleChange } = useFormAndValidation({
     email: "",
     password: "",
   });
+  const disabledButton = !isValid || isSubmitted;
+  const disabledInput = isSubmitted;
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -19,6 +22,8 @@ function Login({ error, onLogin }) {
     if (isValid) {
       // отправляем запрос к API на авторизацию пользователя
       onLogin(values.email, values.password);
+      // блокируем кнопку и поля
+      setIsSubmitted(true);
     }
   }
 
@@ -39,10 +44,11 @@ function Login({ error, onLogin }) {
           name="email"
           label="Email"
           placeholder="my_email@gmail.com"
-          pattern={EMAIL_REGEX}
+          pattern={REGEX_EMAIL}
           value={values.email || ""}
           errorMessage={errors.email}
           onChange={handleChange}
+          disabled={disabledInput}
         />
         <AuthInput
           id="password"
@@ -53,12 +59,13 @@ function Login({ error, onLogin }) {
           value={values.password || ""}
           errorMessage={errors.password}
           onChange={handleChange}
+          disabled={disabledInput}
         />
         <AuthSubmitButton
           form="login"
           errorMessage={error}
           text="Войти"
-          isValid={isValid}
+          disabled={disabledButton}
         />
       </AuthForm>
     </Auth>

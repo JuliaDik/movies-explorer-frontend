@@ -1,3 +1,5 @@
+import { DURATION_SHORT_MOVIES } from "../utils/constants";
+
 function useMoviesFilter() {
   // найти те, которые в своих названиях
   // на русском и английском языках содержат текст запроса
@@ -14,7 +16,7 @@ function useMoviesFilter() {
   // найти те, длительность которых не превышает 40 минут
   const filterShortMovies = (movies) => {
     const shortMovies = movies.filter(({ duration }) => {
-      return duration <= 40;
+      return duration <= DURATION_SHORT_MOVIES;
     });
     return shortMovies;
   };
