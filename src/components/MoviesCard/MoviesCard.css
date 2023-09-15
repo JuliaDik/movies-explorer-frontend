@@ -65,45 +65,26 @@
   color: rgb(160 160 160);
 }
 
-/* 1279px */
-
-@media screen and (max-width: 1279px) {
-  .card__image {
-    height: 100%;
-    aspect-ratio: 270 / 151;
-  }
-}
-
 /* 768px */
 
 @media screen and (max-width: 768px) {
-  .card__image {
+  .card__image-link {
     height: 190px;
   }
-}
-
-/* 767px */
-
-@media screen and (max-width: 767px) {
+  
   .card__image {
-    height: 100%;
-    aspect-ratio: 339 / 190;
+    height: 190px;
   }
 }
 
 /* 320px */
 
 @media screen and (max-width: 320px) {
-  .card__image {
+  .card__image-link {
     height: 168px;
   }
-}
-
-/* 319px */
-
-@media screen and (max-width: 319px) {
+  
   .card__image {
-    height: 100%;
-    aspect-ratio: 300 / 168;
+    height: 168px;
   }
 }

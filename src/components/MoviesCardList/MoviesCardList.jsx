@@ -2,18 +2,17 @@
 import { useState, useEffect } from "react";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import {
-  WIDTH_FOR_16_CARDS,
-  WIDTH_FOR_9_CARDS,
-  WIDTH_FOR_8_CARDS,
-  WIDTH_FOR_5_CARDS,
-  INITIAL_CARDS_WIDTH_1280,
-  INITIAL_CARDS_WIDTH_990,
-  INITIAL_CARDS_WIDTH_617,
-  INITIAL_CARDS_WIDTH_616,
-  MORE_CARDS_WIDTH_1280,
-  MORE_CARDS_WIDTH_990,
-  MORE_CARDS_WIDTH_617,
-  MORE_CARDS_WIDTH_616,
+  VIEWPORT_EXTRA_LARGE,
+  VIEWPORT_LARGE,
+  VIEWPORT_MEDIUM,
+  INITIAL_CARDS_EXTRA_LARGE,
+  INITIAL_CARDS_LARGE,
+  INITIAL_CARDS_MEDIUM,
+  INITIAL_CARDS_SMALL,
+  MORE_CARDS_EXTRA_LARGE,
+  MORE_CARDS_LARGE,
+  MORE_CARDS_MEDIUM,
+  MORE_CARDS_SMALL,
 } from "../../utils/constants";
 import "./MoviesCardList.css";
 
@@ -27,7 +26,7 @@ function MoviesCardList({
   const [initialCards, setInitialCards] = useState(0);
   const [moreCards, setMoreCards] = useState(0);
   const [start, setStart] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(window.screen.width);
 
   // отрисовка изначального блока карточек в зависимости от массива карточек
   // массив карточек обновляется каждый раз при сабмите поиска
@@ -37,22 +36,23 @@ function MoviesCardList({
 
   // отрисовка карточек в зависимости от ширины экрана
   useEffect(() => {
-    if (windowWidth >= WIDTH_FOR_16_CARDS) {
-      setInitialCards(INITIAL_CARDS_WIDTH_1280);
-      setMoreCards(MORE_CARDS_WIDTH_1280);
-    } else if (windowWidth >= WIDTH_FOR_9_CARDS) {
-      setInitialCards(INITIAL_CARDS_WIDTH_990);
-      setMoreCards(MORE_CARDS_WIDTH_990);
-    } else if (windowWidth >= WIDTH_FOR_8_CARDS) {
-      setInitialCards(INITIAL_CARDS_WIDTH_617);
-      setMoreCards(MORE_CARDS_WIDTH_617);
-    } else if (windowWidth < WIDTH_FOR_5_CARDS) {
-      setInitialCards(INITIAL_CARDS_WIDTH_616);
-      setMoreCards(MORE_CARDS_WIDTH_616);
+    console.log(windowWidth);
+    if (windowWidth >= VIEWPORT_EXTRA_LARGE) {
+      setInitialCards(INITIAL_CARDS_EXTRA_LARGE);
+      setMoreCards(MORE_CARDS_EXTRA_LARGE);
+    } else if (windowWidth >= VIEWPORT_LARGE) {
+      setInitialCards(INITIAL_CARDS_LARGE);
+      setMoreCards(MORE_CARDS_LARGE);
+    } else if (windowWidth >= VIEWPORT_MEDIUM) {
+      setInitialCards(INITIAL_CARDS_MEDIUM);
+      setMoreCards(MORE_CARDS_MEDIUM);
+    } else if (windowWidth < VIEWPORT_MEDIUM) {
+      setInitialCards(INITIAL_CARDS_SMALL);
+      setMoreCards(MORE_CARDS_SMALL);
     }
 
     function handleUpdateWindowWidth() {
-      setWindowWidth(window.innerWidth);
+      setWindowWidth(window.screen.width);
     }
 
     window.addEventListener("resize", handleUpdateWindowWidth);
@@ -61,6 +61,7 @@ function MoviesCardList({
 
   function handleAddMoreCards() {
     setStart(start + 1);
+    console.log(start);
   }
 
   return (
