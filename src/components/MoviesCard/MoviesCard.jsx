@@ -1,33 +1,79 @@
 // КАРТОЧКА ФИЛЬМА
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import "./MoviesCard.css";
 
-function MoviesCard({ card }) {
-  const location = useLocation();
-  const [isSaved, setIsSaved] = useState(false);
+function MoviesCard({
+  card,
+  savedMovies,
+  isMoviesPage,
+  isSavedMoviesPage,
+  onClick,
+}) {
+  const duration = convertDuration();
+  const isMovieSaved = checkIsMovieSaved(card);
 
-  function handleSave() {
-    setIsSaved(!isSaved);
+  function convertDuration() {
+    const houres = Math.floor(card.duration / 60);
+    const minutes = card.duration % 60;
+    return `${houres}ч${minutes}м`;
+  }
+
+  // проверяем статус сохранения каждой карточки
+  // для выставления соответствующего состояния индикатора (сохранен/не сохранен)
+  function checkIsMovieSaved(card) {
+    if (isMoviesPage) {
+      const isMovieSaved = savedMovies.some((savedMovie) => savedMovie.movieId === card.id);
+      // возвращается true или false
+      return isMovieSaved;
+    }
+  }
+
+  function handleClick() {
+    onClick(card);
   }
 
   return (
     <li className="card">
-      <img className="card__image" src={card.image} alt="Постер фильма" />
-      <div className="card__body">
-        <h2 className="card__title">{card.title}</h2>
-        <button
-          className={
-            `card__save-button
-            ${isSaved ? "card__save-button_active" : ""}
-            ${location.pathname === "/saved-movies" ? "card__delete-button" : ""}
-            button`
+      <a
+        className="card__image-link link"
+        href={card.trailerLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          className="card__image"
+          src={
+            isSavedMoviesPage
+              ? card.image
+              : `https://api.nomoreparties.co/${card.image.url}`
           }
-          type="button"
-          aria-label="сохранить или удалить"
-          onClick={handleSave}
-        ></button>
-        <span className="card__time">{card.time}</span>
+          alt={card.nameRU}
+        />
+      </a>
+      <div className="card__body">
+        <h2 className="card__title">{card.nameRU}</h2>
+        {isSavedMoviesPage ? (
+          <button
+            className={`
+              card__delete-button
+              button
+            `}
+            type="button"
+            aria-label="удалить"
+            onClick={handleClick}
+          ></button>
+        ) : (
+          <button
+            className={`
+              card__save-button
+              ${isMovieSaved ? "card__save-button_active" : ""}
+              button
+            `}
+            type="button"
+            aria-label="сохранить или удалить"
+            onClick={handleClick}
+          ></button>
+        )}
+        <span className="card__time">{duration}</span>
       </div>
     </li>
   );

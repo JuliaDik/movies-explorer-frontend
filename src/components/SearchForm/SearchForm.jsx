@@ -1,19 +1,42 @@
 // ФОРМА ПОИСКА
+import { useEffect } from "react";
 import useFormAndValidation from "../../hooks/useFormAndValidation";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import { ERROR_NO_KEYWORDS } from "../../utils/constants";
 import "./SearchForm.css";
 
-function SearchForm({ onSubmit }) {
-  const { values, errors, isValid, handleChange } = useFormAndValidation({
-    search: "",
+function SearchForm({
+  isMoviesPage,
+  onSubmit,
+  onCheckboxChange,
+  isShortMoviesChecked,
+}) {
+  
+  const { values, setValues, errors, setErrors, isValid, handleChange } = useFormAndValidation({
+    searchText: "",
   });
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    if (isValid) {
-      onSubmit(values.search);
+    // после сабмита формы поиска производится валидация
+    // если запрос пустой
+    if (!isValid || values.searchText === "") {
+      // появляется ошибка
+      setErrors({ searchText: ERROR_NO_KEYWORDS });
+      // если что-то введено
+    } else {
+      // осуществляется запрос к API на поиск
+      onSubmit(values.searchText);
     }
   }
+
+  useEffect(() => {
+    // если пользователь повторно переходит на страницу "Фильмы",
+    if (isMoviesPage) {
+      // достаем текст запроса из локального хранилища браузера
+      setValues({ searchText: localStorage.getItem("searchText") });
+    }
+  }, [isMoviesPage, setValues]);
 
   return (
     <section className="search" aria-label="форма поиска">
@@ -25,29 +48,24 @@ function SearchForm({ onSubmit }) {
           noValidate
         >
           <input
-            className={`
-              search__input
-              ${errors.search ? `search__input_type_error` : ""}
-            `}
+            className="search__input input"
             type="text"
-            name="search"
+            name="searchText"
             placeholder="Фильм"
             autoComplete="off"
-            required
-            value={values.search || ""}
-            errorMessage={errors.search}
+            value={values.searchText || ""}
             onChange={handleChange}
           />
-          <span className="search__error-message">
-            {errors.search}
-          </span>
+          <span className="search__error-message">{errors.searchText}</span>
           <button
             className="search__submit-button button"
             type="submit"
-            isValid={true}
           ></button>
         </form>
-        <FilterCheckbox />
+        <FilterCheckbox
+          onChange={onCheckboxChange}
+          isChecked={isShortMoviesChecked}
+        />
       </div>
     </section>
   );

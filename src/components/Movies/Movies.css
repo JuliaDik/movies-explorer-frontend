@@ -3,3 +3,13 @@
   flex-direction: column;
   flex-grow: 1;
 }
+
+.request-error {
+  margin: auto;
+  padding: 0 14px;
+  max-width: 720px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(238 52 101);
+  text-align: center;
+}

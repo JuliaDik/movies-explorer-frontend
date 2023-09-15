@@ -1,17 +1,18 @@
 import "./AuthSubmitButton.css";
 
-function AuthSubmitButton({ form, errorMessage, text, isValid }) {
+function AuthSubmitButton({ form, errorMessage, text, disabled }) {
   return (
-    <div className={`
+    <div
+      className={`
         authentication__submit-wrapper
         authentication__submit-wrapper_type_${form}
       `}
     >
-      <span className="authentication__error-message">{errorMessage}</span>
+      <span className="authentication__error-request">{errorMessage}</span>
       <button
         className="authentication__submit-button button"
         type="submit"
-        disabled={!isValid}
+        disabled={disabled}
       >
         {text}
       </button>

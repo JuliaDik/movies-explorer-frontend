@@ -56,11 +56,15 @@
   outline: 1px solid rgb(160 160 160);
 }
 
+.profile__input:disabled {
+  background-color: transparent;
+}
+
 .profile__input::placeholder {
   font-size: 10px;
   font-weight: 400;
   line-height: 12px;
-  color: rgb(160 160 160 / 0.4);
+  color: rgb(160 160 160 / 0.7);
 }
 
 .profile__input_type_error {
@@ -79,7 +83,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 16px;
-  margin: 199px 0 0;
+  margin: 179px 0 0;
 }
 
 .profile__edit-button {
@@ -107,6 +111,14 @@
   justify-content: center;
   gap: 3px;
   margin: 179px 0 0;
+}
+
+.profile__error-request {
+  height: 20px;
+  font-size: 10px;
+  font-weight: 400;
+  color: rgb(238 52 101);
+  text-align: center;
 }
 
 .profile__submit-button {
